@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home - Design Patterns Demo</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+    <div class="container">
+        <nav class="top-nav">
+            <div class="brand">Smart Home</div>
+            <div class="links">
+                <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
+                <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
+                <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
+                <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
+                <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
+                <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
+            </div>
+        </nav>
+
+        <header>
+            <h1>🏠 Smart Home Control Center</h1>
+            <p class="subtitle">Demonstrating all 23 Gang of Four Design Patterns</p>
+        </header>
+
+        <details class="card">
+            <summary>Architecture (Spring MVC)</summary>
+            <ul style="margin-top: 10px; padding-left: 18px;">
+                <li><code>com.smarthome.SmartHomeApplication</code></li>
+                <li><code>com.smarthome.controller.WebController</code> (views)</li>
+                <li><code>com.smarthome.controller.SmartHomeController</code> (REST API)</li>
+                <li><code>com.smarthome.controller.ApiExceptionHandler</code> (API errors)</li>
+                <li><code>com.smarthome.service.SmartHomeService</code> (business logic)</li>
+                <li><code>com.smarthome.config.DataSeeder</code> (demo data)</li>
+                <li><code>com.smarthome.web.catalog.PatternCatalog</code> (Patterns Lab)</li>
+                <li><code>com.smarthome.domain.*</code> + <code>com.smarthome.repository.*</code> (persistence)</li>
+            </ul>
+        </details>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">System Status:</span>
+                <span class="value" id="systemStatus" th:text="${systemStatus}">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Home Mode:</span>
+                <span class="value" id="homeMode" th:text="${homeMode}">NORMAL</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Active Devices:</span>
+                <span class="value" id="activeDevices" th:text="${activeDevices}">0</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🏠 Home Mode (Singleton)</h2>
+            <div class="scenes-container">
+                <button class="scene-btn mode-btn" type="button" data-mode="NORMAL">
+                    <span class="icon">🏡</span>
+                    Normal
+                </button>
+                <button class="scene-btn mode-btn" type="button" data-mode="AWAY">
+                    <span class="icon">🚗</span>
+                    Away
+                </button>
+                <button class="scene-btn mode-btn" type="button" data-mode="NIGHT">
+                    <span class="icon">🌙</span>
+                    Night
+                </button>
+                <button class="scene-btn mode-btn" type="button" data-mode="VACATION">
+                    <span class="icon">🏖️</span>
+                    Vacation
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Scene Buttons -->
+        <div class="section">
+            <h2 class="section-title">🎬 Quick Scenes (Facade Pattern)</h2>
+            <div class="scenes-container">
+                <button class="scene-btn" type="button" data-scene="morning">
+                    <span class="icon">🌅</span>
+                    Good Morning
+                </button>
+                <button class="scene-btn" type="button" data-scene="night">
+                    <span class="icon">🌙</span>
+                    Good Night
+                </button>
+                <button class="scene-btn" type="button" data-scene="leave">
+                    <span class="icon">🚪</span>
+                    Leave Home
+                </button>
+                <button class="scene-btn" type="button" data-scene="arrive">
+                    <span class="icon">🏠</span>
+                    Arrive Home
+                </button>
+                <button class="scene-btn" type="button" data-scene="movie">
+                    <span class="icon">🎬</span>
+                    Movie Night
+                </button>
+                <button class="scene-btn" type="button" data-scene="party">
+                    <span class="icon">🎉</span>
+                    Party Mode
+                </button>
+            </div>
+        </div>
+
+        <!-- Devices Grid -->
+        <div class="section">
+            <h2 class="section-title">📱 Devices (Factory Method Pattern)</h2>
+            <div class="grid" id="devicesGrid">
+                <div class="card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
+                    <div class="card-header">
+                        <span class="card-title" th:text="${device.info}">Device Name</span>
+                        <span class="device-status"
+                              th:class="${device.isOn} ? 'device-status status-on' : 'device-status status-off'"
+                              th:text="${device.isOn} ? 'ON' : 'OFF'">OFF</span>
+                    </div>
+                    <div class="power-indicator">
+                        <span>⚡ Power:</span>
+                        <span class="value" th:text="${device.power + 'W'}">0W</span>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-primary device-control-btn" type="button" data-action="on" th:attr="data-device-id=${device.id}">Turn On</button>
+                        <button class="btn btn-secondary device-control-btn" type="button" data-action="off" th:attr="data-device-id=${device.id}">Turn Off</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room Controls -->
+        <div class="section">
+            <h2 class="section-title">🏢 Rooms (Composite Pattern)</h2>
+            <div class="grid">
+                <div class="card" th:each="room : ${rooms}">
+                    <div class="card-header">
+                        <span class="card-title" th:text="${room}">Room Name</span>
+                        <span class="card-icon">🚪</span>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-primary room-control-btn" type="button" data-action="on" th:attr="data-room=${room}">All On</button>
+                        <button class="btn btn-secondary room-control-btn" type="button" data-action="off" th:attr="data-room=${room}">All Off</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Patterns -->
+        <div class="section">
+            <h2 class="section-title">📐 Design Patterns Demo</h2>
+            <div class="patterns-grid">
+                <div class="pattern-category">
+                    <h3>🔨 Creational Patterns</h3>
+                    <ul class="pattern-list">
+                        <li class="pattern-list-item" data-pattern="singleton">1. Singleton - HomeController</li>
+                        <li class="pattern-list-item" data-pattern="factory">2. Factory Method - Device Factories</li>
+                        <li class="pattern-list-item" data-pattern="abstract-factory">3. Abstract Factory - Ecosystems</li>
+                        <li class="pattern-list-item" data-pattern="builder">4. Builder - Automation Rules</li>
+                        <li class="pattern-list-item" data-pattern="prototype">5. Prototype - Config Templates</li>
+                    </ul>
+                </div>
+                <div class="pattern-category">
+                    <h3>🏗️ Structural Patterns</h3>
+                    <ul class="pattern-list">
+                        <li class="pattern-list-item" data-pattern="adapter">6. Adapter - Legacy Devices</li>
+                        <li class="pattern-list-item" data-pattern="bridge">7. Bridge - Remote Controls</li>
+                        <li class="pattern-list-item" data-pattern="composite">8. Composite - Device Groups</li>
+                        <li class="pattern-list-item" data-pattern="decorator">9. Decorator - Add Features</li>
+                        <li class="pattern-list-item" data-pattern="facade">10. Facade - Quick Scenes</li>
+                        <li class="pattern-list-item" data-pattern="flyweight">11. Flyweight - Device Types</li>
+                        <li class="pattern-list-item" data-pattern="proxy">12. Proxy - Remote Access</li>
+                    </ul>
+                </div>
+                <div class="pattern-category">
+                    <h3>🎭 Behavioral Patterns</h3>
+                    <ul class="pattern-list">
+                        <li class="pattern-list-item" data-pattern="chain">13. Chain of Responsibility</li>
+                        <li class="pattern-list-item" data-pattern="command">14. Command - Undo/Redo</li>
+                        <li class="pattern-list-item" data-pattern="interpreter">15. Interpreter - Rule Language</li>
+                        <li class="pattern-list-item" data-pattern="iterator">16. Iterator - Device Traversal</li>
+                        <li class="pattern-list-item" data-pattern="mediator">17. Mediator - Device Hub</li>
+                        <li class="pattern-list-item" data-pattern="memento">18. Memento - Scene Snapshots</li>
+                        <li class="pattern-list-item" data-pattern="observer">19. Observer - Notifications</li>
+                        <li class="pattern-list-item" data-pattern="state">20. State - Device States</li>
+                        <li class="pattern-list-item" data-pattern="strategy">21. Strategy - Energy Modes</li>
+                        <li class="pattern-list-item" data-pattern="template">22. Template Method - Init</li>
+                        <li class="pattern-list-item" data-pattern="visitor">23. Visitor - Device Audits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Area -->
+        <div class="section">
+            <h2 class="section-title">📋 Output Log</h2>
+            <div class="output-area">
+                <pre id="output">Click on any pattern or action to see the result here...</pre>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
