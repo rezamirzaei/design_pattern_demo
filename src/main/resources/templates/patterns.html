@@ -42,7 +42,8 @@
                 </ul>
             </details>
 
-            <div style="display:flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+            <!-- NO PARAMETERS: Simple Button -->
+            <div th:if="${#lists.isEmpty(pattern.parameters)}" style="display:flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
                 <button class="btn btn-primary pattern-run-btn" type="button" th:attr="data-pattern=${pattern.id}">
                     Run Demo
                 </button>
@@ -50,6 +51,45 @@
                     <code th:text="${pattern.httpMethod + ' /api' + pattern.apiEndpoint}">GET /api/...</code>
                 </span>
             </div>
+
+            <!-- PARAMETERS: Form -->
+            <form th:if="${!#lists.isEmpty(pattern.parameters)}"
+                  th:attr="data-api-endpoint=${pattern.apiEndpoint}, data-api-method=${pattern.httpMethod}"
+                  class="pattern-form" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px;">
+                    <div th:each="param : ${pattern.parameters}" class="form-group" style="margin-bottom: 5px;">
+                        <label th:for="${pattern.id + '-' + param.name}" th:text="${param.label}" style="display:block; font-size: 0.85em; margin-bottom: 3px; color: #666;">Label</label>
+
+                        <select th:if="${param.type == 'select'}"
+                                th:name="${param.name}"
+                                th:id="${pattern.id + '-' + param.name}"
+                                class="form-control"
+                                style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            <option th:each="opt : ${param.options}"
+                                    th:value="${opt}"
+                                    th:text="${opt}"
+                                    th:selected="${opt == param.defaultValue}">Option</option>
+                        </select>
+
+                        <input th:if="${param.type != 'select'}"
+                               th:type="${param.type}"
+                               th:name="${param.name}"
+                               th:id="${pattern.id + '-' + param.name}"
+                               th:value="${param.defaultValue}"
+                               class="form-control"
+                               style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div style="display:flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" type="submit">Run Demo</button>
+                    <span class="muted">
+                        <code th:text="${pattern.httpMethod + ' /api' + pattern.apiEndpoint}">POST /api/...</code>
+                    </span>
+                </div>
+            </form>
+
         </div>
     </div>
 

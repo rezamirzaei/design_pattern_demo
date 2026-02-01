@@ -9,6 +9,6 @@ public record PatternView(
         String description,
         String httpMethod,
         String apiEndpoint,
-        List<String> classes
+        List<String> classes,
+        List<PatternParameter> parameters
 ) {}
-

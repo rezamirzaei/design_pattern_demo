@@ -41,10 +41,22 @@ function updateDeviceCard(device) {
 
 async function apiCall(method, endpoint, params = {}) {
     let url = API_BASE + endpoint;
+    const finalParams = { ...params };
+
+    // Replace path variables e.g. {id}
+    url = url.replace(/\{(\w+)\}/g, (_, key) => {
+        if (finalParams[key] !== undefined) {
+            const val = encodeURIComponent(String(finalParams[key]));
+            delete finalParams[key];
+            return val;
+        }
+        return ''; // Or maybe leave it? but usually we want to replace.
+    });
+
     const options = { method };
 
     const searchParams = new URLSearchParams();
-    for (const [k, v] of Object.entries(params)) {
+    for (const [k, v] of Object.entries(finalParams)) {
         if (v === undefined || v === null) continue;
         searchParams.set(k, String(v));
     }
