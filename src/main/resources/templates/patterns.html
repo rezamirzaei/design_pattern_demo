@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home - Patterns Lab</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="container">
+    <nav class="top-nav">
+        <div class="brand">Smart Home</div>
+        <div class="links">
+            <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
+            <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
+            <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
+            <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
+            <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
+            <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>📐 Patterns Lab</h1>
+        <p class="subtitle">Run live demos for all 23 GoF patterns and see the involved classes</p>
+    </header>
+
+    <div class="patterns-grid">
+        <div class="card pattern-card" th:each="pattern : ${patterns}">
+            <div class="meta">
+                <div class="card-title" th:text="${pattern.name}">Pattern Name</div>
+                <span class="badge" th:text="${pattern.category}">Category</span>
+            </div>
+            <p class="muted" th:text="${pattern.description}">Description</p>
+
+            <details>
+                <summary>Classes</summary>
+                <ul style="margin-top: 10px; padding-left: 18px;">
+                    <li th:each="cls : ${pattern.classes}">
+                        <code th:text="${cls}">com.example.Class</code>
+                    </li>
+                </ul>
+            </details>
+
+            <div style="display:flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+                <button class="btn btn-primary pattern-run-btn" type="button" th:attr="data-pattern=${pattern.id}">
+                    Run Demo
+                </button>
+                <span class="muted">
+                    <code th:text="${pattern.httpMethod + ' /api' + pattern.apiEndpoint}">GET /api/...</code>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📋 Output Log</h2>
+        <div class="output-area">
+            <pre id="output">Click “Run Demo” to execute a pattern demo and see results here…</pre>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

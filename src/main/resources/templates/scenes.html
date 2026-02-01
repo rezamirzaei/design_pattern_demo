@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home - Scenes</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="container">
+    <nav class="top-nav">
+        <div class="brand">Smart Home</div>
+        <div class="links">
+            <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
+            <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
+            <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
+            <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
+            <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
+            <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>🎬 Scenes</h1>
+        <p class="subtitle">Save and apply persisted scenes (SceneEntity)</p>
+    </header>
+
+    <details class="card">
+        <summary>Classes Covered</summary>
+        <ul style="margin-top: 10px; padding-left: 18px;">
+            <li><code>com.smarthome.domain.SceneEntity</code></li>
+            <li><code>com.smarthome.repository.SceneRepository</code></li>
+            <li><code>com.fasterxml.jackson.databind.ObjectMapper</code></li>
+            <li><code>com.smarthome.service.SmartHomeService</code></li>
+            <li><code>com.smarthome.controller.WebController</code></li>
+            <li><code>com.smarthome.controller.SmartHomeController</code></li>
+        </ul>
+    </details>
+
+    <div class="section">
+        <h2 class="section-title">💾 Save Scene Snapshot (Memento-inspired)</h2>
+        <div class="card">
+            <form data-api-endpoint="/scenes/create" data-api-method="POST" data-refresh="true">
+                <label for="sceneName">Name</label>
+                <input id="sceneName" name="name" placeholder="Evening Relax" required>
+                <label for="sceneDesc">Description</label>
+                <input id="sceneDesc" name="description" placeholder="Dim lights, enable cameras">
+
+                <label style="display:flex; gap: 10px; align-items: center; margin-top: 10px;">
+                    <input type="checkbox" name="favorite" value="true">
+                    <span class="muted">Mark as favorite</span>
+                </label>
+
+                <button class="btn btn-primary" type="submit">Save Snapshot</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📋 Scenes</h2>
+        <div class="grid">
+            <div class="card" th:each="scene : ${scenes}">
+                <div class="card-header">
+                    <span class="card-title" th:text="${scene.name}">Scene</span>
+                    <span class="badge" th:text="${scene.isFavorite ? 'Favorite' : (scene.deviceCount + ' devices')}">Favorite</span>
+                </div>
+
+                <p class="muted" th:text="${scene.description != null ? scene.description : '—'}">—</p>
+                <p class="muted">
+                    Created:
+                    <code th:text="${scene.createdAt != null ? scene.createdAt : '—'}">—</code>
+                </p>
+
+                <details>
+                    <summary>Snapshot JSON</summary>
+                    <div class="output-area" style="margin-top: 12px;">
+                        <pre th:text="${scene.deviceStates}">{"device":true}</pre>
+                    </div>
+                </details>
+
+                <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;">
+                    <form class="inline-form" data-api-method="POST" th:attr="data-api-endpoint='/scenes/' + ${scene.id} + '/apply'">
+                        <button class="btn btn-primary" type="submit">Apply</button>
+                    </form>
+                    <form class="inline-form" data-api-method="POST" data-refresh="true" th:attr="data-api-endpoint='/scenes/' + ${scene.id} + '/favorite'">
+                        <button class="btn btn-secondary" type="submit" th:text="${scene.isFavorite ? 'Unfavorite' : 'Favorite'}">Favorite</button>
+                    </form>
+                    <form class="inline-form" data-api-method="POST" data-refresh="true" th:attr="data-api-endpoint='/scenes/' + ${scene.id} + '/delete'">
+                        <button class="btn btn-secondary" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📋 Output Log</h2>
+        <div class="output-area">
+            <pre id="output">Actions will appear here…</pre>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

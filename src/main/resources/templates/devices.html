@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home - Devices</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="container">
+    <nav class="top-nav">
+        <div class="brand">Smart Home</div>
+        <div class="links">
+            <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
+            <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
+            <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
+            <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
+            <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
+            <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>📱 Devices</h1>
+        <p class="subtitle">Manage devices and run Factory Method creation from the UI</p>
+    </header>
+
+    <div class="section">
+        <h2 class="section-title">➕ Create Device (Factory Method)</h2>
+        <div class="card">
+            <form data-api-endpoint="/patterns/factory/create" data-api-method="POST" data-refresh="true">
+                <div class="form-row">
+                    <div>
+                        <label for="type">Type</label>
+                        <select id="type" name="type">
+                            <option value="LIGHT">LIGHT</option>
+                            <option value="THERMOSTAT">THERMOSTAT</option>
+                            <option value="CAMERA">CAMERA</option>
+                            <option value="LOCK">LOCK</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="location">Location</label>
+                        <input id="location" name="location" placeholder="Living Room" required>
+                    </div>
+                </div>
+                <label for="name">Name</label>
+                <input id="name" name="name" placeholder="My Device" required>
+                <button class="btn btn-primary" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📋 Current Devices</h2>
+        <div class="grid">
+            <div class="card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
+                <div class="card-header">
+                    <span class="card-title" th:text="${device.info}">Device Name</span>
+                    <span class="device-status"
+                          th:class="${device.isOn} ? 'device-status status-on' : 'device-status status-off'"
+                          th:text="${device.isOn} ? 'ON' : 'OFF'">OFF</span>
+                </div>
+                <div class="power-indicator">
+                    <span>⚡ Power:</span>
+                    <span class="value" th:text="${device.power + 'W'}">0W</span>
+                </div>
+                <div style="margin-top: 12px;">
+                    <button class="btn btn-primary device-control-btn" type="button" data-action="on" th:attr="data-device-id=${device.id}">Turn On</button>
+                    <button class="btn btn-secondary device-control-btn" type="button" data-action="off" th:attr="data-device-id=${device.id}">Turn Off</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📋 Output Log</h2>
+        <div class="output-area">
+            <pre id="output">Actions will appear here…</pre>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
