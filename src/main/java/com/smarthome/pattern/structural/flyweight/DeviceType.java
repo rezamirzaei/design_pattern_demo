@@ -1,6 +1,5 @@
 package com.smarthome.pattern.structural.flyweight;
 
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +21,6 @@ import java.util.Set;
  * Flyweight - Shared device type information
  * Contains intrinsic state (shared across all devices of this type)
  */
-@Getter
 public class DeviceType {
     private static final Logger log = LoggerFactory.getLogger(DeviceType.class);
     // Intrinsic state - shared and immutable
@@ -40,6 +38,26 @@ public class DeviceType {
         this.capabilities = Set.copyOf(capabilities);
         this.averagePowerWatts = averagePowerWatts;
         log.debug("Created DeviceType flyweight: {}", typeName);
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Set<String> getCapabilities() {
+        return capabilities;
+    }
+
+    public double getAveragePowerWatts() {
+        return averagePowerWatts;
     }
 
     /**

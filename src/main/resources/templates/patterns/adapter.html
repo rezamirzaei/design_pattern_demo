@@ -13,52 +13,64 @@
     <div class="pattern-demo">
         <h4>🎮 Integration Lab</h4>
 
-        <div class="legacy-devices" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            <div class="legacy-device" onclick="Adapter.adapt('old-thermostat')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(255,50,50,0.05); border: 1px dashed var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="ld-icon" style="font-size: 2.5em; opacity: 0.7;">🌡️</div>
-                <div class="ld-info" style="flex: 1;">
-                    <div class="ld-name" style="font-weight: 600; margin-bottom: 4px;">Analog Thermostat</div>
-                    <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Serial RS232</div>
+        <div class="legacy-devices" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div class="legacy-device" onclick="Adapter.adapt('old-thermostat')" style="background: var(--darker); border: 1px dashed var(--glass-border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer;">
+                <div class="ld-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="ld-icon" style="font-size: 2.5em; background: rgba(255, 50, 50, 0.1); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">🌡️</div>
+                    <div class="ld-info">
+                        <div class="ld-name" style="font-weight: 700; color: var(--text);">Analog Thermostat</div>
+                        <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Serial RS232</div>
+                    </div>
                 </div>
-                <div class="ld-status incompatible" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(220,53,69,0.2); color: #dc3545; padding: 2px 8px; border-radius: 10px;">❌ Incompatible</div>
-                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,210,255,0.1); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);">
-                    <button class="adapt-btn" style="padding: 8px 16px; background: var(--primary); border: none; border-radius: 20px; color: white; cursor: pointer; font-weight: 600;">🔌 FIX IT</button>
+                <div class="ld-status incompatible" style="background: rgba(220, 53, 69, 0.2); color: var(--danger); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; display: inline-block;">❌ Incompatible</div>
+
+                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s;">
+                    <button class="adapt-btn" style="padding: 12px 24px; background: var(--primary); border: none; border-radius: 30px; font-weight: 700; color: #000; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transform: translateY(10px); transition: all 0.3s;">⚡ ADAPT DEVICE</button>
                 </div>
             </div>
 
-            <div class="legacy-device" onclick="Adapter.adapt('vintage-lamp')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(255,150,50,0.05); border: 1px dashed var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="ld-icon" style="font-size: 2.5em; opacity: 0.7;">💡</div>
-                <div class="ld-info" style="flex: 1;">
-                    <div class="ld-name" style="font-weight: 600; margin-bottom: 4px;">Vintage X10 Lamp</div>
-                    <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Powerline X10</div>
+            <div class="legacy-device" onclick="Adapter.adapt('vintage-lamp')" style="background: var(--darker); border: 1px dashed var(--glass-border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer;">
+                <div class="ld-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="ld-icon" style="font-size: 2.5em; background: rgba(255, 150, 50, 0.1); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">💡</div>
+                    <div class="ld-info">
+                        <div class="ld-name" style="font-weight: 700; color: var(--text);">Vintage X10 Lamp</div>
+                        <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Powerline X10</div>
+                    </div>
                 </div>
-                <div class="ld-status incompatible" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(220,53,69,0.2); color: #dc3545; padding: 2px 8px; border-radius: 10px;">❌ Incompatible</div>
-                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,210,255,0.1); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);">
-                    <button class="adapt-btn" style="padding: 8px 16px; background: var(--primary); border: none; border-radius: 20px; color: white; cursor: pointer; font-weight: 600;">🔌 FIX IT</button>
+                <div class="ld-status incompatible" style="background: rgba(220, 53, 69, 0.2); color: var(--danger); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; display: inline-block;">❌ Incompatible</div>
+
+                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s;">
+                    <button class="adapt-btn" style="padding: 12px 24px; background: var(--primary); border: none; border-radius: 30px; font-weight: 700; color: #000; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transform: translateY(10px); transition: all 0.3s;">⚡ ADAPT DEVICE</button>
                 </div>
             </div>
 
-            <div class="legacy-device" onclick="Adapter.adapt('old-alarm')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(100,100,100,0.05); border: 1px dashed var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="ld-icon" style="font-size: 2.5em; opacity: 0.7;">🚨</div>
-                <div class="ld-info" style="flex: 1;">
-                    <div class="ld-name" style="font-weight: 600; margin-bottom: 4px;">'90s Security Alarm</div>
-                    <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Wired Contact</div>
+            <div class="legacy-device" onclick="Adapter.adapt('old-alarm')" style="background: var(--darker); border: 1px dashed var(--glass-border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer;">
+                <div class="ld-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="ld-icon" style="font-size: 2.5em; background: rgba(100, 100, 100, 0.1); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">🚨</div>
+                    <div class="ld-info">
+                        <div class="ld-name" style="font-weight: 700; color: var(--text);">90s Security Alarm</div>
+                        <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Wired Contact</div>
+                    </div>
                 </div>
-                <div class="ld-status incompatible" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(220,53,69,0.2); color: #dc3545; padding: 2px 8px; border-radius: 10px;">❌ Incompatible</div>
-                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,210,255,0.1); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);">
-                    <button class="adapt-btn" style="padding: 8px 16px; background: var(--primary); border: none; border-radius: 20px; color: white; cursor: pointer; font-weight: 600;">🔌 FIX IT</button>
+                <div class="ld-status incompatible" style="background: rgba(220, 53, 69, 0.2); color: var(--danger); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; display: inline-block;">❌ Incompatible</div>
+
+                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s;">
+                    <button class="adapt-btn" style="padding: 12px 24px; background: var(--primary); border: none; border-radius: 30px; font-weight: 700; color: #000; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transform: translateY(10px); transition: all 0.3s;">⚡ ADAPT DEVICE</button>
                 </div>
             </div>
 
-            <div class="legacy-device" onclick="Adapter.adapt('ir-remote')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(50,50,255,0.05); border: 1px dashed var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="ld-icon" style="font-size: 2.5em; opacity: 0.7;">📺</div>
-                <div class="ld-info" style="flex: 1;">
-                    <div class="ld-name" style="font-weight: 600; margin-bottom: 4px;">Dumb TV</div>
-                    <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Infrared (IR)</div>
+            <div class="legacy-device" onclick="Adapter.adapt('ir-remote')" style="background: var(--darker); border: 1px dashed var(--glass-border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer;">
+                <div class="ld-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="ld-icon" style="font-size: 2.5em; background: rgba(50, 50, 255, 0.1); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">📺</div>
+                    <div class="ld-info">
+                        <div class="ld-name" style="font-weight: 700; color: var(--text);">Dumb TV</div>
+                        <div class="ld-protocol" style="font-size: 0.8em; color: var(--text-muted);">Protocol: Infrared (IR)</div>
+                    </div>
                 </div>
-                <div class="ld-status incompatible" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(220,53,69,0.2); color: #dc3545; padding: 2px 8px; border-radius: 10px;">❌ Incompatible</div>
-                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,210,255,0.1); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);">
-                    <button class="adapt-btn" style="padding: 8px 16px; background: var(--primary); border: none; border-radius: 20px; color: white; cursor: pointer; font-weight: 600;">🔌 FIX IT</button>
+                <div class="ld-status incompatible" style="background: rgba(220, 53, 69, 0.2); color: var(--danger); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; display: inline-block;">❌ Incompatible</div>
+
+                <div class="ld-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s;">
+                    <button class="adapt-btn" style="padding: 12px 24px; background: var(--primary); border: none; border-radius: 30px; font-weight: 700; color: #000; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transform: translateY(10px); transition: all 0.3s;">⚡ ADAPT DEVICE</button>
                 </div>
             </div>
         </div>

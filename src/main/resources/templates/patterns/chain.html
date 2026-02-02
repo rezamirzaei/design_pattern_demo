@@ -14,66 +14,62 @@
     <div class="pattern-demo">
         <h4>🎮 Threat Simulation</h4>
 
-        <div class="alert-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            <button class="alert-btn info" onclick="Chain.alert('INFO','Motion in garden')" style="background: rgba(0,210,255,0.1); border-color: var(--primary);">
-                <span class="ab-icon">ℹ️</span>
-                <span class="ab-level">INFO</span>
-                <span class="ab-example">Motion</span>
+        <div class="alert-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 30px;">
+            <button class="alert-btn info" onclick="Chain.alert('INFO','Motion in garden')" style="background: rgba(0,210,255,0.15); border: 1px solid var(--primary); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                <span class="ab-icon" style="font-size: 2em; display: block; margin-bottom: 8px;">ℹ️</span>
+                <span class="ab-level" style="font-weight: 700; color: var(--primary); display: block;">INFO</span>
+                <span class="ab-example" style="font-size: 0.8em; color: var(--text-muted);">Motion</span>
             </button>
-            <button class="alert-btn warning" onclick="Chain.alert('WARNING','Unrecognized face')" style="background: rgba(255,193,7,0.1); border-color: var(--warning);">
-                <span class="ab-icon">⚠️</span>
-                <span class="ab-level">WARNING</span>
-                <span class="ab-example">Unknown Face</span>
+            <button class="alert-btn warning" onclick="Chain.alert('WARNING','Unrecognized face')" style="background: rgba(255,193,7,0.15); border: 1px solid var(--warning); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                <span class="ab-icon" style="font-size: 2em; display: block; margin-bottom: 8px;">⚠️</span>
+                <span class="ab-level" style="font-weight: 700; color: var(--warning); display: block;">WARNING</span>
+                <span class="ab-example" style="font-size: 0.8em; color: var(--text-muted);">Unknown Face</span>
             </button>
-            <button class="alert-btn critical" onclick="Chain.alert('CRITICAL','Window breach')" style="background: rgba(220,53,69,0.1); border-color: var(--danger);">
-                <span class="ab-icon">🚨</span>
-                <span class="ab-level">CRITICAL</span>
-                <span class="ab-example">Breach</span>
+            <button class="alert-btn critical" onclick="Chain.alert('CRITICAL','Window breach')" style="background: rgba(220,53,69,0.15); border: 1px solid var(--danger); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                <span class="ab-icon" style="font-size: 2em; display: block; margin-bottom: 8px;">🚨</span>
+                <span class="ab-level" style="font-weight: 700; color: var(--danger); display: block;">CRITICAL</span>
+                <span class="ab-example" style="font-size: 0.8em; color: var(--text-muted);">Breach</span>
             </button>
-            <button class="alert-btn emergency" onclick="Chain.alert('EMERGENCY','Smoke Alarm')" style="background: rgba(255,100,0,0.1); border-color: #ff6600;">
-                <span class="ab-icon">🔥</span>
-                <span class="ab-level">EMERGENCY</span>
-                <span class="ab-example">Fire</span>
+            <button class="alert-btn emergency" onclick="Chain.alert('EMERGENCY','Smoke Alarm')" style="background: rgba(255,100,0,0.15); border: 1px solid #ff6600; padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                <span class="ab-icon" style="font-size: 2em; display: block; margin-bottom: 8px;">🔥</span>
+                <span class="ab-level" style="font-weight: 700; color: #ff6600; display: block;">EMERGENCY</span>
+                <span class="ab-example" style="font-size: 0.8em; color: var(--text-muted);">Fire</span>
             </button>
         </div>
 
-        <div class="chain-visualization" style="padding: 30px 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 20px;">
-            <h5 style="color: var(--text-muted); margin-bottom: 20px; text-align: center; text-transform: uppercase; font-size: 0.8em;">Processing Pipeline</h5>
-            <div class="chain-handlers" id="chain-handlers" style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <div class="chain-visualization" style="padding: 30px; background: var(--darker); border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <h5 style="color: var(--text-muted); margin-bottom: 25px; text-align: center; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">Request Processing Pipeline</h5>
+            <div class="chain-handlers" id="chain-handlers" style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
                 <!-- Handlers -->
-                <div class="handler" id="handler-log" style="position: relative;">
-                    <span class="h-icon">📝</span>
-                    <span class="h-name">Logger</span>
-                    <div class="h-indicator"></div>
+                <div class="handler" id="handler-log" style="position: relative; padding: 15px 25px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; text-align: center; min-width: 100px;">
+                    <span class="h-icon" style="font-size: 1.5em; display: block; margin-bottom: 5px;">📝</span>
+                    <span class="h-name" style="font-weight: 600; font-size: 0.9em;">Logger</span>
                 </div>
-                <div class="chain-arrow">➡</div>
+                <div class="chain-arrow" style="color: var(--text-muted); font-size: 1.2em;">➡</div>
 
-                <div class="handler" id="handler-notify" style="position: relative;">
-                    <span class="h-icon">📱</span>
-                    <span class="h-name">Notifier</span>
-                    <div class="h-indicator"></div>
+                <div class="handler" id="handler-notify" style="position: relative; padding: 15px 25px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; text-align: center; min-width: 100px;">
+                    <span class="h-icon" style="font-size: 1.5em; display: block; margin-bottom: 5px;">📱</span>
+                    <span class="h-name" style="font-weight: 600; font-size: 0.9em;">Notifier</span>
                 </div>
-                <div class="chain-arrow">➡</div>
+                <div class="chain-arrow" style="color: var(--text-muted); font-size: 1.2em;">➡</div>
 
-                <div class="handler" id="handler-alarm" style="position: relative;">
-                    <span class="h-icon">🚨</span>
-                    <span class="h-name">Siren</span>
-                    <div class="h-indicator"></div>
+                <div class="handler" id="handler-alarm" style="position: relative; padding: 15px 25px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; text-align: center; min-width: 100px;">
+                    <span class="h-icon" style="font-size: 1.5em; display: block; margin-bottom: 5px;">🚨</span>
+                    <span class="h-name" style="font-weight: 600; font-size: 0.9em;">Siren</span>
                 </div>
-                <div class="chain-arrow">➡</div>
+                <div class="chain-arrow" style="color: var(--text-muted); font-size: 1.2em;">➡</div>
 
-                <div class="handler" id="handler-emergency" style="position: relative;">
-                    <span class="h-icon">🚒</span>
-                    <span class="h-name">911 Ops</span>
-                    <div class="h-indicator"></div>
+                <div class="handler" id="handler-emergency" style="position: relative; padding: 15px 25px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; text-align: center; min-width: 100px;">
+                    <span class="h-icon" style="font-size: 1.5em; display: block; margin-bottom: 5px;">🚒</span>
+                    <span class="h-name" style="font-weight: 600; font-size: 0.9em;">911 Ops</span>
                 </div>
             </div>
         </div>
 
-        <div class="alert-log" style="padding: 20px; background: var(--darker); border-radius: 12px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em;">📋 System Audit Log</h5>
+        <div class="alert-log" style="padding: 20px; background: var(--darker); border-radius: 16px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.3);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">📋 System Audit Log</h5>
             <div class="log-entries" id="alert-log-entries" style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="log-placeholder" style="text-align: center; color: var(--text-muted); padding: 20px; font-style: italic;">
+                <div class="log-placeholder" style="text-align: center; color: var(--text-muted); padding: 20px; font-style: italic; opacity: 0.5;">
                     Waiting for events...
                 </div>
             </div>

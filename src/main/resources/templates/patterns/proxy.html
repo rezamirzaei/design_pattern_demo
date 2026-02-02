@@ -13,70 +13,76 @@
     <div class="pattern-demo">
         <h4>🎮 Remote Connection Manager</h4>
 
-        <div class="proxy-workspace" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="proxy-workspace" style="display: flex; flex-direction: column; gap: 25px;">
             <!-- Connection Panel -->
-            <div class="connection-panel" style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
-                <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">🌐 New Connection</h5>
-                <div class="connection-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end;">
+            <div class="connection-panel" style="padding: 25px; background: var(--darker); border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <h5 style="color: var(--primary); margin: 0; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                        <span style="background: rgba(0, 210, 255, 0.2); padding: 5px; border-radius: 4px;">🌐</span> New Secure Connection
+                    </h5>
+                    <div style="font-family: monospace; color: var(--success); font-size: 0.8em;">● SYSTEM READY</div>
+                </div>
+
+                <div class="connection-form" style="display: grid; grid-template-columns: 2fr 1.5fr 0.8fr auto; gap: 15px; align-items: end;">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">Device Name</label>
-                        <input type="text" id="proxy-device-name" class="form-input" placeholder="e.g., Garage Camera" value="Garage Camera">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8em; text-transform: uppercase; font-weight: 600;">Target Device</label>
+                        <input type="text" id="proxy-device-name" class="form-input" placeholder="e.g., Garage Camera" value="Garage Camera" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text); font-family: 'Consolas', monospace;">
                     </div>
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">IP Address</label>
-                        <input type="text" id="proxy-ip-address" class="form-input" placeholder="192.168.1.x" value="192.168.1.50">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8em; text-transform: uppercase; font-weight: 600;">IP Address</label>
+                        <input type="text" id="proxy-ip-address" class="form-input" placeholder="192.168.1.x" value="192.168.1.50" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--warning); font-family: 'Consolas', monospace;">
                     </div>
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">Port</label>
-                        <input type="text" id="proxy-port" class="form-input" placeholder="8080" value="554">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.8em; text-transform: uppercase; font-weight: 600;">Port</label>
+                        <input type="text" id="proxy-port" class="form-input" placeholder="8080" value="554" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text); font-family: 'Consolas', monospace;">
                     </div>
-                    <button class="btn-primary" onclick="Proxy.connect()" style="height: 46px; margin-top: 0;">
-                        <span>🔗 Connect</span>
+                    <button class="btn-primary" onclick="Proxy.connect()" style="height: 46px; padding: 0 25px; background: var(--primary); border: none; border-radius: 8px; font-weight: 700; color: #000; cursor: pointer; transition: all 0.2s; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);">
+                        🔗 CONNECT
                     </button>
                 </div>
             </div>
 
             <!-- Quick Connect -->
             <div class="presets-panel">
-                <h5 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9em;">⚡ Quick Presets</h5>
-                <div class="preset-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Backyard Cam', '192.168.1.51', '554')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
-                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">📷</span>
+                <h5 style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px;">⚡ Saved Profiles</h5>
+                <div class="preset-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px;">
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Backyard Cam', '192.168.1.51', '554')" style="display: flex; align-items: center; gap: 15px; padding: 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <span class="preset-icon" style="font-size: 1.8em; background: rgba(255,255,255,0.05); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">📷</span>
                         <div class="preset-info" style="flex: 1;">
-                            <span class="preset-name" style="font-weight: 600; display: block;">Backyard Cam</span>
-                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.51:554</span>
+                            <span class="preset-name" style="font-weight: 600; display: block; font-size: 1.05em; margin-bottom: 3px;">Backyard Cam</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: 'Consolas', monospace; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">192.168.1.51:554</span>
                         </div>
-                        <span class="preset-status" id="status-backyard" style="font-size: 1.5em; color: var(--text-muted);">●</span>
+                        <span class="preset-status" id="status-backyard" style="font-size: 2em; color: var(--glass-border); line-height: 0;">•</span>
                     </button>
 
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Pool Pump', '192.168.1.53', '80')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
-                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">🏊</span>
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Pool Pump', '192.168.1.53', '80')" style="display: flex; align-items: center; gap: 15px; padding: 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <span class="preset-icon" style="font-size: 1.8em; background: rgba(255,255,255,0.05); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">🏊</span>
                         <div class="preset-info" style="flex: 1;">
-                            <span class="preset-name" style="font-weight: 600; display: block;">Pool Pump</span>
-                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.53:80</span>
+                            <span class="preset-name" style="font-weight: 600; display: block; font-size: 1.05em; margin-bottom: 3px;">Pool Pump</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: 'Consolas', monospace; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">192.168.1.53:80</span>
                         </div>
-                        <span class="preset-status" id="status-pool" style="font-size: 1.5em; color: var(--text-muted);">●</span>
+                        <span class="preset-status" id="status-pool" style="font-size: 2em; color: var(--glass-border); line-height: 0;">•</span>
                     </button>
 
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Garden Sensor', '192.168.1.52', '8080')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
-                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">🌱</span>
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Garden Sensor', '192.168.1.52', '8080')" style="display: flex; align-items: center; gap: 15px; padding: 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <span class="preset-icon" style="font-size: 1.8em; background: rgba(255,255,255,0.05); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">🌱</span>
                         <div class="preset-info" style="flex: 1;">
-                            <span class="preset-name" style="font-weight: 600; display: block;">Garden Sensor</span>
-                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.52:8080</span>
+                            <span class="preset-name" style="font-weight: 600; display: block; font-size: 1.05em; margin-bottom: 3px;">Garden Sensor</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: 'Consolas', monospace; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">192.168.1.52:8080</span>
                         </div>
-                        <span class="preset-status" id="status-garden" style="font-size: 1.5em; color: var(--text-muted);">●</span>
+                        <span class="preset-status" id="status-garden" style="font-size: 2em; color: var(--glass-border); line-height: 0;">•</span>
                     </button>
                 </div>
             </div>
 
             <!-- Features Demo -->
-            <div class="proxy-features" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border-radius: 15px; border: 1px dashed var(--primary); margin-top: 10px;">
-                <h5 style="color: var(--primary); margin-bottom: 20px; text-align: center;">🛡️ Active Security Layer</h5>
-                <div class="feature-demo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                    <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
-                        <span style="font-size: 2em; display: block; margin-bottom: 10px;">⏳</span>
+            <div class="proxy-features" style="padding: 25px; background: rgba(0, 210, 255, 0.03); border-radius: 16px; border: 1px dashed rgba(0, 210, 255, 0.3); margin-top: 10px;">
+                <h5 style="color: var(--primary); margin-bottom: 25px; text-align: center; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px;">🛡️ Active Security Interceptor</h5>
+                <div class="feature-demo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                    <div class="feature-demo-item" style="padding: 20px; background: var(--darker); border-radius: 12px; text-align: center; border: 1px solid var(--glass-border); transition: transform 0.3s;">
+                        <span style="font-size: 2.5em; display: block; margin-bottom: 15px;">⏳</span>
                         <span style="display: block; font-weight: 600; color: var(--text); margin-bottom: 5px;">Lazy Load</span>
-                        <p style="font-size: 0.8em; color: var(--text-muted); margin: 0;">Connects on demand</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted); margin: 0; line-height: 1.4;">Only authenticates when you actually request data.</p>
                     </div>
                     <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
                         <span style="font-size: 2em; display: block; margin-bottom: 10px;">🔐</span>
@@ -152,3 +158,4 @@ var Proxy = {
     }
 };
 </script>
+</div>

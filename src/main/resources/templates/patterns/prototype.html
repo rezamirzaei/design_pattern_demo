@@ -13,45 +13,50 @@
     <div class="pattern-demo">
         <h4>🎮 Template Gallery</h4>
 
-        <div class="template-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 25px;">
-            <div class="template-card" onclick="Prototype.clone('ambient-light')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(255,193,7,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">💡</div>
-                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Ambient Light</div>
+        <div class="template-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div class="template-card" onclick="Prototype.clone('ambient-light')" style="padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div class="template-badge" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(255, 193, 7, 0.2); color: #ffc107; padding: 2px 8px; border-radius: 4px;">MASTER</div>
+                <div class="template-icon" style="font-size: 3em; margin-bottom: 15px; background: rgba(255,193,7,0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px; border: 1px solid rgba(255,193,7,0.3);">💡</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 15px; color: var(--text);">Ambient Light</div>
                 <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Brightness: 70%</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Color: Warm White (2700K)</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Schedule: Sunset-11PM</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Brightness: 70%</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Color: Warm (2700K)</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Schedule: Sunset</span>
                 </div>
-                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #ffc107, #ff9800); border: none; border-radius: 10px; color: var(--darker); font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
+                <button class="clone-btn" style="width: 100%; padding: 12px 0; background: linear-gradient(135deg, #ffc107, #ff9800); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 0.9em; cursor: pointer; transition: transform 0.2s;">📋 CLONE</button>
             </div>
 
-            <div class="template-card" onclick="Prototype.clone('security-camera')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(220,53,69,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">📷</div>
-                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Security Cam</div>
+            <div class="template-card" onclick="Prototype.clone('security-camera')" style="padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div class="template-badge" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(220, 53, 69, 0.2); color: #dc3545; padding: 2px 8px; border-radius: 4px;">MASTER</div>
+                <div class="template-icon" style="font-size: 3em; margin-bottom: 15px; background: rgba(220,53,69,0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px; border: 1px solid rgba(220,53,69,0.3);">📷</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 15px; color: var(--text);">Security Cam</div>
                 <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Resolution: 4K HDR</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Night Vision: Active</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Alerts: Motion + Sound</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Res: 4K HDR</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Night Vision: ON</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Alerts: Motion</span>
                 </div>
-                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #dc3545, #c82333); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
+                <button class="clone-btn" style="width: 100%; padding: 12px 0; background: linear-gradient(135deg, #dc3545, #c82333); border: none; border-radius: 8px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer; transition: transform 0.2s;">📋 CLONE</button>
             </div>
 
-            <div class="template-card" onclick="Prototype.clone('eco-thermostat')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(40,167,69,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">🌡️</div>
-                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Eco Thermostat</div>
+            <div class="template-card" onclick="Prototype.clone('eco-thermostat')" style="padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div class="template-badge" style="position: absolute; top: 10px; right: 10px; font-size: 0.7em; background: rgba(40, 167, 69, 0.2); color: #28a745; padding: 2px 8px; border-radius: 4px;">MASTER</div>
+                <div class="template-icon" style="font-size: 3em; margin-bottom: 15px; background: rgba(40,167,69,0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px; border: 1px solid rgba(40,167,69,0.3);">🌡️</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 15px; color: var(--text);">Eco Thermostat</div>
                 <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Mode: Eco-Saver</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Day/Night: 21°C / 18°C</span>
-                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Sensor: Occupancy</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Mode: Eco-Saver</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Temps: 21°C / 18°C</span>
+                    <span class="config-item" style="font-size: 0.8em; color: var(--text-muted); padding: 6px; background: rgba(255,255,255,0.03); border-radius: 6px;">Sensor: Occupancy</span>
                 </div>
-                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #28a745, #218838); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
+                <button class="clone-btn" style="width: 100%; padding: 12px 0; background: linear-gradient(135deg, #28a745, #218838); border: none; border-radius: 8px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer; transition: transform 0.2s;">📋 CLONE</button>
             </div>
         </div>
 
-        <div class="cloned-devices" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">📦 Clone Inventory</h5>
-            <div class="cloned-list" id="cloned-devices-list" style="display: flex; flex-direction: column; gap: 10px;">
-                <div class="no-clones" style="text-align: center; color: var(--text-muted); padding: 20px; font-style: italic;">
+        <div class="cloned-devices" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid var(--glass-border); min-height: 150px;">
+            <h5 style="color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 0.9em; text-transform: uppercase;">
+                <span>📦</span> Clone Inventory
+            </h5>
+            <div class="cloned-list" id="cloned-devices-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
+                <div class="no-clones" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 30px; font-style: italic; opacity: 0.6;">
                     Select a master template above to spawn a clone...
                 </div>
             </div>
@@ -101,15 +106,14 @@ var Prototype = {
 
         list.prepend(clone);
 
-        // Simulate API call
-        fetch('/api/patterns/prototype/clone?templateId=' + template, {method:'POST'})
+        fetch('/api/patterns/prototype/clone?template=' + encodeURIComponent(template), {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 var output = '🧬 Cloning Process Complete\n' +
                              '--------------------------------\n' +
                              'Source: ' + t.name + ' Template\n' +
                              'Status: Deep Copy Successful\n' +
-                             'New Instance ID: ' + (data.id || 'CLONE-' + Math.floor(Math.random()*10000)) + '\n' +
+                             'New Instance ID: ' + (data.cloneId || data.id || 'CLONE-' + Math.floor(Math.random()*10000)) + '\n' +
                              'Config Migrated: 100%';
 
                 PatternDemo.showResult('prototype-result', output);

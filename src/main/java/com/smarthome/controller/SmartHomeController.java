@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Objects;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -168,9 +169,100 @@ public class SmartHomeController {
         return smartHomeService.commandRedo();
     }
 
+    @PostMapping("/patterns/facade/activate")
+    public Map<String, Object> facadeActivate(@RequestParam String scene) {
+        return smartHomeService.activateScene(scene);
+    }
+
+    @PostMapping("/patterns/state/transition")
+    public Map<String, Object> stateTransition(@RequestParam String action) {
+        return smartHomeService.stateTransition(action);
+    }
+
+    @PostMapping("/patterns/strategy/apply")
+    public Map<String, Object> strategyApply(@RequestParam String strategy) {
+        return smartHomeService.applyEnergyStrategy(strategy);
+    }
+
+    @PostMapping("/patterns/template/init")
+    public Map<String, Object> templateInit(@RequestParam String deviceType) {
+        return smartHomeService.templateInit(deviceType);
+    }
+
+    @PostMapping("/patterns/iterator/iterate")
+    public Map<String, Object> iteratorIterate(@RequestParam String type, @RequestParam(required = false) String filter) {
+        return smartHomeService.iteratorIterate(type, filter);
+    }
+
+    @PostMapping("/patterns/mediator/notify")
+    public Map<String, Object> mediatorNotify(@RequestParam String sourceDeviceId, @RequestParam String event) {
+        return smartHomeService.mediatorNotify(sourceDeviceId, event);
+    }
+
+    @PostMapping("/patterns/interpreter/evaluate")
+    public Map<String, Object> interpreterEvaluate(
+            @RequestParam String rule,
+            @RequestParam Map<String, String> params
+    ) {
+        Map<String, Object> variables = parseVariables(params, Set.of("rule"));
+        if (variables.isEmpty()) {
+            return smartHomeService.interpreterEvaluate(rule);
+        }
+        return smartHomeService.interpreterEvaluate(rule, variables);
+    }
+
+    @PostMapping("/patterns/observer/subscribe")
+    public Map<String, Object> observerSubscribe(@RequestParam String deviceId, @RequestParam(required = false) String observerType) {
+        return smartHomeService.observerSubscribe(deviceId, observerType);
+    }
+
+    @PostMapping("/patterns/observer/trigger")
+    public Map<String, Object> observerTrigger(@RequestParam String deviceId, @RequestParam(required = false) String event) {
+        return smartHomeService.observerTrigger(deviceId, event);
+    }
+
+    @GetMapping("/patterns/visitor/audit")
+    public Map<String, Object> visitorAuditGet(@RequestParam String type) {
+        return smartHomeService.visitorAudit(type);
+    }
+
+    @PostMapping("/patterns/visitor/audit")
+    public Map<String, Object> visitorAudit(@RequestParam String type) {
+        return smartHomeService.visitorAudit(type);
+    }
+
+    @GetMapping("/patterns/iterator/iterate")
+    public Map<String, Object> iteratorIterateGet(@RequestParam String type, @RequestParam(required = false) String filter) {
+        return smartHomeService.iteratorIterate(type, filter);
+    }
+
+    @PostMapping("/patterns/flyweight/demo")
+    public Map<String, Object> flyweightDemo(@RequestParam(required = false) Integer count) {
+        return smartHomeService.flyweightDemo(count);
+    }
+
+    @GetMapping("/patterns/flyweight/stats")
+    public Map<String, Object> flyweightStats(@RequestParam(required = false) Integer instances) {
+        return smartHomeService.flyweightStats(instances);
+    }
+
+    @PostMapping("/patterns/proxy/connect")
+    public Map<String, Object> proxyConnect(@RequestParam String target, @RequestParam(required = false) String address) {
+        return smartHomeService.proxyRemote(target, address != null ? address : "192.168.1.100:8080");
+    }
+
+    @PostMapping("/patterns/chain/process")
+    public Map<String, Object> chainProcess(@RequestParam String message, @RequestParam String level) {
+        return smartHomeService.chainAlert("system", level, message);
+    }
+
     @PostMapping("/patterns/memento/save")
-    public Map<String, Object> mementoSave(@RequestParam String sceneName) {
-        return smartHomeService.saveMemento(sceneName);
+    public Map<String, Object> mementoSave(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String sceneName
+    ) {
+        String effectiveName = (name != null && !name.isBlank()) ? name : sceneName;
+        return smartHomeService.mementoSave(effectiveName);
     }
 
     @GetMapping("/patterns/memento/list")
@@ -179,94 +271,45 @@ public class SmartHomeController {
     }
 
     @PostMapping("/patterns/memento/restore")
-    public Map<String, Object> mementoRestore(@RequestParam String sceneName) {
-        return smartHomeService.restoreMemento(sceneName);
-    }
-
-    @PostMapping("/patterns/observer/register")
-    public Map<String, Object> observerRegister(
-            @RequestParam String deviceId,
-            @RequestParam String observerType
+    public Map<String, Object> mementoRestore(
+            @RequestParam(required = false) String snapshotId,
+            @RequestParam(required = false) String sceneName
     ) {
-        return smartHomeService.registerObserver(deviceId, observerType);
+        String effectiveId = (snapshotId != null && !snapshotId.isBlank()) ? snapshotId : sceneName;
+        return smartHomeService.mementoRestore(effectiveId);
     }
 
-    @PostMapping("/patterns/observer/subscribe")
-    public Map<String, Object> observerSubscribe(
-            @RequestParam String deviceId,
-            @RequestParam String observerType
+    @PostMapping("/patterns/bridge/control")
+    public Map<String, Object> bridgeControl(
+            @RequestParam String device,
+            @RequestParam(required = false) String platform,
+            @RequestParam(required = false) String remote,
+            @RequestParam(required = false) String action
     ) {
-        return smartHomeService.observerSubscribe(deviceId, observerType);
+        String effectiveRemote = (remote != null && !remote.isBlank()) ? remote : platform;
+        if (action != null && !action.isBlank()) {
+            return smartHomeService.bridgeControl(effectiveRemote, device, action);
+        }
+        return smartHomeService.bridgeControl(device, effectiveRemote);
     }
 
-    @PostMapping("/patterns/observer/trigger")
-    public Map<String, Object> observerTrigger(
-            @RequestParam String deviceId,
-            @RequestParam(defaultValue = "MOTION") String eventType
+    @PostMapping("/patterns/composite/control")
+    public Map<String, Object> compositeControl(@RequestParam String target, @RequestParam(required = false) String action) {
+        return smartHomeService.compositeControl(target, action);
+    }
+
+    @PostMapping("/patterns/composite/action")
+    public Map<String, Object> compositeAction(@RequestParam String group, @RequestParam(required = false) String action) {
+        return smartHomeService.compositeAction(group, action);
+    }
+
+    @PostMapping("/patterns/prototype/clone")
+    public Map<String, Object> prototypeClone(
+            @RequestParam(required = false) String template,
+            @RequestParam(required = false) String templateId
     ) {
-        return smartHomeService.observerTrigger(deviceId, eventType);
-    }
-
-    @GetMapping("/patterns/flyweight/demo")
-    public Map<String, Object> flyweightDemo() {
-        return smartHomeService.flyweightDemo();
-    }
-
-    @PostMapping("/patterns/interpreter/evaluate")
-    public Map<String, Object> interpreterEvaluate(
-            @RequestParam(required = false) String rule,
-            @RequestParam Map<String, String> params
-    ) {
-        return smartHomeService.interpreterEvaluate(rule, parseVariables(params, Set.of("rule")));
-    }
-
-    @GetMapping("/patterns/iterator/demo")
-    public Map<String, Object> iteratorDemo(
-            @RequestParam(required = false) String filterType,
-            @RequestParam(required = false) String filterValue
-    ) {
-        return smartHomeService.iteratorDemo(filterType, filterValue);
-    }
-
-    @GetMapping("/patterns/mediator/demo")
-    public Map<String, Object> mediatorDemo() {
-        return smartHomeService.mediatorDemo();
-    }
-
-    @PostMapping("/patterns/mediator/notify")
-    public Map<String, Object> mediatorNotify(
-            @RequestParam(defaultValue = "sensor-1") String sourceDeviceId,
-            @RequestParam(defaultValue = "MOTION_DETECTED") String event
-    ) {
-        return smartHomeService.mediatorNotify(sourceDeviceId, event);
-    }
-
-    @GetMapping("/patterns/template/demo")
-    public Map<String, Object> templateDemo(@RequestParam(required = false) String deviceType) {
-        return smartHomeService.templateDemo(deviceType);
-    }
-
-    @PostMapping("/patterns/template/init")
-    public Map<String, Object> templateInit(
-            @RequestParam(defaultValue = "LIGHT") String deviceType,
-            @RequestParam(required = false) String deviceId
-    ) {
-        return smartHomeService.templateInit(deviceType, deviceId);
-    }
-
-    @GetMapping("/patterns/state/demo")
-    public Map<String, Object> stateDemo() {
-        return smartHomeService.stateDemo();
-    }
-
-    @PostMapping("/patterns/strategy/apply")
-    public Map<String, Object> strategyApply(@RequestParam String strategy) {
-        return smartHomeService.applyEnergyStrategy(strategy);
-    }
-
-    @GetMapping("/patterns/visitor/audit")
-    public Map<String, Object> visitorAudit(@RequestParam(required = false) String type) {
-        return smartHomeService.visitorAudit(type);
+        String effectiveTemplate = (template != null && !template.isBlank()) ? template : templateId;
+        return smartHomeService.prototypeClone(effectiveTemplate);
     }
 
     @GetMapping("/rooms")

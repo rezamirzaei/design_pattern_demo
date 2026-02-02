@@ -1,9 +1,6 @@
 package com.smarthome.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +9,6 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "scenes")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SceneEntity {
 
     @Id
@@ -35,4 +29,68 @@ public class SceneEntity {
 
     @Column(name = "is_favorite")
     private Boolean isFavorite = false;
+
+    public SceneEntity() {}
+
+    public SceneEntity(Long id,
+                       String name,
+                       String description,
+                       String deviceStates,
+                       LocalDateTime createdAt,
+                       Boolean isFavorite) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.deviceStates = deviceStates;
+        this.createdAt = createdAt;
+        this.isFavorite = isFavorite;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDeviceStates() {
+        return deviceStates;
+    }
+
+    public void setDeviceStates(String deviceStates) {
+        this.deviceStates = deviceStates;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
 }

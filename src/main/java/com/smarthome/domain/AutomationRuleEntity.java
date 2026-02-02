@@ -1,9 +1,6 @@
 package com.smarthome.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +9,6 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "automation_rules")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class AutomationRuleEntity {
 
     @Id
@@ -44,4 +38,98 @@ public class AutomationRuleEntity {
 
     @Column(name = "last_triggered")
     private LocalDateTime lastTriggered;
+
+    public AutomationRuleEntity() {}
+
+    public AutomationRuleEntity(Long id,
+                                String name,
+                                String description,
+                                String triggerCondition,
+                                String actionScript,
+                                Boolean isEnabled,
+                                Integer priority,
+                                LocalDateTime createdAt,
+                                LocalDateTime lastTriggered) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.triggerCondition = triggerCondition;
+        this.actionScript = actionScript;
+        this.isEnabled = isEnabled;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.lastTriggered = lastTriggered;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTriggerCondition() {
+        return triggerCondition;
+    }
+
+    public void setTriggerCondition(String triggerCondition) {
+        this.triggerCondition = triggerCondition;
+    }
+
+    public String getActionScript() {
+        return actionScript;
+    }
+
+    public void setActionScript(String actionScript) {
+        this.actionScript = actionScript;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastTriggered() {
+        return lastTriggered;
+    }
+
+    public void setLastTriggered(LocalDateTime lastTriggered) {
+        this.lastTriggered = lastTriggered;
+    }
 }

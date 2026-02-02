@@ -1,14 +1,15 @@
 package com.smarthome.pattern.structural.adapter;
 
 import com.smarthome.pattern.creational.factory.Device;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Adapter that makes LegacyThermostat compatible with Device interface
  * Uses Object Adapter pattern (composition over inheritance)
  */
-@Slf4j
 public class LegacyThermostatAdapter implements Device {
+    private static final Logger log = LoggerFactory.getLogger(LegacyThermostatAdapter.class);
     private final LegacyThermostat legacyThermostat;
     private final String name;
     private final String location;

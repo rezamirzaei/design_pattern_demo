@@ -30,11 +30,10 @@ public final class IteratorDemo {
                 "pattern", "Iterator",
                 "collectionSize", collection.size(),
                 "filterType", filterType == null ? "ALL" : filterType,
-                "filterValue", filterValue,
+                "filterValue", filterValue == null ? "" : filterValue,
                 "visited", visited
         );
     }
 
     public record DeviceSeed(Device device, String room, String type) {}
 }
-

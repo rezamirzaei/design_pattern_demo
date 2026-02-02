@@ -14,42 +14,42 @@
     <div class="pattern-demo">
         <h4>🎮 Scene Controller</h4>
 
-        <div class="scene-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px;">
-            <div class="scene-card" onclick="Facade.activate('morning')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="scene-icon" style="font-size: 3em; margin-bottom: 10px;">🌅</div>
-                <div class="scene-name" style="font-weight: 600; font-size: 1.1em; color: var(--text);">Morning Rise</div>
-                <div class="scene-desc" style="font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">Lights 50%, Blinds Open, Coffee On</div>
-                <div class="overlay" style="position: absolute; inset: 0; background: rgba(255,193,7,0.1); opacity: 0; transition: opacity 0.3s;"></div>
+        <div class="scene-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div class="scene-card" onclick="Facade.activate('morning')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div style="font-size: 3.5em; margin-bottom: 15px;">🌅</div>
+                <div style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Morning Rise</div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">Lights 50%, Blinds Open, Coffee On</div>
+                <div class="overlay" style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,193,7,0.2), rgba(255,193,7,0)); opacity: 0; transition: all 0.3s; border: 1px solid var(--warning);"></div>
             </div>
 
-            <div class="scene-card" onclick="Facade.activate('night')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="scene-icon" style="font-size: 3em; margin-bottom: 10px;">🌙</div>
-                <div class="scene-name" style="font-weight: 600; font-size: 1.1em; color: var(--text);">Goodnight</div>
-                <div class="scene-desc" style="font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">All Off, Doors Locked, Alarm Set</div>
-                <div class="overlay" style="position: absolute; inset: 0; background: rgba(100,100,255,0.1); opacity: 0; transition: opacity 0.3s;"></div>
+            <div class="scene-card" onclick="Facade.activate('night')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div style="font-size: 3.5em; margin-bottom: 15px;">🌙</div>
+                <div style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Goodnight</div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">All Off, Doors Locked, Alarm Set</div>
+                <div class="overlay" style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(100,100,255,0.2), rgba(100,100,255,0)); opacity: 0; transition: all 0.3s; border: 1px solid #6464ff;"></div>
             </div>
 
-            <div class="scene-card" onclick="Facade.activate('movie')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="scene-icon" style="font-size: 3em; margin-bottom: 10px;">🎬</div>
-                <div class="scene-name" style="font-weight: 600; font-size: 1.1em; color: var(--text);">Movie Time</div>
-                <div class="scene-desc" style="font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">Dims Lights, TV On, Sound Mode</div>
-                <div class="overlay" style="position: absolute; inset: 0; background: rgba(220,53,69,0.1); opacity: 0; transition: opacity 0.3s;"></div>
+            <div class="scene-card" onclick="Facade.activate('movie')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div style="font-size: 3.5em; margin-bottom: 15px;">🎬</div>
+                <div style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Movie Time</div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">Dims Lights, TV On, Sound Mode</div>
+                <div class="overlay" style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(220,53,69,0.2), rgba(220,53,69,0)); opacity: 0; transition: all 0.3s; border: 1px solid var(--danger);"></div>
             </div>
 
-            <div class="scene-card" onclick="Facade.activate('party')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
-                <div class="scene-icon" style="font-size: 3em; margin-bottom: 10px;">🎉</div>
-                <div class="scene-name" style="font-weight: 600; font-size: 1.1em; color: var(--text);">Party Mode</div>
-                <div class="scene-desc" style="font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">Colors Loop, Music Max, AC Cool</div>
-                <div class="overlay" style="position: absolute; inset: 0; background: rgba(255,0,255,0.1); opacity: 0; transition: opacity 0.3s;"></div>
+            <div class="scene-card" onclick="Facade.activate('party')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                <div style="font-size: 3.5em; margin-bottom: 15px;">🎉</div>
+                <div style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Party Mode</div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">Colors Loop, Music Max, AC Cool</div>
+                <div class="overlay" style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(255,0,255,0)); opacity: 0; transition: all 0.3s; border: 1px solid #ff00ff;"></div>
             </div>
         </div>
 
-        <div class="behind-scenes" style="margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 15px; border-left: 4px solid var(--primary);">
-            <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                👁️ Facade Internals (What happens)
+        <div class="behind-scenes" style="margin-top: 30px; padding: 25px; background: rgba(0,0,0,0.4); border-radius: 16px; border: 1px solid var(--glass-border); border-left: 4px solid var(--primary); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: 'Consolas', monospace; text-transform: uppercase; letter-spacing: 1px;">
+                <span style="opacity: 0.7;">&gt;</span> Facade Internal Operations
             </h5>
-            <div class="operations-list" id="facade-operations" style="font-family: monospace; color: var(--text-muted);">
-                <p class="placeholder">Select a scene above to reveal the complex subsystem calls...</p>
+            <div class="operations-list" id="facade-operations" style="font-family: 'Consolas', monospace; color: #a7b1c2; min-height: 100px;">
+                <p class="placeholder" style="color: var(--text-muted); opacity: 0.5;">// Select a scene above to inspect subsystem calls...</p>
             </div>
         </div>
 
@@ -127,3 +127,4 @@ var Facade = {
     }
 };
 </script>
+</div>

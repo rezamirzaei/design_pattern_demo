@@ -14,63 +14,63 @@
     <div class="pattern-demo">
         <h4>🎮 House Hierarchy</h4>
 
-        <div class="hierarchy-tree" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 25px; border: 1px solid var(--glass-border);">
+        <div class="hierarchy-tree" style="padding: 30px; background: var(--darker); border-radius: 16px; margin-bottom: 25px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             <!-- Root: Whole House -->
-            <div class="tree-node house" onclick="Composite.control('house','toggle')" style="display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(255,193,7,0.1); border: 1px solid var(--warning); border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
-                <div class="node-icon" style="font-size: 2em;">🏠</div>
+            <div class="tree-node house" onclick="Composite.control('house','toggle')" style="display: flex; align-items: center; gap: 20px; padding: 18px 25px; background: rgba(255, 193, 7, 0.15); border: 1px solid var(--warning); border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: all 0.3s; position: relative;">
+                <div class="node-icon" style="font-size: 2.2em; background: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">🏠</div>
                 <div class="node-name" style="font-weight: 700; flex: 1; font-size: 1.1em; color: var(--warning);">Whole House</div>
-                <div class="node-count" style="font-size: 0.8em; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px;">12 Devices</div>
+                <div class="node-count" style="font-size: 0.85em; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--glass-border);">12 Devices</div>
             </div>
 
-            <div class="tree-level" style="margin-left: 30px; padding-left: 20px; border-left: 2px dashed var(--glass-border);">
+            <div class="tree-level" style="margin-left: 35px; padding-left: 25px; border-left: 2px dashed var(--glass-border);">
                 <!-- Node: First Floor -->
-                <div class="tree-node floor" onclick="Composite.control('floor-1','toggle')" style="display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(40,167,69,0.1); border: 1px solid #28a745; border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
+                <div class="tree-node floor" onclick="Composite.control('floor-1','toggle')" style="display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: all 0.3s;">
                     <div class="node-icon" style="font-size: 1.8em;">🏢</div>
                     <div class="node-name" style="font-weight: 600; flex: 1; color: #28a745;">First Floor</div>
                     <div class="node-count" style="font-size: 0.8em; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px;">7 Devices</div>
                 </div>
 
-                <div class="tree-sublevel" style="margin-left: 30px; padding-left: 20px; border-left: 2px dashed var(--glass-border);">
+                <div class="tree-sublevel" style="margin-left: 35px; padding-left: 25px; border-left: 2px dashed var(--glass-border);">
                     <!-- Leaf Composite: Living Room -->
-                    <div class="tree-node room" onclick="Composite.control('living-room','toggle')" style="display: flex; flex-direction: column; gap: 10px; padding: 15px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer;">
+                    <div class="tree-node room" onclick="Composite.control('living-room','toggle')" style="display: flex; flex-direction: column; gap: 12px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s;">
                         <div style="display: flex; align-items: center; width: 100%; gap: 15px;">
                             <div class="node-icon" style="font-size: 1.5em;">🛋️</div>
                             <div class="node-name" style="font-weight: 600; flex: 1;">Living Room</div>
                             <div class="node-count" style="font-size: 0.8em; color: var(--text-muted);">3 Devices</div>
                         </div>
-                        <div class="room-devices" style="display: flex; gap: 8px; width: 100%;">
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-light','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">💡 Light</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-tv','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">📺 TV</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-speaker','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">🔊 Speaker</span>
+                        <div class="room-devices" style="display: flex; gap: 10px; width: 100%;">
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-light','toggle')" style="padding: 6px 14px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 20px; font-size: 0.8em; color: var(--primary); font-weight: 500;">💡 Light</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-tv','toggle')" style="padding: 6px 14px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 20px; font-size: 0.8em; color: var(--primary); font-weight: 500;">📺 TV</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-speaker','toggle')" style="padding: 6px 14px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 20px; font-size: 0.8em; color: var(--primary); font-weight: 500;">🔊 Speaker</span>
                         </div>
                     </div>
 
                     <!-- Leaf Composite: Kitchen -->
-                    <div class="tree-node room" onclick="Composite.control('kitchen','toggle')" style="display: flex; flex-direction: column; gap: 10px; padding: 15px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer;">
+                    <div class="tree-node room" onclick="Composite.control('kitchen','toggle')" style="display: flex; flex-direction: column; gap: 12px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s;">
                         <div style="display: flex; align-items: center; width: 100%; gap: 15px;">
                             <div class="node-icon" style="font-size: 1.5em;">🍳</div>
                             <div class="node-name" style="font-weight: 600; flex: 1;">Kitchen</div>
                             <div class="node-count" style="font-size: 0.8em; color: var(--text-muted);">2 Devices</div>
                         </div>
-                        <div class="room-devices" style="display: flex; gap: 8px; width: 100%;">
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-light','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">💡 Light</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-sensor','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">📡 Sensor</span>
+                        <div class="room-devices" style="display: flex; gap: 10px; width: 100%;">
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-light','toggle')" style="padding: 6px 14px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 20px; font-size: 0.8em; color: var(--primary); font-weight: 500;">💡 Light</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-sensor','toggle')" style="padding: 6px 14px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 20px; font-size: 0.8em; color: var(--primary); font-weight: 500;">📡 Sensor</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="composite-actions" style="padding: 20px; background: var(--glass-bg); border-radius: 15px; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">🎯 Quick Group Actions</h5>
-            <div class="group-btns" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <button class="action-btn" onclick="Composite.control('house','on')" style="padding: 10px 20px; background: rgba(255, 193, 7, 0.1); border: 1px solid var(--warning); border-radius: 8px; color: var(--warning); cursor: pointer; flex: 1;">
+        <div class="composite-actions" style="padding: 25px; background: rgba(0, 210, 255, 0.05); border-radius: 16px; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--primary); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase;">🎯 Quick Group Actions</h5>
+            <div class="group-btns" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                <button class="action-btn" onclick="Composite.control('house','on')" style="padding: 12px 24px; background: rgba(255, 193, 7, 0.15); border: 1px solid var(--warning); border-radius: 8px; color: var(--warning); cursor: pointer; flex: 1; font-weight: 600;">
                     🏠 ALL ON
                 </button>
-                <button class="action-btn" onclick="Composite.control('house','off')" style="padding: 10px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-muted); cursor: pointer; flex: 1;">
+                <button class="action-btn" onclick="Composite.control('house','off')" style="padding: 12px 24px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-muted); cursor: pointer; flex: 1; font-weight: 600;">
                     🏠 ALL OFF
                 </button>
-                <button class="action-btn" onclick="Composite.control('living-room','on')" style="padding: 10px 20px; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); border-radius: 8px; color: var(--primary); cursor: pointer; flex: 1;">
+                <button class="action-btn" onclick="Composite.control('living-room','on')" style="padding: 12px 24px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 8px; color: var(--primary); cursor: pointer; flex: 1; font-weight: 600;">
                     🛋️ Living ON
                 </button>
             </div>

@@ -13,62 +13,62 @@
     <div class="pattern-demo">
         <h4>🎮 Universal Connection</h4>
 
-        <div class="bridge-workspace" style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px;">
+        <div class="bridge-workspace" style="display: flex; gap: 40px; align-items: stretch; margin-bottom: 30px; justify-content: center;">
             <!-- Abstraction Side -->
-            <div class="bridge-column" style="flex: 1; padding: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 15px;">
-                <h5 style="color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+            <div class="bridge-column" style="flex: 1; max-width: 350px; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <h5 style="color: var(--primary); margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">
                     📱 Abstraction (Remote)
                 </h5>
-                <div class="remote-list" style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="remote-btn active" onclick="Bridge.selectRemote(this,'basic')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left;">
-                        <span class="rb-icon" style="font-size: 1.8em;">📱</span>
+                <div class="remote-list" style="display: flex; flex-direction: column; gap: 15px;">
+                    <button class="remote-btn active" onclick="Bridge.selectRemote(this,'basic')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <span class="rb-icon" style="font-size: 2em; background: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📱</span>
                         <div style="flex: 1;">
-                            <span class="rb-name" style="font-weight: 600; display: block;">Basic Remote</span>
-                            <span class="rb-desc" style="font-size: 0.75em; color: var(--text-muted);">Simple On/Off</span>
+                            <span class="rb-name" style="font-weight: 700; display: block; font-size: 1.1em; margin-bottom: 4px;">Basic Remote</span>
+                            <span class="rb-desc" style="font-size: 0.8em; color: var(--text-muted);">Simple interface, basic commands.</span>
                         </div>
                     </button>
-                    <button class="remote-btn" onclick="Bridge.selectRemote(this,'advanced')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left;">
-                        <span class="rb-icon" style="font-size: 1.8em;">📲</span>
+                    <button class="remote-btn" onclick="Bridge.selectRemote(this,'advanced')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <span class="rb-icon" style="font-size: 2em; background: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📲</span>
                         <div style="flex: 1;">
-                            <span class="rb-name" style="font-weight: 600; display: block;">Pro Remote</span>
-                            <span class="rb-desc" style="font-size: 0.75em; color: var(--text-muted);">Multi-function</span>
+                            <span class="rb-name" style="font-weight: 700; display: block; font-size: 1.1em; margin-bottom: 4px;">Pro Remote</span>
+                            <span class="rb-desc" style="font-size: 0.8em; color: var(--text-muted);">Advanced macro & voice features.</span>
                         </div>
                     </button>
                 </div>
             </div>
 
             <!-- Bridge Connector -->
-            <div class="bridge-connector" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px;">
-                <div style="height: 2px; width: 100%; background: var(--glass-border);"></div>
-                <div class="bridge-icon" style="font-size: 2.5em; background: var(--darker); padding: 5px; border-radius: 50%; border: 2px solid var(--primary); z-index: 2;">🌉</div>
-                <div style="height: 2px; width: 100%; background: var(--glass-border);"></div>
+            <div class="bridge-connector" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; position: relative;">
+                <div style="height: 4px; width: 100%; background: linear-gradient(90deg, var(--glass-border), var(--primary), var(--glass-border)); position: absolute; top: 50%; transform: translateY(-50%); z-index: 0;"></div>
+                <div class="bridge-icon" style="font-size: 3em; background: var(--darker); padding: 15px; border-radius: 50%; border: 4px solid var(--primary); z-index: 2; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);">🌉</div>
+                <div style="margin-top: 15px; background: var(--darker); padding: 5px 10px; border-radius: 20px; border: 1px solid var(--glass-border); font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); z-index: 2;">Bridge</div>
             </div>
 
             <!-- Implementation Side -->
-            <div class="bridge-column" style="flex: 1; padding: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 15px;">
-                <h5 style="color: var(--warning); margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+            <div class="bridge-column" style="flex: 1; max-width: 350px; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <h5 style="color: var(--warning); margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">
                     🏠 Implementation (Device)
                 </h5>
-                <div class="device-btn-list" style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="device-btn active" onclick="Bridge.selectDevice(this,'light')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left;">
-                        <span class="db-icon" style="font-size: 1.8em;">💡</span>
-                        <span class="db-name" style="font-weight: 600;">Smart Light</span>
+                <div class="device-btn-list" style="display: flex; flex-direction: column; gap: 15px;">
+                    <button class="device-btn active" onclick="Bridge.selectDevice(this,'light')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: rgba(255, 193, 7, 0.15); border: 1px solid var(--warning); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <span class="db-icon" style="font-size: 2em;">💡</span>
+                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">Smart Light</span>
                     </button>
-                    <button class="device-btn" onclick="Bridge.selectDevice(this,'tv')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left;">
-                        <span class="db-icon" style="font-size: 1.8em;">📺</span>
-                        <span class="db-name" style="font-weight: 600;">Smart TV</span>
+                    <button class="device-btn" onclick="Bridge.selectDevice(this,'tv')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <span class="db-icon" style="font-size: 2em;">📺</span>
+                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">Smart TV</span>
                     </button>
-                    <button class="device-btn" onclick="Bridge.selectDevice(this,'thermostat')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left;">
-                        <span class="db-icon" style="font-size: 1.8em;">🌡️</span>
-                        <span class="db-name" style="font-weight: 600;">HVAC Unit</span>
+                    <button class="device-btn" onclick="Bridge.selectDevice(this,'thermostat')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <span class="db-icon" style="font-size: 2em;">🌡️</span>
+                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">HVAC Unit</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="bridge-actions" style="padding: 20px; background: var(--glass-bg); border-radius: 15px; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">Available Operations</h5>
-            <div class="action-btns" id="bridge-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div class="bridge-actions" style="padding: 25px; background: var(--glass-bg); border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 25px;">
+             <h5 style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">Available Operations via Bridge</h5>
+            <div class="action-btns" id="bridge-actions" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
                 <!-- Dynamically filled -->
             </div>
         </div>

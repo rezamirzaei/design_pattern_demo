@@ -114,6 +114,7 @@
         document.querySelectorAll('.nav-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
                 var pattern = this.dataset.pattern;
+                console.log('Switching to pattern:', pattern);
 
                 // Update tabs
                 document.querySelectorAll('.nav-tab').forEach(function(t) {
@@ -126,7 +127,13 @@
                     c.classList.remove('active');
                 });
                 var target = document.getElementById('pattern-' + pattern);
-                if (target) target.classList.add('active');
+                if (target) {
+                    target.classList.add('active');
+                    console.log('Found target:', target.id);
+                } else {
+                    console.error('Target not found for pattern:', pattern);
+                    PatternDemo.toast('Error: Pattern content not found for ' + pattern, 'error');
+                }
             });
         });
 

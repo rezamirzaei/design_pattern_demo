@@ -13,90 +13,86 @@
     <div class="pattern-demo">
         <h4>🎮 Rule Construction Kit</h4>
 
-        <div class="builder-steps">
+        <div class="builder-steps" style="display: flex; flex-direction: column; gap: 20px;">
             <!-- Step 1 -->
-            <div class="builder-step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <label>Rule Name</label>
-                    <input type="text" id="builder-name" class="form-input" value="Morning Routine" placeholder="Name your automation">
+            <div class="builder-step" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; gap: 25px; align-items: flex-start; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="step-number" style="background: var(--primary); color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1em; flex-shrink: 0;">1</div>
+                <div class="step-content" style="flex: 1;">
+                    <label style="display: block; color: var(--primary); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;">Rule Identifier</label>
+                    <input type="text" id="builder-name" class="form-input" value="Morning Routine" placeholder="Name your automation" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-size: 1.1em;">
                 </div>
             </div>
 
             <!-- Step 2 -->
-            <div class="builder-step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <label>Trigger (When)</label>
-                    <div class="trigger-options">
-                        <button class="trigger-btn active" data-trigger="time:07:00" onclick="Builder.selectTrigger(this)">⏰ 7:00 AM</button>
-                        <button class="trigger-btn" data-trigger="time:22:00" onclick="Builder.selectTrigger(this)">🌙 10:00 PM</button>
-                        <button class="trigger-btn" data-trigger="motion" onclick="Builder.selectTrigger(this)">🚶 Motion</button>
-                        <button class="trigger-btn" data-trigger="door:open" onclick="Builder.selectTrigger(this)">🚪 Door Open</button>
-                        <button class="trigger-btn" data-trigger="sunset" onclick="Builder.selectTrigger(this)">🌅 Sunset</button>
+            <div class="builder-step" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; gap: 25px; align-items: flex-start; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="step-number" style="background: var(--primary); color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1em; flex-shrink: 0;">2</div>
+                <div class="step-content" style="flex: 1;">
+                    <label style="display: block; color: var(--primary); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;">Trigger (When)</label>
+                    <div class="trigger-options" style="display: flex; flex-wrap: wrap; gap: 12px;">
+                        <button class="trigger-btn active" data-trigger="time:07:00" onclick="Builder.selectTrigger(this)" style="padding: 12px 20px; border-radius: 30px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); color: white; cursor: pointer; transition: all 0.2s;">⏰ 7:00 AM</button>
+                        <button class="trigger-btn" data-trigger="time:22:00" onclick="Builder.selectTrigger(this)" style="padding: 12px 20px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: pointer; transition: all 0.2s;">🌙 10:00 PM</button>
+                        <button class="trigger-btn" data-trigger="motion" onclick="Builder.selectTrigger(this)" style="padding: 12px 20px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: pointer; transition: all 0.2s;">🚶 Motion</button>
+                        <button class="trigger-btn" data-trigger="door:open" onclick="Builder.selectTrigger(this)" style="padding: 12px 20px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: pointer; transition: all 0.2s;">🚪 Door Open</button>
+                        <button class="trigger-btn" data-trigger="sunset" onclick="Builder.selectTrigger(this)" style="padding: 12px 20px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: pointer; transition: all 0.2s;">🌅 Sunset</button>
                     </div>
                 </div>
             </div>
 
             <!-- Step 3 -->
-            <div class="builder-step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <label>Conditions (If)</label>
-                    <div class="condition-options" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="cond-home" checked style="margin-right: 8px;">
-                            <span>🏠 Someone home</span>
+            <div class="builder-step" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; gap: 25px; align-items: flex-start; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="step-number" style="background: var(--primary); color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1em; flex-shrink: 0;">3</div>
+                <div class="step-content" style="flex: 1;">
+                    <label style="display: block; color: var(--warning); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;">Conditions (If)</label>
+                    <div class="condition-options" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="cond-home" checked style="accent-color: var(--warning); transform: scale(1.2);">
+                            <span style="font-weight: 500;">🏠 Someone home</span>
                         </label>
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="cond-dark" style="margin-right: 8px;">
-                            <span>🌑 It's dark</span>
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="cond-dark" style="accent-color: var(--warning); transform: scale(1.2);">
+                            <span style="font-weight: 500;">🌑 It's dark</span>
                         </label>
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="cond-weekday" style="margin-right: 8px;">
-                            <span>📅 Weekday</span>
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="cond-weekday" style="accent-color: var(--warning); transform: scale(1.2);">
+                            <span style="font-weight: 500;">📅 Weekday</span>
                         </label>
                     </div>
                 </div>
             </div>
 
             <!-- Step 4 -->
-            <div class="builder-step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <label>Actions (Then)</label>
-                    <div class="action-options" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="act-lights" checked style="margin-right: 8px;">
-                            <span>💡 Lights On</span>
+            <div class="builder-step" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; gap: 25px; align-items: flex-start; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="step-number" style="background: var(--primary); color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1em; flex-shrink: 0;">4</div>
+                <div class="step-content" style="flex: 1;">
+                    <label style="display: block; color: var(--success); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;">Actions (Then)</label>
+                    <div class="action-options" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="act-lights" checked style="accent-color: var(--success); transform: scale(1.2);">
+                            <span style="font-weight: 500;">💡 Lights On</span>
                         </label>
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="act-thermo" style="margin-right: 8px;">
-                            <span>🌡️ Set Temp</span>
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="act-thermo" style="accent-color: var(--success); transform: scale(1.2);">
+                            <span style="font-weight: 500;">🌡️ Set Temp</span>
                         </label>
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="act-lock" style="margin-right: 8px;">
-                            <span>🔒 Lock Door</span>
-                        </label>
-                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
-                            <input type="checkbox" id="act-notify" style="margin-right: 8px;">
-                            <span>📱 Notify Me</span>
+                        <label class="feature-box" style="padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <input type="checkbox" id="act-lock" style="accent-color: var(--success); transform: scale(1.2);">
+                            <span style="font-weight: 500;">🔒 Lock Door</span>
                         </label>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="builder-preview" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 15px; margin-bottom: 25px;">
-            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">📋 Logic Preview</h5>
-            <div class="preview-content" id="builder-preview" style="font-family: monospace; font-size: 1.1em;">
+        <div class="builder-preview" style="padding: 25px; background: rgba(0, 210, 255, 0.05); border: 1px dashed var(--primary); border-radius: 16px; margin-bottom: 25px; text-align: center;">
+            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px;">📋 Logic Blueprint</h5>
+            <div class="preview-content" id="builder-preview" style="font-family: 'Consolas', monospace; font-size: 1.2em; color: white;">
                 <strong>Morning Routine</strong>: WHEN ⏰ 7:00 AM, IF 🏠 Someone home -> 💡 Lights On
             </div>
         </div>
 
         <div class="builder-actions" style="display: flex; gap: 15px; margin-bottom: 25px;">
-            <button class="btn-build" onclick="Builder.build()" style="flex: 2;">
-                <span>🔨 Build & Activate Rule</span>
+            <button class="btn-build" onclick="Builder.build()" style="flex: 1; height: 50px; background: linear-gradient(135deg, var(--primary), #00a8cc); border: none; border-radius: 12px; color: #000; font-weight: 800; font-size: 1.1em; cursor: pointer; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s;">
+                🔨 Construct Rule
             </button>
             <button class="btn-save" onclick="Builder.preset('random')" style="flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);">
                 <span>🎲 Random</span>
@@ -157,22 +153,48 @@ var Builder = {
     },
     build: function() {
         var name = document.getElementById('builder-name').value;
+        var conditions = [];
+        if (document.getElementById('cond-home').checked) conditions.push('HOME');
+        if (document.getElementById('cond-dark').checked) conditions.push('DARK');
+        if (document.getElementById('cond-weekday').checked) conditions.push('WEEKDAY');
+
         var actions = [];
         if (document.getElementById('act-lights').checked) actions.push('LIGHTS_ON');
+        if (document.getElementById('act-thermo').checked) actions.push('THERMO_SET');
         if (document.getElementById('act-lock').checked) actions.push('LOCK_DOOR');
+        if (document.getElementById('act-notify').checked) actions.push('NOTIFY');
+
+        var trigger = this.selectedTrigger;
+        var conditionText = conditions.length > 0 ? conditions.join(' AND ') : 'NONE';
+        var actionText = actions.length > 0 ? actions.join(', ') : 'NONE';
 
         PatternDemo.showResult('builder-result', '🏗️ Builder constructing rule...\n' +
             '> Setting Name: ' + name + '\n' +
-            '> Setting Trigger: ' + this.selectedTrigger + '\n' +
-            '> Adding Conditions: ' + (document.getElementById('cond-home').checked ? 'HOME' : 'NONE') + '\n' +
-            '> Adding Actions: ' + (actions.length > 0 ? actions.join(', ') : 'NONE') + '\n' +
-            '> Validating...\n' +
-            '> Result: AutomationRule built and active! ID: RULE-' + Math.floor(Math.random()*1000));
+            '> Setting Trigger: ' + trigger + '\n' +
+            '> Adding Conditions: ' + conditionText + '\n' +
+            '> Adding Actions: ' + actionText + '\n' +
+            '> Sending to backend...');
 
-        PatternDemo.toast('Rule Built Successfully', 'success');
+        var url = '/api/patterns/builder/rule?name=' + encodeURIComponent(name || 'My Rule') +
+            '&trigger=' + encodeURIComponent(trigger || 'manual') +
+            '&condition=' + encodeURIComponent(conditionText) +
+            '&action=' + encodeURIComponent(actionText);
 
-        // Simulate API call
-        // fetch(...)
+        fetch(url, { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('builder-result', '✅ Rule Built (Builder Pattern)\n' +
+                    '-----------------------------\n' +
+                    'Name: ' + (data.name || name) + '\n' +
+                    'Trigger: ' + (data.trigger || trigger) + '\n' +
+                    'Condition: ' + (data.condition || conditionText) + '\n' +
+                    'Action: ' + (data.action || actionText));
+                PatternDemo.toast('Rule Built Successfully', 'success');
+            })
+            .catch(function(e) {
+                PatternDemo.showResult('builder-result', { error: (e && e.message) ? e.message : 'Request failed' });
+                PatternDemo.toast('Failed to build rule', 'error');
+            });
     },
     preset: function(type) {
         if (type === 'random') {

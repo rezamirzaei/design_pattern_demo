@@ -7,6 +7,20 @@
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
+## 🚀 Quick Start
+
+Get the system running in minutes:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/smarthome-patterns.git
+
+# 2. Build and Run with Docker Compose
+docker-compose up --build
+```
+
+Click here to access the dashboard: **[http://localhost:8080](http://localhost:8080)**
+
 ## 📖 Project Overview
 
 This project isn't just a code repository; it's an **interactive learning platform**. It implements a fully functional Smart Home control system where every major feature is powered by a specific Design Pattern.

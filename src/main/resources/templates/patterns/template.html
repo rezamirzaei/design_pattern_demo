@@ -15,32 +15,33 @@
         <h4>🎮 Device Initializer</h4>
 
         <div class="device-init-selector" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
-            <button class="init-btn" onclick="Template.init('LIGHT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
-                <span style="font-size: 3em; margin-bottom: 10px;">💡</span>
-                <span style="font-weight: 600;">Lights</span>
+            <button class="init-btn" onclick="Template.init('LIGHT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; color: var(--text); cursor: pointer; transition: all 0.2s; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <span style="font-size: 3.5em; margin-bottom: 10px; background: rgba(255,255,255,0.05); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">💡</span>
+                <span style="font-weight: 700; font-size: 1.1em;">Lights</span>
             </button>
-            <button class="init-btn" onclick="Template.init('THERMOSTAT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
-                <span style="font-size: 3em; margin-bottom: 10px;">🌡️</span>
-                <span style="font-weight: 600;">Thermo</span>
+            <button class="init-btn" onclick="Template.init('THERMOSTAT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; color: var(--text); cursor: pointer; transition: all 0.2s; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <span style="font-size: 3.5em; margin-bottom: 10px; background: rgba(255,255,255,0.05); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🌡️</span>
+                <span style="font-weight: 700; font-size: 1.1em;">Thermo</span>
             </button>
-            <button class="init-btn" onclick="Template.init('CAMERA')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
-                <span style="font-size: 3em; margin-bottom: 10px;">📷</span>
-                <span style="font-weight: 600;">Camera</span>
+            <button class="init-btn" onclick="Template.init('CAMERA')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; color: var(--text); cursor: pointer; transition: all 0.2s; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <span style="font-size: 3.5em; margin-bottom: 10px; background: rgba(255,255,255,0.05); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">📷</span>
+                <span style="font-weight: 700; font-size: 1.1em;">Camera</span>
             </button>
-            <button class="init-btn" onclick="Template.init('LOCK')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
-                <span style="font-size: 3em; margin-bottom: 10px;">🔒</span>
-                <span style="font-weight: 600;">Lock</span>
+            <button class="init-btn" onclick="Template.init('LOCK')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; color: var(--text); cursor: pointer; transition: all 0.2s; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <span style="font-size: 3.5em; margin-bottom: 10px; background: rgba(255,255,255,0.05); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🔒</span>
+                <span style="font-weight: 700; font-size: 1.1em;">Lock</span>
             </button>
         </div>
 
-        <div class="init-progress" style="padding: 25px; background: var(--darker); border-radius: 20px; border: 1px solid var(--glass-border); position: relative;">
-            <div style="position: absolute; top: 15px; right: 20px; font-family: monospace; color: var(--text-muted); font-size: 0.8em;">boot_sequence.sh</div>
-            <h5 style="color: var(--primary); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase;">📊 Initialization Pipeline</h5>
+        <div class="init-progress" style="padding: 30px; background: var(--darker); border-radius: 20px; border: 1px solid var(--glass-border); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--primary), var(--secondary));"></div>
+            <div style="position: absolute; top: 20px; right: 25px; font-family: 'Consolas', monospace; color: var(--text-muted); font-size: 0.85em; opacity: 0.5;">boot_sequence.sh</div>
+            <h5 style="color: var(--primary); margin-bottom: 25px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">📊 Initialization Pipeline</h5>
 
-            <div class="progress-steps" id="init-steps" style="display: flex; flex-direction: column; gap: 15px;">
+            <div class="progress-steps" id="init-steps" style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Step 1: Base -->
-                <div class="step" id="step-1" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
-                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">1</div>
+                <div class="step" id="step-1" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: monospace;">1</div>
                     <div class="step-info" style="flex: 1;">
                         <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Connect Network</div>
                     </div>
@@ -48,8 +49,8 @@
                 </div>
 
                 <!-- Step 2: Base -->
-                <div class="step" id="step-2" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
-                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">2</div>
+                <div class="step" id="step-2" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: monospace;">2</div>
                     <div class="step-info" style="flex: 1;">
                         <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Authenticate</div>
                     </div>
@@ -57,18 +58,18 @@
                 </div>
 
                 <!-- Step 3: Abstract -->
-                <div class="step" id="step-3" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 2px dashed var(--glass-border); border-radius: 10px; transition: all 0.3s;">
-                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">3</div>
+                <div class="step" id="step-3" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px dashed var(--primary); border-radius: 12px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 36px; height: 36px; background: rgba(0, 210, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: monospace; color: var(--primary);">3</div>
                     <div class="step-info" style="flex: 1;">
-                        <div class="step-name" style="font-weight: 600; color: var(--accent);">HOOK: Device Specific Setup</div>
-                        <div class="step-desc" id="step-3-desc" style="font-size: 0.85em; color: var(--text-muted); font-style: italic; margin-top: 3px;">(Overridden by subclass)</div>
+                        <div class="step-name" style="font-weight: 700; color: var(--text);">HOOK: Device Specific Setup</div>
+                        <div class="step-desc" id="step-3-desc" style="font-size: 0.85em; color: var(--primary); font-style: italic; margin-top: 4px;">(Overridden by subclass)</div>
                     </div>
                     <div class="step-status"></div>
                 </div>
 
                 <!-- Step 4: Base -->
-                <div class="step" id="step-4" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
-                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">4</div>
+                <div class="step" id="step-4" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: monospace;">4</div>
                     <div class="step-info" style="flex: 1;">
                         <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Hub Register</div>
                     </div>
@@ -76,8 +77,8 @@
                 </div>
 
                 <!-- Step 5: Final -->
-                <div class="step" id="step-5" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
-                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">5</div>
+                <div class="step" id="step-5" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: monospace;">5</div>
                     <div class="step-info" style="flex: 1;">
                         <div class="step-name" style="font-weight: 600; color: var(--text-muted);">DONE: Ready</div>
                     </div>

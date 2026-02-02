@@ -13,71 +13,75 @@
     <div class="pattern-demo">
         <h4>🎮 Enhance Your Device</h4>
 
-        <div class="decorator-workspace">
+        <div class="decorator-workspace" style="display: flex; gap: 20px; flex-wrap: wrap;">
             <!-- Device Selection -->
-            <div class="device-selection">
-                <h5>1️⃣ Select Base Device</h5>
-                <div class="device-list">
-                    <button class="device-item active" data-device="living-light-1" onclick="Decorator.selectDevice(this, 'living-light-1')">
-                        <span class="device-icon">💡</span>
-                        <span class="device-name">Living Room Light</span>
+            <div class="device-selection" style="flex: 1; min-width: 250px; background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">1️⃣ Select Base Device</h5>
+                <div class="device-list" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                    <button class="device-item active" data-device="living-light-1" onclick="Decorator.selectDevice(this, 'living-light-1')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 10px; cursor: pointer; color: white;">
+                        <span class="device-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.2); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">💡</span>
+                        <span class="device-name" style="font-weight: 600;">Living Room Light</span>
                     </button>
-                    <button class="device-item" data-device="bedroom-thermostat" onclick="Decorator.selectDevice(this, 'bedroom-thermostat')">
-                        <span class="device-icon">🌡️</span>
-                        <span class="device-name">Bedroom Thermostat</span>
+                    <button class="device-item" data-device="bed-thermo" onclick="Decorator.selectDevice(this, 'bed-thermo')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; color: var(--text-muted);">
+                        <span class="device-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.2); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🌡️</span>
+                        <span class="device-name" style="font-weight: 600;">Bedroom Thermostat</span>
                     </button>
-                    <button class="device-item" data-device="front-camera" onclick="Decorator.selectDevice(this, 'front-camera')">
-                        <span class="device-icon">📷</span>
-                        <span class="device-name">Front Camera</span>
+                    <button class="device-item" data-device="front-camera" onclick="Decorator.selectDevice(this, 'front-camera')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; color: var(--text-muted);">
+                        <span class="device-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.2); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">📷</span>
+                        <span class="device-name" style="font-weight: 600;">Front Camera</span>
                     </button>
-                    <button class="device-item" data-device="main-lock" onclick="Decorator.selectDevice(this, 'main-lock')">
-                        <span class="device-icon">🔒</span>
-                        <span class="device-name">Main Door Lock</span>
+                    <button class="device-item" data-device="main-lock" onclick="Decorator.selectDevice(this, 'main-lock')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; color: var(--text-muted);">
+                        <span class="device-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.2); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🔒</span>
+                        <span class="device-name" style="font-weight: 600;">Main Door Lock</span>
                     </button>
                 </div>
             </div>
 
             <!-- Feature Selection -->
-            <div class="feature-selection">
-                <h5>2️⃣ Stack Features</h5>
-                <div class="feature-list">
-                    <label class="feature-checkbox">
-                        <input type="checkbox" id="feat-logging" value="LOGGING" checked onchange="Decorator.updatePreview()">
-                        <span class="feature-box">
-                            <span class="feature-icon">📝</span>
-                            <span class="feature-info">
-                                <span class="feature-name">Logging</span>
-                                <span class="feature-desc">Audit trail for operations</span>
+            <div class="feature-selection" style="flex: 1; min-width: 250px; background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                <h5 style="color: var(--secondary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">2️⃣ Stack Features</h5>
+                <div class="feature-list" style="display: flex; flex-direction: column; gap: 10px;">
+                    <label class="feature-checkbox" style="cursor: pointer; display: block;">
+                        <input type="checkbox" id="feat-logging" value="LOGGING" checked onchange="Decorator.updatePreview()" style="display: none;">
+                        <span class="feature-box" style="padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass-bg); display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <span class="checkbox-indicator" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted); display: inline-block;"></span>
+                            <span class="feature-icon" style="font-size: 1.2em;">📝</span>
+                            <span class="feature-info" style="display: flex; flex-direction: column;">
+                                <span class="feature-name" style="font-weight: 600;">Logging</span>
+                                <span class="feature-desc" style="font-size: 0.8em; color: var(--text-muted);">Audit trail for operations</span>
                             </span>
                         </span>
                     </label>
-                    <label class="feature-checkbox">
-                        <input type="checkbox" id="feat-security" value="SECURITY" onchange="Decorator.updatePreview()">
-                        <span class="feature-box">
-                            <span class="feature-icon">🔐</span>
-                            <span class="feature-info">
-                                <span class="feature-name">Security</span>
-                                <span class="feature-desc">Auth & Access Control</span>
+                    <label class="feature-checkbox" style="cursor: pointer; display: block;">
+                        <input type="checkbox" id="feat-security" value="SECURITY" onchange="Decorator.updatePreview()" style="display: none;">
+                        <span class="feature-box" style="padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass-bg); display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <span class="checkbox-indicator" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted); display: inline-block;"></span>
+                            <span class="feature-icon" style="font-size: 1.2em;">🔐</span>
+                            <span class="feature-info" style="display: flex; flex-direction: column;">
+                                <span class="feature-name" style="font-weight: 600;">Security</span>
+                                <span class="feature-desc" style="font-size: 0.8em; color: var(--text-muted);">Auth & Access Control</span>
                             </span>
                         </span>
                     </label>
-                    <label class="feature-checkbox">
-                        <input type="checkbox" id="feat-caching" value="CACHING" onchange="Decorator.updatePreview()">
-                        <span class="feature-box">
-                            <span class="feature-icon">⚡</span>
-                            <span class="feature-info">
-                                <span class="feature-name">Caching</span>
-                                <span class="feature-desc">Boost read performance</span>
+                    <label class="feature-checkbox" style="cursor: pointer; display: block;">
+                        <input type="checkbox" id="feat-caching" value="CACHING" onchange="Decorator.updatePreview()" style="display: none;">
+                        <span class="feature-box" style="padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass-bg); display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <span class="checkbox-indicator" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted); display: inline-block;"></span>
+                            <span class="feature-icon" style="font-size: 1.2em;">⚡</span>
+                            <span class="feature-info" style="display: flex; flex-direction: column;">
+                                <span class="feature-name" style="font-weight: 600;">Caching</span>
+                                <span class="feature-desc" style="font-size: 0.8em; color: var(--text-muted);">Boost read performance</span>
                             </span>
                         </span>
                     </label>
-                    <label class="feature-checkbox">
-                        <input type="checkbox" id="feat-notification" value="NOTIFICATION" onchange="Decorator.updatePreview()">
-                        <span class="feature-box">
-                            <span class="feature-icon">🔔</span>
-                            <span class="feature-info">
-                                <span class="feature-name">Alerts</span>
-                                <span class="feature-desc">Push notifications</span>
+                    <label class="feature-checkbox" style="cursor: pointer; display: block;">
+                        <input type="checkbox" id="feat-notification" value="NOTIFICATION" onchange="Decorator.updatePreview()" style="display: none;">
+                        <span class="feature-box" style="padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass-bg); display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                            <span class="checkbox-indicator" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted); display: inline-block;"></span>
+                            <span class="feature-icon" style="font-size: 1.2em;">🔔</span>
+                            <span class="feature-info" style="display: flex; flex-direction: column;">
+                                <span class="feature-name" style="font-weight: 600;">Alerts</span>
+                                <span class="feature-desc" style="font-size: 0.8em; color: var(--text-muted);">Push notifications</span>
                             </span>
                         </span>
                     </label>
@@ -117,21 +121,40 @@
 <script>
 var Decorator = {
     selectedDevice: 'living-light-1',
-    selectDevice: function(btn, deviceId) {
-        document.querySelectorAll('#pattern-decorator .device-item').forEach(function(b) { b.classList.remove('active'); });
+    selectDevice: function(btn, device) {
+        document.querySelectorAll('.device-item').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'var(--glass-bg)';
+            b.style.borderColor = 'var(--glass-border)';
+            b.style.color = 'var(--text-muted)';
+        });
         btn.classList.add('active');
-        this.selectedDevice = deviceId;
+        btn.style.background = 'rgba(0, 210, 255, 0.15)';
+        btn.style.borderColor = 'var(--primary)';
+        btn.style.color = 'white';
+        this.selectedDevice = device;
         this.updatePreview();
     },
     getSelectedFeatures: function() {
-        var features = [];
-        if (document.getElementById('feat-logging').checked) features.push('LOGGING');
-        if (document.getElementById('feat-security').checked) features.push('SECURITY');
-        if (document.getElementById('feat-caching').checked) features.push('CACHING');
-        if (document.getElementById('feat-notification').checked) features.push('NOTIFICATION');
-        return features;
+        return Array.from(document.querySelectorAll('.feature-checkbox input:checked')).map(el => el.value);
     },
     updatePreview: function() {
+        // Update visual state of checkboxes
+        document.querySelectorAll('.feature-checkbox input').forEach(input => {
+            var box = input.nextElementSibling;
+            if(input.checked) {
+                box.style.background = 'rgba(0, 210, 255, 0.15)';
+                box.style.borderColor = 'var(--primary)';
+                box.querySelector('.checkbox-indicator').style.background = 'var(--primary)';
+                box.querySelector('.checkbox-indicator').style.borderColor = 'var(--primary)';
+            } else {
+                box.style.background = 'var(--glass-bg)';
+                box.style.borderColor = 'var(--glass-border)';
+                box.querySelector('.checkbox-indicator').style.background = 'transparent';
+                box.querySelector('.checkbox-indicator').style.borderColor = 'var(--text-muted)';
+            }
+        });
+
         var features = this.getSelectedFeatures();
         var chain = document.getElementById('decorator-chain');
         var icons = { LOGGING: '📝', SECURITY: '🔐', CACHING: '⚡', NOTIFICATION: '🔔' };
@@ -168,7 +191,23 @@ var Decorator = {
 
         // Actual API call
         var url = '/api/patterns/decorator/wrap?deviceId=' + this.selectedDevice + '&decorators=' + features.join(',');
-        fetch(url, { method: 'POST' });
+        fetch(url, { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var output = '🎨 Decorators Applied (Server)\n' +
+                    '----------------------------\n' +
+                    'Device: ' + (data.deviceInfo || Decorator.selectedDevice) + '\n' +
+                    'Stack: ' + (Array.isArray(data.decorators) ? data.decorators.join(' -> ') : features.join(' -> ')) + '\n\n' +
+                    'Status #1: ' + (data.status1 || '-') + '\n' +
+                    'Status #2: ' + (data.status2 || '-') + '\n' +
+                    'Security Auth: ' + (data.securityAuthenticated ? 'YES' : 'NO') + '\n' +
+                    (data.cacheStats ? ('Cache: ' + JSON.stringify(data.cacheStats)) : '');
+                PatternDemo.showResult('decorator-result', output);
+            })
+            .catch(function(err) {
+                PatternDemo.toast('Decorator API failed', 'error');
+                PatternDemo.showResult('decorator-result', '❌ Failed to apply decorators\n' + err);
+            });
     }
 };
 // Initialize preview
@@ -176,3 +215,4 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof Decorator !== 'undefined') Decorator.updatePreview();
 });
 </script>
+</div>

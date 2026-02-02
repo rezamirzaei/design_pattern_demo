@@ -1,6 +1,5 @@
 package com.smarthome.pattern.creational.prototype;
 
-import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,6 @@ import java.util.Map;
  * configuring each device from scratch, we can clone existing configurations
  * as templates and modify them as needed.
  */
-@Data
 public class DeviceConfiguration implements Cloneable {
     private static final Logger log = LoggerFactory.getLogger(DeviceConfiguration.class);
     private String name;
@@ -36,6 +34,50 @@ public class DeviceConfiguration implements Cloneable {
         this();
         this.name = name;
         this.deviceType = deviceType;
+    }
+
+    public DeviceConfiguration(String name) {
+        this(name, "GENERIC");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public Map<String, Object> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Map<String, Object> settings) {
+        this.settings = settings == null ? new HashMap<>() : settings;
+    }
+
+    public Map<String, String> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Map<String, String> schedules) {
+        this.schedules = schedules == null ? new HashMap<>() : schedules;
+    }
+
+    public boolean isTemplate() {
+        return isTemplate;
+    }
+
+    public void setTemplate(boolean template) {
+        isTemplate = template;
     }
 
     /**
@@ -60,12 +102,24 @@ public class DeviceConfiguration implements Cloneable {
         settings.put(key, value);
     }
 
+    public void setProperty(String key, Object value) {
+        addSetting(key, value);
+    }
+
     public void addSchedule(String eventName, String cronExpression) {
         schedules.put(eventName, cronExpression);
     }
 
     public Object getSetting(String key) {
         return settings.get(key);
+    }
+
+    public Object getProperty(String key) {
+        return getSetting(key);
+    }
+
+    public Map<String, Object> getAllProperties() {
+        return settings == null ? Map.of() : new HashMap<>(settings);
     }
 
     /**

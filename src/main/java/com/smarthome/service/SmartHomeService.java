@@ -87,6 +87,8 @@ public class SmartHomeService {
     private final HomeController homeController = HomeController.INSTANCE;
 
     private final Map<String, Set<String>> observersByDevice = new ConcurrentHashMap<>();
+    // Fixed: Added list to store temporary rules for the Builder Demo
+    private final List<AutomationRule> rules = new ArrayList<>();
 
     private static final Pattern ACTION_PATTERN = Pattern.compile("^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*(.*?)\\s*\\)\\s*$");
 
@@ -674,13 +676,17 @@ public class SmartHomeService {
         String id = requireText(deviceId, "deviceId is required");
         String type = (observerType == null ? "MOBILE" : observerType.trim().toUpperCase(Locale.ROOT));
         observersByDevice.computeIfAbsent(id, k -> ConcurrentHashMap.newKeySet()).add(type);
-        return Map.of(
+
+        Map<String, Object> response = Map.of(
                 "pattern", "Observer",
                 "action", "subscribe",
                 "deviceId", id,
                 "observerType", type,
                 "subscribers", observersByDevice.getOrDefault(id, Set.of())
         );
+        // Fixed: Broadcast update so the HTML UI sees the new subscription
+        broadcastUpdate("observer", response);
+        return response;
     }
 
     public Map<String, Object> observerTrigger(String deviceId, String eventType) {
@@ -688,7 +694,8 @@ public class SmartHomeService {
         String event = (eventType == null ? "MOTION" : eventType.trim().toUpperCase(Locale.ROOT));
         Set<String> subs = observersByDevice.getOrDefault(id, Set.of());
         List<String> notified = subs.stream().sorted().map(s -> s + " notified of " + event + " on " + id).toList();
-        return Map.of(
+
+        Map<String, Object> response = Map.of(
                 "pattern", "Observer",
                 "action", "trigger",
                 "deviceId", id,
@@ -696,6 +703,9 @@ public class SmartHomeService {
                 "subscriberCount", subs.size(),
                 "notifications", notified
         );
+        // Fixed: Broadcast update so the HTML UI sees the event trigger
+        broadcastUpdate("observer", response);
+        return response;
     }
 
     // ----- MEDIATOR (Notify) -----
@@ -711,11 +721,10 @@ public class SmartHomeService {
     }
 
     // ----- TEMPLATE METHOD (Init) -----
-    public Map<String, Object> templateInit(String deviceType, String deviceId) {
+    public Map<String, Object> templateInit(String deviceType) {
         return Map.of(
                 "pattern", "Template Method",
                 "deviceType", deviceType,
-                "deviceId", deviceId,
                 "demo", templateDemo(deviceType)
         );
     }
@@ -1140,15 +1149,15 @@ public class SmartHomeService {
         String status1 = decorated.getStatus();
         String status2 = decorated.getStatus();
 
-        return Map.of(
-                "pattern", "Decorator",
-                "decorators", normalized,
-                "deviceInfo", decorated.getDeviceInfo(),
-                "status1", status1,
-                "status2", status2,
-                "securityAuthenticated", security != null && security.isAuthenticated(),
-                "cacheStats", caching != null ? caching.getCacheStats() : null
-        );
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("pattern", "Decorator");
+        out.put("decorators", normalized);
+        out.put("deviceInfo", decorated.getDeviceInfo());
+        out.put("status1", status1);
+        out.put("status2", status2);
+        out.put("securityAuthenticated", security != null && security.isAuthenticated());
+        out.put("cacheStats", caching != null ? caching.getCacheStats() : null);
+        return out;
     }
 
     @Transactional
@@ -1243,11 +1252,28 @@ public class SmartHomeService {
     public Map<String, Object> commandExecute(String deviceId, String command) {
         DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
         Device runtime = ensureRuntimeDevice(entity);
-        Map<String, Object> result = CommandDemo.execute(runtime, command);
+        String effectiveCommand = normalizeCommand(runtime, command);
+        Map<String, Object> result = new LinkedHashMap<>(CommandDemo.execute(runtime, effectiveCommand));
+        result.put("requestedCommand", command);
+        result.put("effectiveCommand", effectiveCommand);
         entity.setOn(runtime.isOn());
         deviceRepository.save(entity);
-        lastCommandByDevice.put(deviceId, command);
+        lastCommandByDevice.put(deviceId, effectiveCommand);
         return result;
+    }
+
+    private static String normalizeCommand(Device device, String command) {
+        String normalized = command == null ? "ON" : command.trim().toUpperCase(Locale.ROOT);
+        if (normalized.equals("DIM") && device instanceof SmartLight) {
+            return "BRIGHTNESS:50";
+        }
+        if (normalized.equals("TEMP_UP") && device instanceof SmartThermostat thermostat) {
+            return "TEMPERATURE:" + (thermostat.getTargetTemperature() + 1.0);
+        }
+        if (normalized.equals("TEMP_DOWN") && device instanceof SmartThermostat thermostat) {
+            return "TEMPERATURE:" + (thermostat.getTargetTemperature() - 1.0);
+        }
+        return normalized;
     }
 
     public Map<String, Object> saveMemento(String sceneName) {
@@ -1289,5 +1315,327 @@ public class SmartHomeService {
     @Transactional(readOnly = true)
     public Map<String, Object> visitorAudit(String type) {
         return com.smarthome.pattern.behavioral.visitor.VisitorDemo.audit(type);
+    }
+
+    // ===== STATE PATTERN =====
+    private String currentPlayerState = "STOPPED";
+
+    public Map<String, Object> stateTransition(String action) {
+        String oldState = currentPlayerState;
+        String newState = switch (action.toUpperCase(Locale.ROOT)) {
+            case "PLAYPAUSE" -> currentPlayerState.equals("PLAYING") ? "PAUSED" : "PLAYING";
+            case "STOP" -> "STOPPED";
+            case "PLAY" -> "PLAYING";
+            case "PAUSE" -> "PAUSED";
+            default -> currentPlayerState;
+        };
+        currentPlayerState = newState;
+
+        Map<String, Object> response = Map.of(
+                "pattern", "State",
+                "action", action,
+                "oldState", oldState,
+                "newState", newState,
+                "timestamp", Instant.now().toString()
+        );
+        broadcastUpdate("state", response);
+        return response;
+    }
+
+    // ===== ITERATOR PATTERN =====
+    public Map<String, Object> iteratorIterate(String type, String filter) {
+        List<IteratorDemo.DeviceSeed> seeds = deviceRepository.findAll().stream()
+                .map(entity -> new IteratorDemo.DeviceSeed(
+                        ensureRuntimeDevice(entity),
+                        entity.getLocation() == null ? "Unknown" : entity.getLocation(),
+                        entity.getType() == null ? "UNKNOWN" : entity.getType().name()
+                ))
+                .toList();
+        return IteratorDemo.iterate(seeds, type, filter);
+    }
+
+    // ===== INTERPRETER PATTERN =====
+    public Map<String, Object> interpreterEvaluate(String rule) {
+        // Parse the rule and create a context with default values
+        Map<String, Object> variables = new LinkedHashMap<>();
+        variables.put("motion_detected", true);
+        variables.put("is_dark", true);
+        variables.put("door_open", false);
+        variables.put("temp_high", false);
+        variables.put("hour", java.time.LocalTime.now().getHour());
+
+        return InterpreterDemo.evaluate(rule, variables);
+    }
+
+    // ===== FLYWEIGHT PATTERN =====
+    public Map<String, Object> flyweightDemo(Integer count) {
+        int actualCount = count != null && count > 0 ? count : 100;
+        return FlyweightDemo.demo(actualCount);
+    }
+
+    public Map<String, Object> flyweightStats(Integer instances) {
+        int count = instances != null && instances > 0 ? instances : 10_000;
+        return FlyweightDemo.stats(count);
+    }
+
+    // ===== MEMENTO PATTERN =====
+    public Map<String, Object> mementoSave(String sceneName) {
+        // Create a scene snapshot using existing functionality
+        SceneView scene = createSceneSnapshot(sceneName, "Memento snapshot", false);
+        return Map.of(
+                "pattern", "Memento",
+                "action", "save",
+                "sceneName", sceneName,
+                "sceneId", scene.id(),
+                "deviceCount", scene.deviceCount(),
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    public Map<String, Object> mementoRestore(String snapshotId) {
+        try {
+            Long sceneId = Long.parseLong(snapshotId);
+            Map<String, Object> result = applySceneSnapshot(sceneId);
+            return Map.of(
+                    "pattern", "Memento",
+                    "action", "restore",
+                    "snapshotId", snapshotId,
+                    "result", result,
+                    "timestamp", Instant.now().toString()
+            );
+        } catch (NumberFormatException e) {
+            // Try by name
+            return restoreMemento(snapshotId);
+        }
+    }
+
+    // ===== BRIDGE PATTERN =====
+    public Map<String, Object> bridgeControl(String remote, String device, String action) {
+        String deviceType = device == null ? "TV" : device.trim().toUpperCase(Locale.ROOT);
+        String remoteType = remote == null ? "BASIC" : remote.trim().toUpperCase(Locale.ROOT);
+        String act = action == null ? "ON" : action.trim().toUpperCase(Locale.ROOT);
+
+        com.smarthome.pattern.structural.bridge.DeviceImplementor bridgeDevice = switch (deviceType) {
+            case "LIGHT" -> new com.smarthome.pattern.structural.bridge.LightDevice();
+            case "THERMOSTAT", "HVAC" -> new com.smarthome.pattern.structural.bridge.ThermostatDevice();
+            case "RADIO" -> new RadioDevice();
+            case "TV" -> new TVDevice();
+            default -> new TVDevice();
+        };
+
+        com.smarthome.pattern.structural.bridge.RemoteControl remoteControl = switch (remoteType) {
+            case "ADVANCED", "PRO" -> new AdvancedRemote(bridgeDevice);
+            default -> new BasicRemote(bridgeDevice);
+        };
+
+        switch (act) {
+            case "OFF" -> bridgeDevice.disable();
+            case "DIM", "COOL" -> remoteControl.volumeDown();
+            case "BRIGHT", "HEAT" -> remoteControl.volumeUp();
+            case "ON" -> bridgeDevice.enable();
+            default -> remoteControl.togglePower();
+        }
+
+        return Map.of(
+                "pattern", "Bridge",
+                "remote", remoteType,
+                "device", deviceType,
+                "action", act,
+                "remoteType", remoteControl.getRemoteType(),
+                "status", remoteControl.getStatus(),
+                "deviceEnabled", bridgeDevice.isEnabled(),
+                "volume", bridgeDevice.getVolume(),
+                "channel", bridgeDevice.getChannel(),
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    public Map<String, Object> bridgeControl(String device, String platform) {
+        String deviceType = device.toUpperCase(Locale.ROOT);
+        String platformType = platform == null ? "BASIC" : platform.toUpperCase(Locale.ROOT);
+
+        com.smarthome.pattern.structural.bridge.DeviceImplementor bridgeDevice = switch (deviceType) {
+            case "TV" -> new TVDevice();
+            case "RADIO" -> new RadioDevice();
+            default -> new TVDevice();
+        };
+
+        com.smarthome.pattern.structural.bridge.RemoteControl remote = switch (platformType) {
+            case "ADVANCED", "IOS" -> new AdvancedRemote(bridgeDevice);
+            default -> new BasicRemote(bridgeDevice);
+        };
+
+        remote.togglePower();
+        remote.volumeUp();
+
+        return Map.of(
+                "pattern", "Bridge",
+                "device", deviceType,
+                "platform", platformType,
+                "remoteType", remote.getRemoteType(),
+                "deviceStatus", bridgeDevice.isEnabled() ? "ON" : "OFF",
+                "volume", bridgeDevice.getVolume(),
+                "status", remote.getStatus(),
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    // ===== COMPOSITE PATTERN =====
+    @Transactional
+    public Map<String, Object> compositeControl(String target, String action) {
+        String normalizedTarget = requireText(target, "target is required").trim();
+        String normalizedAction = action == null ? "toggle" : action.trim().toLowerCase(Locale.ROOT);
+
+        List<DeviceEntity> devices;
+        if ("house".equalsIgnoreCase(normalizedTarget)) {
+            devices = deviceRepository.findAll();
+        } else if (normalizedTarget.toLowerCase(Locale.ROOT).startsWith("floor-")) {
+            String floor = normalizedTarget.substring("floor-".length()).trim();
+            List<RoomEntity> rooms = roomRepository.findAll().stream()
+                    .filter(r -> r.getFloor() != null && r.getFloor().trim().equalsIgnoreCase(floor))
+                    .toList();
+            devices = rooms.stream()
+                    .flatMap(r -> (r.getDevices() == null ? List.<DeviceEntity>of() : r.getDevices()).stream())
+                    .distinct()
+                    .toList();
+        } else {
+            // Try by room/location (e.g. living-room -> Living Room)
+            String roomName = toTitleCase(normalizedTarget.replace('-', ' '));
+            devices = deviceRepository.findByLocationIgnoreCase(roomName);
+            if (devices.isEmpty()) {
+                // Try by device id prefix (e.g. living-light -> living-light-*)
+                String prefix = normalizedTarget.toLowerCase(Locale.ROOT);
+                devices = deviceRepository.findAll().stream()
+                        .filter(d -> d.getId() != null && d.getId().toLowerCase(Locale.ROOT).startsWith(prefix))
+                        .toList();
+            }
+        }
+
+        if (devices.isEmpty()) {
+            return Map.of(
+                    "pattern", "Composite",
+                    "target", normalizedTarget,
+                    "action", normalizedAction,
+                    "affectedDevices", 0,
+                    "message", "No matching devices found"
+            );
+        }
+
+        boolean turnOn = switch (normalizedAction) {
+            case "on", "true" -> true;
+            case "off", "false" -> false;
+            case "toggle" -> false; // computed per-device below
+            default -> true;
+        };
+
+        for (DeviceEntity device : devices) {
+            boolean next = normalizedAction.equals("toggle") ? !device.isOn() : turnOn;
+            device.setOn(next);
+            Device runtime = ensureRuntimeDevice(device);
+            if (next) {
+                runtime.turnOn();
+            } else {
+                runtime.turnOff();
+            }
+        }
+        deviceRepository.saveAll(devices);
+
+        List<DeviceView> views = devices.stream().map(this::toView).toList();
+        views.forEach(v -> broadcastUpdate("device", v));
+
+        return Map.of(
+                "pattern", "Composite",
+                "target", normalizedTarget,
+                "action", normalizedAction,
+                "affectedDevices", views.size(),
+                "devices", views,
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    public Map<String, Object> compositeAction(String group, String action) {
+        boolean turnOn = action == null || action.equalsIgnoreCase("on") || action.equalsIgnoreCase("true");
+        List<DeviceView> affected = controlRoom(group, turnOn);
+
+        return Map.of(
+                "pattern", "Composite",
+                "group", group,
+                "action", turnOn ? "ON" : "OFF",
+                "affectedDevices", affected.size(),
+                "devices", affected,
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    private static String toTitleCase(String value) {
+        String raw = value == null ? "" : value.trim();
+        if (raw.isBlank()) {
+            return raw;
+        }
+        String[] parts = raw.toLowerCase(Locale.ROOT).split("\\s+");
+        StringBuilder out = new StringBuilder();
+        for (String part : parts) {
+            if (part.isBlank()) {
+                continue;
+            }
+            if (out.length() > 0) {
+                out.append(' ');
+            }
+            out.append(Character.toUpperCase(part.charAt(0)));
+            if (part.length() > 1) {
+                out.append(part.substring(1));
+            }
+        }
+        return out.toString();
+    }
+
+    // ===== PROTOTYPE PATTERN =====
+    public Map<String, Object> prototypeClone(String template) {
+        ConfigurationPrototypeRegistry registry = new ConfigurationPrototypeRegistry();
+
+        // Register some default templates
+        DeviceConfiguration ambientLight = new DeviceConfiguration("ambient-light");
+        ambientLight.setProperty("brightness", 70);
+        ambientLight.setProperty("colorTemp", 2700);
+        ambientLight.setProperty("schedule", "sunset");
+        registry.registerPrototype("ambient-light", ambientLight);
+
+        DeviceConfiguration securityCam = new DeviceConfiguration("security-camera");
+        securityCam.setProperty("resolution", "4K");
+        securityCam.setProperty("nightVision", true);
+        securityCam.setProperty("motionAlerts", true);
+        registry.registerPrototype("security-camera", securityCam);
+
+        DeviceConfiguration ecoThermo = new DeviceConfiguration("eco-thermostat");
+        ecoThermo.setProperty("mode", "eco");
+        ecoThermo.setProperty("dayTemp", 21);
+        ecoThermo.setProperty("nightTemp", 18);
+        registry.registerPrototype("eco-thermostat", ecoThermo);
+
+        // Clone the requested template
+        String templateKey = template != null ? template.toLowerCase(Locale.ROOT) : "ambient-light";
+        DeviceConfiguration cloned = registry.getClone(templateKey);
+
+        if (cloned == null) {
+            return Map.of(
+                    "pattern", "Prototype",
+                    "error", "Template not found: " + templateKey,
+                    "availableTemplates", List.of("ambient-light", "security-camera", "eco-thermostat")
+            );
+        }
+
+        // Give the clone a unique ID
+        String cloneId = templateKey + "-clone-" + UUID.randomUUID().toString().substring(0, 8);
+        cloned.setProperty("cloneId", cloneId);
+        cloned.setProperty("clonedAt", Instant.now().toString());
+
+        return Map.of(
+                "pattern", "Prototype",
+                "action", "clone",
+                "sourceTemplate", templateKey,
+                "cloneId", cloneId,
+                "properties", cloned.getAllProperties(),
+                "timestamp", Instant.now().toString()
+        );
     }
 }

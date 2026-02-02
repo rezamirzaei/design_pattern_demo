@@ -14,35 +14,35 @@
     <div class="pattern-demo">
         <h4>🎮 Time Machine</h4>
 
-        <div class="current-state" style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 25px;">
-            <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">Current Configuration (Originator)</h5>
-            <div class="state-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
-                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
-                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">💡</span>
-                    <select class="form-input" id="state-lights" style="width: 100%; text-align: center; padding: 5px;">
+        <div class="current-state" style="padding: 25px; background: var(--darker); border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <h5 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">Current Configuration (Originator)</h5>
+            <div class="state-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                <div class="state-device" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--glass-border);">
+                    <span class="sd-icon" style="font-size: 2.5em; display: block; margin-bottom: 15px;">💡</span>
+                    <select class="form-input" id="state-lights" style="width: 100%; text-align: center; padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text);">
                         <option value="ON">ON (100%)</option>
                         <option value="DIM">DIM (30%)</option>
                         <option value="OFF">OFF</option>
                     </select>
                 </div>
-                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
-                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🌡️</span>
-                    <select class="form-input" id="state-thermo" style="width: 100%; text-align: center; padding: 5px;">
+                <div class="state-device" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--glass-border);">
+                    <span class="sd-icon" style="font-size: 2.5em; display: block; margin-bottom: 15px;">🌡️</span>
+                    <select class="form-input" id="state-thermo" style="width: 100%; text-align: center; padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text);">
                         <option value="22">22°C (Comfort)</option>
                         <option value="20">20°C (Eco)</option>
                         <option value="18">18°C (Sleep)</option>
                     </select>
                 </div>
-                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
-                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🔒</span>
-                    <select class="form-input" id="state-locks" style="width: 100%; text-align: center; padding: 5px;">
+                <div class="state-device" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--glass-border);">
+                    <span class="sd-icon" style="font-size: 2.5em; display: block; margin-bottom: 15px;">🔒</span>
+                    <select class="form-input" id="state-locks" style="width: 100%; text-align: center; padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text);">
                         <option value="LOCKED">LOCKED</option>
                         <option value="UNLOCKED">UNLOCKED</option>
                     </select>
                 </div>
-                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
-                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🚨</span>
-                    <select class="form-input" id="state-alarm" style="width: 100%; text-align: center; padding: 5px;">
+                <div class="state-device" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--glass-border);">
+                    <span class="sd-icon" style="font-size: 2.5em; display: block; margin-bottom: 15px;">🚨</span>
+                    <select class="form-input" id="state-alarm" style="width: 100%; text-align: center; padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text);">
                         <option value="OFF">Disarmed</option>
                         <option value="HOME">Home Mode</option>
                         <option value="AWAY">Away Mode</option>
@@ -51,31 +51,31 @@
             </div>
         </div>
 
-        <div class="snapshot-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
-            <input type="text" id="snapshot-name" class="form-input" placeholder="Snapshot Name (e.g. Party Prep)" style="flex: 1;">
-            <button class="btn-primary" onclick="Memento.save()" style="padding: 0 25px;">📸 Capture State</button>
+        <div class="snapshot-actions" style="display: flex; gap: 15px; margin-bottom: 25px;">
+            <input type="text" id="snapshot-name" class="form-input" placeholder="Snapshot Name (e.g. Party Prep)" style="flex: 1; padding: 12px 20px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: white;">
+            <button class="btn-primary" onclick="Memento.save()" style="padding: 0 30px; font-weight: 600; border-radius: 10px;">📸 Capture State</button>
         </div>
 
-        <div class="snapshots-list" style="background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">💾 Saved Checkpoints (Caretaker)</h5>
-            <div class="snapshots" id="snapshots-list" style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="snapshots-list" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">💾 Saved Checkpoints (Caretaker)</h5>
+            <div class="snapshots" id="snapshots-list" style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Default Presets -->
-                <div class="snapshot-item" onclick="Memento.restore('morning')" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
-                    <span class="si-icon" style="font-size: 1.5em;">🌅</span>
+                <div class="snapshot-item" onclick="Memento.restore('Morning Default')" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; transition: all 0.2s;">
+                    <span class="si-icon" style="font-size: 2em; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">🌅</span>
                     <div style="flex: 1;">
-                        <span class="si-name" style="font-weight: 600; display: block;">Morning Default</span>
-                        <span class="si-desc" style="font-size: 0.8em; color: var(--text-muted);">22°C, Unlocked, Lights ON</span>
+                        <span class="si-name" style="font-weight: 600; display: block; font-size: 1.1em; color: var(--text); margin-bottom: 4px;">Morning Default</span>
+                        <span class="si-desc" style="font-size: 0.85em; color: var(--text-muted);">22°C, Unlocked, Lights ON</span>
                     </div>
-                    <button class="action-btn" style="padding: 5px 12px; font-size: 0.8em;">⏪ RESTORE</button>
+                    <button class="action-btn" style="padding: 8px 16px; font-size: 0.85em; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); border-radius: 20px;">⏪ RESTORE</button>
                 </div>
 
-                <div class="snapshot-item" onclick="Memento.restore('night')" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
-                    <span class="si-icon" style="font-size: 1.5em;">🌙</span>
+                <div class="snapshot-item" onclick="Memento.restore('Night Default')" style="display: flex; align-items: center; gap: 20px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; transition: all 0.2s;">
+                    <span class="si-icon" style="font-size: 2em; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">🌙</span>
                     <div style="flex: 1;">
-                        <span class="si-name" style="font-weight: 600; display: block;">Night Default</span>
-                        <span class="si-desc" style="font-size: 0.8em; color: var(--text-muted);">18°C, Locked, Lights OFF</span>
+                        <span class="si-name" style="font-weight: 600; display: block; font-size: 1.1em; color: var(--text); margin-bottom: 4px;">Night Default</span>
+                        <span class="si-desc" style="font-size: 0.85em; color: var(--text-muted);">18°C, Locked, Lights OFF</span>
                     </div>
-                    <button class="action-btn" style="padding: 5px 12px; font-size: 0.8em;">⏪ RESTORE</button>
+                    <button class="action-btn" style="padding: 8px 16px; font-size: 0.85em; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); border-radius: 20px;">⏪ RESTORE</button>
                 </div>
             </div>
         </div>
@@ -105,7 +105,8 @@ var Memento = {
             alarm: document.getElementById('state-alarm').value
         };
 
-        this.snapshots.push({name: name, state: state, time: new Date()});
+        var snapshot = {name: name, state: state, time: new Date(), sceneId: null};
+        this.snapshots.push(snapshot);
         this.updateList();
         nameInput.value = '';
 
@@ -116,22 +117,36 @@ var Memento = {
 
         PatternDemo.toast('Snapshot Saved', 'success');
 
-        fetch('/api/patterns/memento/save?sceneName=' + encodeURIComponent(name), {method:'POST'});
+        fetch('/api/patterns/memento/save?name=' + encodeURIComponent(name), {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data && data.sceneId) {
+                    snapshot.sceneId = data.sceneId;
+                }
+            })
+            .catch(function() {
+                // Keep UI snapshot even if backend call fails
+            });
     },
 
     restore: function(preset) {
         var state;
+        var sceneId = null;
+        var sceneName = null;
 
         // Check if custom or preset
         if(typeof preset === 'string') {
             var presets = {
-                morning: {lights:'ON',thermo:'22',locks:'UNLOCKED',alarm:'OFF'},
-                night: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'HOME'},
-                away: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'AWAY'}
+                'Morning Default': {lights:'ON',thermo:'22',locks:'UNLOCKED',alarm:'OFF'},
+                'Night Default': {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'HOME'},
+                'Away Default': {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'AWAY'}
             };
             state = presets[preset];
+            sceneName = preset;
         } else {
-            state = preset; // Custom object passed directly
+            state = preset?.state; // Custom snapshot object passed directly
+            sceneId = preset?.sceneId || null;
+            sceneName = preset?.name || null;
         }
 
         if (!state) return;
@@ -155,8 +170,10 @@ var Memento = {
 
         PatternDemo.toast('State Restored', 'info');
 
-        if(typeof preset === 'string') {
-            fetch('/api/patterns/memento/restore?sceneName=' + preset, {method:'POST'});
+        if (sceneId) {
+            fetch('/api/patterns/memento/restore?snapshotId=' + encodeURIComponent(sceneId), {method:'POST'});
+        } else if (sceneName) {
+            fetch('/api/patterns/memento/restore?sceneName=' + encodeURIComponent(sceneName), {method:'POST'});
         }
     },
 
@@ -168,7 +185,7 @@ var Memento = {
         this.snapshots.forEach((s, i) => {
             var el = document.createElement('div');
             el.className = 'snapshot-item custom-snap';
-            el.onclick = function() { Memento.restore(s.state) };
+            el.onclick = function() { Memento.restore(s) };
             el.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); border-radius: 10px; cursor: pointer; transition: all 0.3s; animation: slideIn 0.3s;';
 
             el.innerHTML =

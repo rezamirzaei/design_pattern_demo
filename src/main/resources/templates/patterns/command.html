@@ -15,30 +15,31 @@
 
         <div class="command-workspace" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
             <!-- Device Panel -->
-            <div class="control-panel" style="flex: 1; min-width: 300px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
+            <div class="control-panel" style="flex: 1; min-width: 300px; padding: 25px; background: var(--darker); border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div style="font-size: 0.9em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; font-weight: 700;">Device Controls</div>
 
                 <!-- Light Control -->
-                <div class="control-device" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed var(--glass-border);">
-                    <h5 style="color: var(--warning); margin-bottom: 15px; display: flex; justify-content: space-between;">
-                        <span>💡 Smart Bulb</span>
-                        <span class="light-status" id="cmd-light-status" style="font-size: 0.8em; padding: 2px 8px; border-radius: 4px; background: var(--glass-bg); opacity: 0.8;">OFF</span>
+                <div class="control-device" style="margin-bottom: 25px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <h5 style="color: var(--warning); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 1.1em; display: flex; align-items: center; gap: 8px;">💡 Smart Bulb</span>
+                        <span class="light-status" id="cmd-light-status" style="font-size: 0.8em; padding: 4px 10px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);">OFF</span>
                     </h5>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="ctrl-btn on" onclick="Command.execute('living-light-1', 'ON')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--success); color: var(--success); border-radius: 8px; cursor: pointer;">ON</button>
-                        <button class="ctrl-btn off" onclick="Command.execute('living-light-1', 'OFF')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--danger); color: var(--danger); border-radius: 8px; cursor: pointer;">OFF</button>
-                        <button class="ctrl-btn dim" onclick="Command.execute('living-light-1', 'DIM')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--warning); color: var(--warning); border-radius: 8px; cursor: pointer;">DIM</button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <button class="ctrl-btn on" onclick="Command.execute('living-light-1', 'ON')" style="padding: 12px; background: rgba(76, 175, 80, 0.15); border: 1px solid var(--success); color: var(--success); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">ON</button>
+                        <button class="ctrl-btn off" onclick="Command.execute('living-light-1', 'OFF')" style="padding: 12px; background: rgba(220, 53, 69, 0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">OFF</button>
+                        <button class="ctrl-btn dim" onclick="Command.execute('living-light-1', 'DIM')" style="padding: 12px; background: rgba(255, 193, 7, 0.15); border: 1px solid var(--warning); color: var(--warning); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">DIM</button>
                     </div>
                 </div>
 
                 <!-- Thermo Control -->
-                <div class="control-device">
-                    <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; justify-content: space-between;">
-                        <span>🌡️ Thermostat</span>
-                        <span class="temp-display" id="cmd-temp-visual" style="font-size: 0.8em; padding: 2px 8px; border-radius: 4px; background: var(--glass-bg); opacity: 0.8;">22°C</span>
+                <div class="control-device" style="padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 1.1em; display: flex; align-items: center; gap: 8px;">🌡️ Thermostat</span>
+                        <span class="temp-display" id="cmd-temp-visual" style="font-size: 0.8em; padding: 4px 10px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);">22°C</span>
                     </h5>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="ctrl-btn up" onclick="Command.execute('thermostat', 'TEMP_UP')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--primary); color: var(--primary); border-radius: 8px; cursor: pointer;">🔼 +1°C</button>
-                        <button class="ctrl-btn down" onclick="Command.execute('thermostat', 'TEMP_DOWN')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; cursor: pointer;">🔽 -1°C</button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="ctrl-btn up" onclick="Command.execute('bed-thermo', 'TEMP_UP')" style="padding: 12px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); color: var(--primary); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">🔼 +1°C</button>
+                        <button class="ctrl-btn down" onclick="Command.execute('bed-thermo', 'TEMP_DOWN')" style="padding: 12px; background: rgba(233, 69, 96, 0.15); border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">🔽 -1°C</button>
                     </div>
                 </div>
             </div>
@@ -46,22 +47,24 @@
             <!-- History Panel -->
             <div class="history-panel" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
                 <div class="history-controls" style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button class="history-btn undo" onclick="Command.undo()" style="flex: 1; padding: 12px; background: var(--glass-bg); border: 1px solid var(--text-muted); border-radius: 10px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <button class="history-btn undo" onclick="Command.undo()" style="flex: 1; padding: 12px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s;">
                         <span>↩️</span> Undo
                     </button>
-                    <div class="history-indicator" style="display: flex; align-items: center; justify-content: center; padding: 0 15px; background: rgba(0,0,0,0.3); border-radius: 10px; font-family: monospace;">
+                    <div class="history-indicator" style="display: flex; align-items: center; justify-content: center; padding: 0 15px; background: rgba(0,0,0,0.3); border-radius: 12px; font-family: 'Consolas', monospace; border: 1px solid var(--glass-border); color: var(--primary);">
                         <span id="history-position">0</span> / <span id="history-total">0</span>
                     </div>
-                    <button class="history-btn redo" onclick="Command.redo()" style="flex: 1; padding: 12px; background: var(--glass-bg); border: 1px solid var(--text-muted); border-radius: 10px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <button class="history-btn redo" onclick="Command.redo()" style="flex: 1; padding: 12px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s;">
                         Redo <span>↪️</span>
                     </button>
                 </div>
 
-                <div class="command-history" style="flex: 1; background: var(--darker); border-radius: 12px; padding: 15px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border);">
-                    <h5 style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.85em;">📜 ACTION LOG</h5>
-                    <div class="history-list" id="command-history-list" style="display: flex; flex-direction: column; gap: 5px;">
-                        <div class="history-empty" style="text-align: center; color: var(--text-muted); font-style: italic; padding: 20px;">
-                            Command buffer empty...
+                <div class="command-history" style="flex: 1; background: var(--darker); border-radius: 16px; padding: 20px; max-height: 300px; overflow-y: auto; border: 1px solid var(--glass-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.3);">
+                    <h5 style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px;">
+                        <span>📜</span> Action Log
+                    </h5>
+                    <div class="history-list" id="command-history-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="history-empty" style="text-align: center; color: var(--text-muted); font-style: italic; padding: 30px; opacity: 0.5;">
+                            Command buffer is empty.<br>Interact with devices to create history.
                         </div>
                     </div>
                 </div>
@@ -69,15 +72,20 @@
         </div>
 
         <!-- Macro Section -->
-        <div class="macro-section" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border-radius: 15px; border: 1px solid var(--glass-border);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h5 style="color: var(--secondary); margin: 0;">🎬 Macro Recorder</h5>
-                <span id="macro-badge" style="display: none; color: #ff0000; font-weight: bold; animation: blink 1s infinite;">● REC</span>
+        <div class="macro-section" style="padding: 25px; background: linear-gradient(135deg, rgba(0, 210, 255, 0.05), rgba(0,0,0,0)); border-radius: 16px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="width: 50px; height: 50px; background: rgba(0, 210, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; border: 1px solid var(--primary);">🎬</div>
+                <div>
+                    <h5 style="color: var(--text); margin: 0; font-size: 1.1em;">Macro Recorder</h5>
+                    <div style="font-size: 0.85em; color: var(--text-muted);">Record a sequence of commands and replay them</div>
+                </div>
             </div>
-            <div class="macro-controls" style="display: flex; gap: 10px;">
-                <button class="macro-btn" id="macro-record-btn" onclick="Command.toggleRecording()" style="padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--danger); color: var(--text); border-radius: 20px; cursor: pointer;">
-                    ⏺️ Record
-                </button>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                 <span id="macro-badge" style="display: none; color: var(--danger); font-weight: bold; animation: blink 1.5s infinite; font-size: 0.9em; letter-spacing: 1px;">● RECORDING</span>
+                <div class="macro-controls" style="display: flex; gap: 10px;">
+                    <button class="macro-btn" id="macro-record-btn" onclick="Command.toggleRecording()" style="padding: 10px 20px; background: var(--darker); border: 1px solid var(--danger); color: var(--danger); border-radius: 30px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        <span>⏺</span> Record
+                    </button>
                 <button class="macro-btn" id="macro-play-btn" onclick="Command.playMacro()" disabled style="padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--success); color: var(--text-muted); border-radius: 20px; cursor: not-allowed; opacity: 0.5;">
                     ▶️ Play
                 </button>
@@ -133,7 +141,17 @@ var Command = {
             if(!self.replaying) PatternDemo.toast('Command: ' + command, 'success');
 
             // Real API would be fetched here
-            fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' });
+            fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' })
+                .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; }); })
+                .then(function(res) {
+                    if (!res.ok) {
+                        throw new Error((res.data && (res.data.message || res.data.error)) || ('HTTP ' + res.status));
+                    }
+                })
+                .catch(function(err) {
+                    PatternDemo.toast('Backend command failed', 'error');
+                    PatternDemo.showResult('command-result', '❌ Backend rejected command\n' + err);
+                });
         }, 100);
     },
 
@@ -198,7 +216,7 @@ var Command = {
                 header.style.textShadow = '0 0 5px var(--warning)';
             }
         }
-        if (device === 'thermostat') {
+        if (device === 'bed-thermo') {
             var temp = document.getElementById('cmd-temp-visual');
             if (command === 'TEMP_UP') this.temp++;
             if (command === 'TEMP_DOWN') this.temp--;
@@ -211,7 +229,7 @@ var Command = {
             if (command === 'OFF') this.updateVisuals(device, 'ON'); // Undo OFF -> Turn ON
             if (command === 'DIM') this.updateVisuals(device, 'ON'); // Approximating undo dim
         }
-        if (device === 'thermostat') {
+        if (device === 'bed-thermo') {
             if (command === 'TEMP_UP') { this.temp--; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
             if (command === 'TEMP_DOWN') { this.temp++; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
         }
@@ -273,3 +291,4 @@ var Command = {
     }
 };
 </script>
+</div>

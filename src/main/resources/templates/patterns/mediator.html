@@ -13,73 +13,75 @@
     <div class="pattern-demo">
         <h4>🎮 Smart Hub Simulation</h4>
 
-        <div class="hub-visualization" style="position: relative; height: 400px; margin-bottom: 30px; background: radial-gradient(circle at center, rgba(0,210,255,0.05) 0%, transparent 70%); border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border);">
+        <div class="hub-visualization" style="position: relative; height: 450px; margin-bottom: 30px; background: radial-gradient(circle at center, rgba(0, 210, 255, 0.03) 0%, transparent 70%); border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: inset 0 0 50px rgba(0,0,0,0.5);">
             <div class="devices-ring" style="width: 100%; height: 100%;">
-                <div class="device-node" id="node-motion" style="top: 15%; left: 50%; transform: translateX(-50%);"><span>🚶</span>Motion</div>
-                <div class="device-node" id="node-door" style="top: 35%; right: 10%;"><span>🚪</span>Door</div>
-                <div class="device-node" id="node-light" style="bottom: 20%; right: 20%;"><span>💡</span>Light</div>
-                <div class="device-node" id="node-camera" style="bottom: 10%; left: 50%; transform: translateX(-50%);"><span>📷</span>Camera</div>
-                <div class="device-node" id="node-alarm" style="bottom: 20%; left: 20%;"><span>🚨</span>Alarm</div>
-                <div class="device-node" id="node-thermo" style="top: 35%; left: 10%;"><span>🌡️</span>Thermo</div>
+                <div class="device-node" id="node-motion" style="top: 15%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>🚶</span> Motion</div>
+                <div class="device-node" id="node-door" style="top: 35%; right: 10%; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>🚪</span> Door</div>
+                <div class="device-node" id="node-light" style="bottom: 20%; right: 20%; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>💡</span> Light</div>
+                <div class="device-node" id="node-camera" style="bottom: 10%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>📷</span> Camera</div>
+                <div class="device-node" id="node-alarm" style="bottom: 20%; left: 20%; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>🚨</span> Alarm</div>
+                <div class="device-node" id="node-thermo" style="top: 35%; left: 10%; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 20px; border: 1px solid var(--glass-border);"><span>🌡️</span> Thermo</div>
             </div>
 
-            <div class="hub-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 30px; background: var(--darker); border: 2px solid var(--primary); border-radius: 50%; z-index: 10; box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);">
-                <div class="hub-icon" style="font-size: 3em;">🎛️</div>
-                <div class="hub-label" style="font-weight: 700; color: var(--primary); margin-top: 5px;">HUB</div>
+            <div class="hub-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 35px; background: var(--darker); border: 2px solid var(--primary); border-radius: 50%; z-index: 10; box-shadow: 0 0 40px rgba(0, 210, 255, 0.3);">
+                <div class="hub-icon" style="font-size: 3.5em;">🎛️</div>
+                <div class="hub-label" style="font-weight: 800; color: var(--primary); margin-top: 5px; font-size: 0.8em; letter-spacing: 2px;">HUB</div>
             </div>
 
             <!-- Connection lines (SVG overlay) -->
-            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
-                <line x1="50%" y1="50%" x2="50%" y2="22%" stroke="var(--primary)" stroke-width="2" />
-                <line x1="50%" y1="50%" x2="50%" y2="78%" stroke="var(--primary)" stroke-width="2" />
-                <line x1="50%" y1="50%" x2="80%" y2="35%" stroke="var(--primary)" stroke-width="2" />
-                <line x1="50%" y1="50%" x2="20%" y2="35%" stroke="var(--primary)" stroke-width="2" />
-                <line x1="50%" y1="50%" x2="70%" y2="70%" stroke="var(--primary)" stroke-width="2" />
-                <line x1="50%" y1="50%" x2="30%" y2="70%" stroke="var(--primary)" stroke-width="2" />
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.2;">
+                <line x1="50%" y1="50%" x2="50%" y2="22%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
+                <line x1="50%" y1="50%" x2="50%" y2="78%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
+                <line x1="50%" y1="50%" x2="80%" y2="35%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
+                <line x1="50%" y1="50%" x2="20%" y2="35%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
+                <line x1="50%" y1="50%" x2="70%" y2="70%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
+                <line x1="50%" y1="50%" x2="30%" y2="70%" stroke="var(--primary)" stroke-width="1" stroke-dasharray="5,5" />
             </svg>
         </div>
 
-        <div class="event-triggers" style="margin-bottom: 25px;">
-            <h5 style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">⚡ Trigger Event (Colleague -> Mediator)</h5>
+        <div class="event-triggers" style="margin-bottom: 30px;">
+            <h5 style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; text-align: center;">⚡ Trigger Event (Colleague ➝ Mediator)</h5>
             <div class="trigger-btns" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                <button class="trigger-btn" onclick="Mediator.trigger('motion','MOTION_DETECTED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
-                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🚶</span>
+                <button class="trigger-btn" onclick="Mediator.trigger('motion','MOTION_DETECTED')" style="display: flex; gap: 15px; align-items: center; padding: 18px; background: rgba(0, 210, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                    <span class="tb-icon" style="font-size: 1.8em; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🚶</span>
                     <div>
-                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Motion Detected</span>
-                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Lights ON, Record</span>
+                        <span class="tb-event" style="display: block; font-weight: 700; color: var(--text); font-size: 0.95em;">Motion Detected</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted); margin-top: 3px;">➔ Lights ON, Record</span>
                     </div>
                 </button>
 
-                <button class="trigger-btn" onclick="Mediator.trigger('door','DOOR_OPENED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
-                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🚪</span>
+                <button class="trigger-btn" onclick="Mediator.trigger('door','DOOR_OPENED')" style="display: flex; gap: 15px; align-items: center; padding: 18px; background: rgba(0, 210, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                    <span class="tb-icon" style="font-size: 1.8em; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🚪</span>
                     <div>
-                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Door Opened</span>
-                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Check Alarm, Notify</span>
+                        <span class="tb-event" style="display: block; font-weight: 700; color: var(--text); font-size: 0.95em;">Door Opened</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted); margin-top: 3px;">➔ Check Alarm, Notify</span>
                     </div>
                 </button>
 
-                <button class="trigger-btn" onclick="Mediator.trigger('smoke','SMOKE_DETECTED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
-                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🔥</span>
+                <button class="trigger-btn" onclick="Mediator.trigger('smoke','SMOKE_DETECTED')" style="display: flex; gap: 15px; align-items: center; padding: 18px; background: rgba(220, 53, 69, 0.05); border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                    <span class="tb-icon" style="font-size: 1.8em; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🔥</span>
                     <div>
-                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Smoke Detected</span>
-                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Alarm, Unlock, Call</span>
+                        <span class="tb-event" style="display: block; font-weight: 700; color: var(--text); font-size: 0.95em;">Smoke Detected</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted); margin-top: 3px;">➔ Alarm, Unlock, Call</span>
                     </div>
                 </button>
 
-                <button class="trigger-btn" onclick="Mediator.trigger('temp','TEMP_HIGH')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
-                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🌡️</span>
+                <button class="trigger-btn" onclick="Mediator.trigger('temp','TEMP_HIGH')" style="display: flex; gap: 15px; align-items: center; padding: 18px; background: rgba(255, 193, 7, 0.05); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                    <span class="tb-icon" style="font-size: 1.8em; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🌡️</span>
                     <div>
-                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Temp High</span>
-                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">AC Cooling, Notify</span>
+                        <span class="tb-event" style="display: block; font-weight: 700; color: var(--text); font-size: 0.95em;">Temp High</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted); margin-top: 3px;">➔ AC Cooling, Notify</span>
                     </div>
                 </button>
             </div>
         </div>
 
-        <div class="coordination-log" style="padding: 20px; background: var(--darker); border-radius: 12px; max-height: 200px; overflow-y: auto; border: 1px solid var(--glass-border);">
-            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em;">📋 Logic Trace</h5>
+        <div class="coordination-log" style="padding: 25px; background: var(--darker); border-radius: 16px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.3);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                <span>📋</span> Logic Trace
+            </h5>
             <div class="log-content" id="mediator-log" style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="log-placeholder" style="text-align: center; padding: 20px; color: var(--text-muted); font-style: italic;">System Idle. Waiting for events...</div>
+                <div class="log-placeholder" style="text-align: center; padding: 30px; color: var(--text-muted); font-style: italic; opacity: 0.5;">System Idle. Waiting for events...</div>
             </div>
         </div>
 
