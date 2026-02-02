@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
+<div class="pattern-card" id="singleton-pattern">
+    <div class="pattern-header">
+        <div class="pattern-icon">🏠</div>
+        <div class="pattern-info">
+            <h3>Home Mode Controller</h3>
+            <span class="pattern-badge creational">Singleton Pattern</span>
+        </div>
+    </div>
+
+    <p class="pattern-desc">
+        Only <strong>ONE</strong> HomeController instance manages your entire smart home.
+        When you change the mode, all devices respond through this single coordinator.
+    </p>
+
+    <div class="pattern-demo">
+        <h4>🎮 Select Home Mode</h4>
+        <div class="mode-selector">
+            <button class="mode-btn" id="mode-normal" onclick="Singleton.setMode('NORMAL')">
+                <span class="mode-icon">🏡</span>
+                <span class="mode-name">Normal</span>
+                <span class="mode-desc">Regular daily operation</span>
+            </button>
+            <button class="mode-btn" id="mode-away" onclick="Singleton.setMode('AWAY')">
+                <span class="mode-icon">🚗</span>
+                <span class="mode-name">Away</span>
+                <span class="mode-desc">Security active, energy saving</span>
+            </button>
+            <button class="mode-btn" id="mode-night" onclick="Singleton.setMode('NIGHT')">
+                <span class="mode-icon">🌙</span>
+                <span class="mode-name">Night</span>
+                <span class="mode-desc">Dimmed lights, quiet mode</span>
+            </button>
+            <button class="mode-btn" id="mode-vacation" onclick="Singleton.setMode('VACATION')">
+                <span class="mode-icon">🏖️</span>
+                <span class="mode-name">Vacation</span>
+                <span class="mode-desc">Simulate presence, max security</span>
+            </button>
+        </div>
+
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Current Mode</span>
+                <span class="status-value" id="singleton-current-mode">NORMAL</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Active Devices</span>
+                <span class="status-value" id="singleton-active-devices">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">System Status</span>
+                <span class="status-value" id="singleton-system-status">Online</span>
+            </div>
+        </div>
+
+        <div class="pattern-explanation">
+            <h5>💡 How Singleton Works Here:</h5>
+            <ul>
+                <li>There's exactly ONE HomeController instance for the entire application</li>
+                <li>All mode changes go through this single instance</li>
+                <li>Ensures consistent state across all devices</li>
+                <li>Prevents conflicting commands from multiple controllers</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="result-area" id="singleton-result"></div>
+</div>
+
+<script>
+var Singleton = {
+    setMode: function(mode) {
+        document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.getElementById('mode-' + mode.toLowerCase()).classList.add('active');
+
+        fetch('/api/mode/' + mode, { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                document.getElementById('singleton-current-mode').textContent = data.homeMode || mode;
+                document.getElementById('singleton-active-devices').textContent = data.activeDevices || 0;
+                document.getElementById('singleton-system-status').textContent = data.systemStatus || 'Online';
+                PatternDemo.showResult('singleton-result', 'Mode changed to ' + mode + '. All devices notified through the single HomeController instance.');
+                PatternDemo.toast('Home mode: ' + mode, 'success');
+            });
+    }
+};
+</script>
+</html>

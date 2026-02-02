@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
+<div class="pattern-card" id="command-pattern">
+    <div class="pattern-header">
+        <div class="pattern-icon">📜</div>
+        <div class="pattern-info">
+            <h3>Device Control with Undo/Redo</h3>
+            <span class="pattern-badge behavioral">Command Pattern</span>
+        </div>
+    </div>
+
+    <p class="pattern-desc">
+        Every device action is a <strong>Command object</strong> that can be executed, undone, and redone.
+        Build up a command history and travel back and forth through your changes!
+    </p>
+
+    <div class="pattern-demo">
+        <h4>🎮 Execute Device Commands</h4>
+
+        <div class="command-workspace">
+            <!-- Device Control Panel -->
+            <div class="control-panel">
+                <div class="control-device">
+                    <h5>💡 Living Room Light</h5>
+                    <div class="device-visual">
+                        <div class="light-bulb" id="cmd-light-visual">💡</div>
+                        <span class="light-status" id="cmd-light-status">OFF</span>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="ctrl-btn on" onclick="Command.execute('living-light-1', 'ON')">
+                            Turn ON
+                        </button>
+                        <button class="ctrl-btn off" onclick="Command.execute('living-light-1', 'OFF')">
+                            Turn OFF
+                        </button>
+                        <button class="ctrl-btn dim" onclick="Command.execute('living-light-1', 'DIM')">
+                            Dim 50%
+                        </button>
+                    </div>
+                </div>
+
+                <div class="control-device">
+                    <h5>🌡️ Thermostat</h5>
+                    <div class="device-visual">
+                        <div class="temp-display" id="cmd-temp-visual">22°C</div>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="ctrl-btn up" onclick="Command.execute('thermostat', 'TEMP_UP')">
+                            🔺 Temp +
+                        </button>
+                        <button class="ctrl-btn down" onclick="Command.execute('thermostat', 'TEMP_DOWN')">
+                            🔻 Temp -
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Undo/Redo Controls -->
+            <div class="history-controls">
+                <button class="history-btn undo" onclick="Command.undo()">
+                    <span class="hbtn-icon">↩️</span>
+                    <span class="hbtn-text">Undo</span>
+                </button>
+                <div class="history-indicator">
+                    <span id="history-position">0</span> / <span id="history-total">0</span>
+                </div>
+                <button class="history-btn redo" onclick="Command.redo()">
+                    <span class="hbtn-text">Redo</span>
+                    <span class="hbtn-icon">↪️</span>
+                </button>
+            </div>
+
+            <!-- Command History -->
+            <div class="command-history">
+                <h5>📋 Command History</h5>
+                <div class="history-list" id="command-history-list">
+                    <div class="history-empty">Execute commands to see history...</div>
+                </div>
+            </div>
+
+            <!-- Macro Recording -->
+            <div class="macro-section">
+                <h5>🎬 Record Command Macro</h5>
+                <p class="macro-desc">Record a sequence of commands and replay them later!</p>
+                <div class="macro-controls">
+                    <button class="macro-btn" id="macro-record-btn" onclick="Command.toggleRecording()">
+                        <span>⏺️</span> Start Recording
+                    </button>
+                    <button class="macro-btn" onclick="Command.playMacro()" disabled id="macro-play-btn">
+                        <span>▶️</span> Play Macro
+                    </button>
+                </div>
+                <div class="macro-status" id="macro-status"></div>
+            </div>
+        </div>
+
+        <div class="pattern-explanation">
+            <h5>💡 How Command Works Here:</h5>
+            <ul>
+                <li>Each action creates a <strong>Command object</strong> (TurnOnCommand, TurnOffCommand, etc.)</li>
+                <li>Commands have <code>execute()</code> and <code>undo()</code> methods</li>
+                <li>An <strong>Invoker</strong> stores command history for undo/redo</li>
+                <li>Commands can be queued, logged, and even recorded as macros</li>
+                <li>Device (Receiver) doesn't know about Command pattern - loose coupling!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="result-area" id="command-result"></div>
+</div>
+
+<script>
+var Command = {
+    history: [],
+    position: -1,
+    recording: false,
+    macro: [],
+    lightOn: false,
+    temp: 22,
+
+    execute: function(device, command) {
+        var self = this;
+
+        fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                // Truncate redo history
+                self.history = self.history.slice(0, self.position + 1);
+
+                // Add to history
+                self.history.push({ device: device, command: command, timestamp: new Date() });
+                self.position = self.history.length - 1;
+
+                // Record if recording
+                if (self.recording) {
+                    self.macro.push({ device: device, command: command });
+                    self.updateMacroStatus();
+                }
+
+                // Update visuals
+                self.updateVisuals(device, command);
+                self.updateHistoryDisplay();
+
+                PatternDemo.showResult('command-result',
+                    'Command executed!\n\n' +
+                    'Command: ' + command + '\n' +
+                    'Device: ' + device + '\n' +
+                    'History position: ' + (self.position + 1) + '/' + self.history.length + '\n\n' +
+                    'The command object has been stored and can be undone.'
+                );
+                PatternDemo.toast(command + ': ' + device, 'success');
+            });
+    },
+
+    undo: function() {
+        if (this.position < 0) {
+            PatternDemo.toast('Nothing to undo!', 'error');
+            return;
+        }
+
+        var self = this;
+        fetch('/api/patterns/command/undo', { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var cmd = self.history[self.position];
+                self.position--;
+                self.reverseVisuals(cmd.device, cmd.command);
+                self.updateHistoryDisplay();
+
+                PatternDemo.showResult('command-result',
+                    'Undo successful!\n\n' +
+                    'Reversed: ' + cmd.command + ' on ' + cmd.device + '\n' +
+                    'Position: ' + (self.position + 1) + '/' + self.history.length
+                );
+                PatternDemo.toast('Undone: ' + cmd.command, 'info');
+            });
+    },
+
+    redo: function() {
+        if (this.position >= this.history.length - 1) {
+            PatternDemo.toast('Nothing to redo!', 'error');
+            return;
+        }
+
+        var self = this;
+        fetch('/api/patterns/command/redo', { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                self.position++;
+                var cmd = self.history[self.position];
+                self.updateVisuals(cmd.device, cmd.command);
+                self.updateHistoryDisplay();
+
+                PatternDemo.showResult('command-result',
+                    'Redo successful!\n\n' +
+                    'Re-executed: ' + cmd.command + ' on ' + cmd.device + '\n' +
+                    'Position: ' + (self.position + 1) + '/' + self.history.length
+                );
+                PatternDemo.toast('Redone: ' + cmd.command, 'info');
+            });
+    },
+
+    updateVisuals: function(device, command) {
+        if (device === 'living-light-1') {
+            var bulb = document.getElementById('cmd-light-visual');
+            var status = document.getElementById('cmd-light-status');
+            if (command === 'ON') { this.lightOn = true; bulb.style.filter = 'brightness(1.5) saturate(1.5)'; status.textContent = 'ON'; }
+            if (command === 'OFF') { this.lightOn = false; bulb.style.filter = 'brightness(0.5)'; status.textContent = 'OFF'; }
+            if (command === 'DIM') { bulb.style.filter = 'brightness(0.8)'; status.textContent = 'DIM 50%'; }
+        }
+        if (device === 'thermostat') {
+            var temp = document.getElementById('cmd-temp-visual');
+            if (command === 'TEMP_UP') this.temp++;
+            if (command === 'TEMP_DOWN') this.temp--;
+            temp.textContent = this.temp + '°C';
+        }
+    },
+
+    reverseVisuals: function(device, command) {
+        if (device === 'living-light-1') {
+            if (command === 'ON') this.updateVisuals(device, 'OFF');
+            if (command === 'OFF') this.updateVisuals(device, 'ON');
+        }
+        if (device === 'thermostat') {
+            if (command === 'TEMP_UP') { this.temp--; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
+            if (command === 'TEMP_DOWN') { this.temp++; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
+        }
+    },
+
+    updateHistoryDisplay: function() {
+        document.getElementById('history-position').textContent = this.position + 1;
+        document.getElementById('history-total').textContent = this.history.length;
+
+        var list = document.getElementById('command-history-list');
+        if (this.history.length === 0) {
+            list.innerHTML = '<div class="history-empty">Execute commands to see history...</div>';
+            return;
+        }
+
+        var self = this;
+        var html = this.history.map(function(cmd, i) {
+            var active = i === self.position ? ' active' : '';
+            var future = i > self.position ? ' future' : '';
+            return '<div class="history-item' + active + future + '">' +
+                '<span class="hi-num">' + (i + 1) + '</span>' +
+                '<span class="hi-cmd">' + cmd.command + '</span>' +
+                '<span class="hi-device">' + cmd.device + '</span>' +
+                '</div>';
+        }).join('');
+        list.innerHTML = html;
+    },
+
+    toggleRecording: function() {
+        this.recording = !this.recording;
+        var btn = document.getElementById('macro-record-btn');
+        var playBtn = document.getElementById('macro-play-btn');
+
+        if (this.recording) {
+            this.macro = [];
+            btn.innerHTML = '<span>⏹️</span> Stop Recording';
+            btn.classList.add('recording');
+            document.getElementById('macro-status').textContent = 'Recording... Execute commands to record them.';
+        } else {
+            btn.innerHTML = '<span>⏺️</span> Start Recording';
+            btn.classList.remove('recording');
+            playBtn.disabled = this.macro.length === 0;
+            document.getElementById('macro-status').textContent = 'Recorded ' + this.macro.length + ' commands.';
+        }
+    },
+
+    updateMacroStatus: function() {
+        document.getElementById('macro-status').textContent = 'Recording... ' + this.macro.length + ' command(s)';
+    },
+
+    playMacro: function() {
+        if (this.macro.length === 0) return;
+        var self = this;
+        var i = 0;
+
+        PatternDemo.toast('Playing macro: ' + this.macro.length + ' commands', 'info');
+
+        function playNext() {
+            if (i >= self.macro.length) {
+                PatternDemo.toast('Macro complete!', 'success');
+                return;
+            }
+            var cmd = self.macro[i];
+            self.execute(cmd.device, cmd.command);
+            i++;
+            setTimeout(playNext, 800);
+        }
+        playNext();
+    }
+};
+</script>
+
+<style>
+.command-workspace { display: flex; flex-direction: column; gap: 20px; }
+.control-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.control-device { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; text-align: center; }
+.control-device h5 { color: #fff; margin-bottom: 15px; }
+.device-visual { margin: 15px 0; }
+.light-bulb { font-size: 4em; filter: brightness(0.5); transition: all 0.3s; }
+.light-status { display: block; color: #888; margin-top: 5px; }
+.temp-display { font-size: 2.5em; color: #00d2ff; font-weight: bold; }
+.control-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.ctrl-btn { padding: 10px 16px; border: none; border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s; }
+.ctrl-btn.on { background: linear-gradient(90deg, #00d2ff, #3a7bd5); }
+.ctrl-btn.off { background: rgba(100,100,100,0.5); }
+.ctrl-btn.dim { background: linear-gradient(90deg, #f093fb, #f5576c); }
+.ctrl-btn.up { background: linear-gradient(90deg, #f5af19, #f12711); }
+.ctrl-btn.down { background: linear-gradient(90deg, #3a7bd5, #00d2ff); }
+.ctrl-btn:hover { transform: scale(1.05); }
+.history-controls { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; }
+.history-btn { display: flex; align-items: center; gap: 8px; padding: 12px 24px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s; }
+.history-btn:hover { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
+.hbtn-icon { font-size: 1.3em; }
+.history-indicator { color: #888; font-size: 1.1em; }
+.command-history { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; }
+.command-history h5 { color: #00d2ff; margin-bottom: 12px; }
+.history-empty { color: #666; font-style: italic; }
+.history-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #666; }
+.history-item.active { background: rgba(0,210,255,0.1); border-left-color: #00d2ff; }
+.history-item.future { opacity: 0.4; }
+.hi-num { background: rgba(0,210,255,0.2); color: #00d2ff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; }
+.hi-cmd { color: #fff; font-weight: 500; }
+.hi-device { color: #888; font-size: 0.85em; margin-left: auto; }
+.macro-section { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; }
+.macro-section h5 { color: #00d2ff; margin-bottom: 5px; }
+.macro-desc { color: #888; font-size: 0.85em; margin-bottom: 12px; }
+.macro-controls { display: flex; gap: 10px; }
+.macro-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.macro-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.macro-btn.recording { background: rgba(255,50,50,0.3); animation: pulse 1s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+.macro-status { color: #888; font-size: 0.85em; margin-top: 10px; }
+
+@media (max-width: 768px) { .control-panel { grid-template-columns: 1fr; } }
+</style>
+</html>

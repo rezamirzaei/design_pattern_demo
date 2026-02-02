@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
+<div class="pattern-card" id="decorator-pattern">
+    <div class="pattern-header">
+        <div class="pattern-icon">🎨</div>
+        <div class="pattern-info">
+            <h3>Add Features to Devices</h3>
+            <span class="pattern-badge structural">Decorator Pattern</span>
+        </div>
+    </div>
+
+    <p class="pattern-desc">
+        Dynamically add <strong>Logging</strong>, <strong>Security</strong>, or <strong>Caching</strong> capabilities
+        to any device without modifying its code. Stack multiple decorators to combine features!
+    </p>
+
+    <div class="pattern-demo">
+        <h4>🎮 Wrap Device with Features</h4>
+
+        <div class="decorator-workspace">
+            <!-- Device Selection -->
+            <div class="device-selection">
+                <h5>1️⃣ Select Device to Decorate</h5>
+                <div class="device-list">
+                    <button class="device-item active" data-device="living-light-1" onclick="Decorator.selectDevice(this, 'living-light-1')">
+                        <span class="device-icon">💡</span>
+                        <span class="device-name">Living Room Light</span>
+                    </button>
+                    <button class="device-item" data-device="bedroom-thermostat" onclick="Decorator.selectDevice(this, 'bedroom-thermostat')">
+                        <span class="device-icon">🌡️</span>
+                        <span class="device-name">Bedroom Thermostat</span>
+                    </button>
+                    <button class="device-item" data-device="front-camera" onclick="Decorator.selectDevice(this, 'front-camera')">
+                        <span class="device-icon">📷</span>
+                        <span class="device-name">Front Camera</span>
+                    </button>
+                    <button class="device-item" data-device="main-lock" onclick="Decorator.selectDevice(this, 'main-lock')">
+                        <span class="device-icon">🔒</span>
+                        <span class="device-name">Main Door Lock</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feature Selection -->
+            <div class="feature-selection">
+                <h5>2️⃣ Choose Features to Add</h5>
+                <div class="feature-list">
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="feat-logging" value="LOGGING" checked onchange="Decorator.updatePreview()">
+                        <span class="feature-box">
+                            <span class="feature-icon">📝</span>
+                            <span class="feature-info">
+                                <span class="feature-name">Logging</span>
+                                <span class="feature-desc">Record all device operations to log files</span>
+                            </span>
+                        </span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="feat-security" value="SECURITY" onchange="Decorator.updatePreview()">
+                        <span class="feature-box">
+                            <span class="feature-icon">🔐</span>
+                            <span class="feature-info">
+                                <span class="feature-name">Security</span>
+                                <span class="feature-desc">Add authentication & access control</span>
+                            </span>
+                        </span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="feat-caching" value="CACHING" onchange="Decorator.updatePreview()">
+                        <span class="feature-box">
+                            <span class="feature-icon">⚡</span>
+                            <span class="feature-info">
+                                <span class="feature-name">Caching</span>
+                                <span class="feature-desc">Cache state for faster response times</span>
+                            </span>
+                        </span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="feat-notification" value="NOTIFICATION" onchange="Decorator.updatePreview()">
+                        <span class="feature-box">
+                            <span class="feature-icon">🔔</span>
+                            <span class="feature-info">
+                                <span class="feature-name">Notifications</span>
+                                <span class="feature-desc">Send alerts on state changes</span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Decorator Preview -->
+            <div class="decorator-preview">
+                <h5>3️⃣ Decorator Chain Preview</h5>
+                <div class="chain-visual" id="decorator-chain">
+                    <div class="chain-item base">📱 Device</div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-item decorator">📝 Logging</div>
+                </div>
+                <p class="chain-desc" id="chain-description">
+                    Each decorator wraps the previous, adding its feature while preserving existing behavior.
+                </p>
+            </div>
+
+            <button class="btn-apply" onclick="Decorator.apply()">
+                <span class="btn-icon">🎁</span>
+                Apply Decorators
+            </button>
+        </div>
+
+        <div class="pattern-explanation">
+            <h5>💡 How Decorator Works Here:</h5>
+            <ul>
+                <li><strong>LoggingDecorator</strong> wraps device and logs every operation</li>
+                <li><strong>SecurityDecorator</strong> wraps and adds access control checks</li>
+                <li><strong>CachingDecorator</strong> wraps and caches state for performance</li>
+                <li>Decorators can be stacked in any order: Caching(Security(Logging(Device)))</li>
+                <li>Each decorator calls the wrapped object's method + adds its behavior</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="result-area" id="decorator-result"></div>
+</div>
+
+<script>
+var Decorator = {
+    selectedDevice: 'living-light-1',
+
+    selectDevice: function(btn, deviceId) {
+        document.querySelectorAll('.device-item').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        this.selectedDevice = deviceId;
+        this.updatePreview();
+    },
+
+    getSelectedFeatures: function() {
+        var features = [];
+        if (document.getElementById('feat-logging').checked) features.push('LOGGING');
+        if (document.getElementById('feat-security').checked) features.push('SECURITY');
+        if (document.getElementById('feat-caching').checked) features.push('CACHING');
+        if (document.getElementById('feat-notification').checked) features.push('NOTIFICATION');
+        return features;
+    },
+
+    updatePreview: function() {
+        var features = this.getSelectedFeatures();
+        var chain = document.getElementById('decorator-chain');
+        var icons = { LOGGING: '📝', SECURITY: '🔐', CACHING: '⚡', NOTIFICATION: '🔔' };
+        var names = { LOGGING: 'Logging', SECURITY: 'Security', CACHING: 'Caching', NOTIFICATION: 'Notification' };
+
+        var html = '<div class="chain-item base">📱 ' + this.selectedDevice + '</div>';
+        features.forEach(function(f) {
+            html += '<div class="chain-arrow">→</div>';
+            html += '<div class="chain-item decorator">' + icons[f] + ' ' + names[f] + '</div>';
+        });
+        chain.innerHTML = html;
+
+        var desc = features.length === 0
+            ? 'Select features to add to the device.'
+            : 'Chain: Device' + features.map(function(f) { return ' → ' + names[f] + 'Decorator'; }).join('');
+        document.getElementById('chain-description').textContent = desc;
+    },
+
+    apply: function() {
+        var features = this.getSelectedFeatures();
+        if (features.length === 0) {
+            PatternDemo.toast('Select at least one feature!', 'error');
+            return;
+        }
+
+        var url = '/api/patterns/decorator/wrap?deviceId=' + this.selectedDevice + '&decorators=' + features.join(',');
+        fetch(url, { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var msg = 'Device "' + Decorator.selectedDevice + '" has been decorated!\n\n';
+                msg += 'Applied decorators:\n';
+                features.forEach(function(f, i) {
+                    msg += '  ' + (i + 1) + '. ' + f + 'Decorator\n';
+                });
+                msg += '\nThe device now has enhanced capabilities:\n';
+                if (features.indexOf('LOGGING') >= 0) msg += '  • All operations are logged\n';
+                if (features.indexOf('SECURITY') >= 0) msg += '  • Access control is enforced\n';
+                if (features.indexOf('CACHING') >= 0) msg += '  • State is cached for speed\n';
+                if (features.indexOf('NOTIFICATION') >= 0) msg += '  • Alerts sent on changes\n';
+
+                PatternDemo.showResult('decorator-result', msg);
+                PatternDemo.toast('Decorators applied!', 'success');
+            });
+    }
+};
+
+// Initialize preview
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Decorator !== 'undefined') Decorator.updatePreview();
+});
+</script>
+
+<style>
+.decorator-workspace { display: flex; flex-direction: column; gap: 20px; }
+.device-selection h5, .feature-selection h5, .decorator-preview h5 { color: #00d2ff; margin-bottom: 10px; font-size: 0.95em; }
+.device-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.device-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; cursor: pointer; transition: all 0.3s; }
+.device-item:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
+.device-item.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
+.device-icon { font-size: 1.3em; }
+.feature-list { display: flex; flex-direction: column; gap: 10px; }
+.feature-checkbox { cursor: pointer; }
+.feature-checkbox input { display: none; }
+.feature-box { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; transition: all 0.3s; }
+.feature-checkbox input:checked + .feature-box { background: rgba(0,210,255,0.15); border-color: #00d2ff; }
+.feature-checkbox:hover .feature-box { border-color: rgba(0,210,255,0.5); }
+.feature-icon { font-size: 1.5em; }
+.feature-info { display: flex; flex-direction: column; }
+.feature-name { font-weight: 600; color: #fff; }
+.feature-desc { font-size: 0.8em; color: #888; }
+.chain-visual { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+.chain-item { padding: 8px 14px; border-radius: 8px; font-size: 0.9em; }
+.chain-item.base { background: rgba(100,100,100,0.3); color: #ccc; }
+.chain-item.decorator { background: rgba(0,210,255,0.2); color: #00d2ff; border: 1px solid rgba(0,210,255,0.3); }
+.chain-arrow { color: #666; font-size: 1.2em; }
+.chain-desc { font-size: 0.85em; color: #888; margin-top: 10px; font-style: italic; }
+.btn-apply { width: 100%; padding: 14px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 10px; color: white; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+.btn-apply:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(0,210,255,0.3); }
+</style>
+</html>
