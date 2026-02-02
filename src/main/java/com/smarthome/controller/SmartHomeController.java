@@ -158,9 +158,29 @@ public class SmartHomeController {
         return smartHomeService.commandExecute(deviceId, command);
     }
 
+    @PostMapping("/patterns/command/undo")
+    public Map<String, Object> commandUndo() {
+        return smartHomeService.commandUndo();
+    }
+
+    @PostMapping("/patterns/command/redo")
+    public Map<String, Object> commandRedo() {
+        return smartHomeService.commandRedo();
+    }
+
     @PostMapping("/patterns/memento/save")
     public Map<String, Object> mementoSave(@RequestParam String sceneName) {
         return smartHomeService.saveMemento(sceneName);
+    }
+
+    @GetMapping("/patterns/memento/list")
+    public Map<String, Object> mementoList() {
+        return smartHomeService.listMementos();
+    }
+
+    @PostMapping("/patterns/memento/restore")
+    public Map<String, Object> mementoRestore(@RequestParam String sceneName) {
+        return smartHomeService.restoreMemento(sceneName);
     }
 
     @PostMapping("/patterns/observer/register")
@@ -169,6 +189,22 @@ public class SmartHomeController {
             @RequestParam String observerType
     ) {
         return smartHomeService.registerObserver(deviceId, observerType);
+    }
+
+    @PostMapping("/patterns/observer/subscribe")
+    public Map<String, Object> observerSubscribe(
+            @RequestParam String deviceId,
+            @RequestParam String observerType
+    ) {
+        return smartHomeService.observerSubscribe(deviceId, observerType);
+    }
+
+    @PostMapping("/patterns/observer/trigger")
+    public Map<String, Object> observerTrigger(
+            @RequestParam String deviceId,
+            @RequestParam(defaultValue = "MOTION") String eventType
+    ) {
+        return smartHomeService.observerTrigger(deviceId, eventType);
     }
 
     @GetMapping("/patterns/flyweight/demo")
@@ -197,9 +233,25 @@ public class SmartHomeController {
         return smartHomeService.mediatorDemo();
     }
 
+    @PostMapping("/patterns/mediator/notify")
+    public Map<String, Object> mediatorNotify(
+            @RequestParam(defaultValue = "sensor-1") String sourceDeviceId,
+            @RequestParam(defaultValue = "MOTION_DETECTED") String event
+    ) {
+        return smartHomeService.mediatorNotify(sourceDeviceId, event);
+    }
+
     @GetMapping("/patterns/template/demo")
     public Map<String, Object> templateDemo(@RequestParam(required = false) String deviceType) {
         return smartHomeService.templateDemo(deviceType);
+    }
+
+    @PostMapping("/patterns/template/init")
+    public Map<String, Object> templateInit(
+            @RequestParam(defaultValue = "LIGHT") String deviceType,
+            @RequestParam(required = false) String deviceId
+    ) {
+        return smartHomeService.templateInit(deviceType, deviceId);
     }
 
     @GetMapping("/patterns/state/demo")

@@ -1,7 +1,6 @@
 package com.smarthome.pattern.structural.flyweight;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,9 +142,9 @@ class DeviceTypeFactory {
 /**
  * Context class - Uses flyweight with extrinsic state
  */
-@Getter
-@Slf4j
 class DeviceInstance {
+    private static final Logger log = LoggerFactory.getLogger(DeviceInstance.class);
+
     // Extrinsic state - unique to each instance
     private final String deviceId;
     private final String name;
@@ -162,6 +161,26 @@ class DeviceInstance {
         this.isOn = false;
         this.type = DeviceTypeFactory.getDeviceType(typeName);
         log.debug("Created DeviceInstance: {} using shared type: {}", name, typeName);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public boolean isOn() {
+        return isOn;
+    }
+
+    public DeviceType getType() {
+        return type;
     }
 
     public void displayInfo() {

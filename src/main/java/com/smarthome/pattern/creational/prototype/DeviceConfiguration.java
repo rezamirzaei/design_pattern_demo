@@ -1,77 +1,118 @@
 package com.smarthome.pattern.creational.prototype;
 
+import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * PROTOTYPE PATTERN - Prototype
+ * PROTOTYPE PATTERN
  *
- * Represents a configurable template for a device that can be cloned.
+ * Intent: Specify the kinds of objects to create using a prototypical instance,
+ * and create new objects by copying this prototype.
+ *
+ * Smart Home Application: Device configurations can be complex. Instead of
+ * configuring each device from scratch, we can clone existing configurations
+ * as templates and modify them as needed.
  */
+@Data
 public class DeviceConfiguration implements Cloneable {
-    private final String presetName;
-    private final String deviceType;
-    private final Map<String, Object> settings;
+    private static final Logger log = LoggerFactory.getLogger(DeviceConfiguration.class);
+    private String name;
+    private String deviceType;
+    private Map<String, Object> settings;
+    private Map<String, String> schedules;
+    private boolean isTemplate;
 
-    private DeviceConfiguration(String presetName, String deviceType, Map<String, Object> settings) {
-        this.presetName = presetName;
+    public DeviceConfiguration() {
+        this.settings = new HashMap<>();
+        this.schedules = new HashMap<>();
+        this.isTemplate = false;
+    }
+
+    public DeviceConfiguration(String name, String deviceType) {
+        this();
+        this.name = name;
         this.deviceType = deviceType;
-        this.settings = new HashMap<>(settings);
     }
 
-    public static DeviceConfiguration createLightPreset(String presetName, int brightness, String colorHex) {
-        return new DeviceConfiguration(
-                presetName,
-                "LIGHT",
-                Map.of(
-                        "brightness", brightness,
-                        "color", colorHex
-                )
-        );
-    }
-
-    public static DeviceConfiguration createThermostatPreset(String presetName, double targetTempC, String mode) {
-        return new DeviceConfiguration(
-                presetName,
-                "THERMOSTAT",
-                Map.of(
-                        "targetTempC", targetTempC,
-                        "mode", mode
-                )
-        );
-    }
-
-    public static DeviceConfiguration createCameraPreset(String presetName, String resolution, boolean motionDetectionEnabled) {
-        return new DeviceConfiguration(
-                presetName,
-                "CAMERA",
-                Map.of(
-                        "resolution", resolution,
-                        "motionDetection", motionDetectionEnabled
-                )
-        );
-    }
-
-    public String getPresetName() {
-        return presetName;
-    }
-
-    public String getDeviceType() {
-        return deviceType;
-    }
-
-    public Map<String, Object> getSettings() {
-        return Map.copyOf(settings);
-    }
-
+    /**
+     * Clone this configuration (Prototype pattern)
+     */
     @Override
     public DeviceConfiguration clone() {
         try {
-            DeviceConfiguration copy = (DeviceConfiguration) super.clone();
-            return new DeviceConfiguration(copy.presetName, copy.deviceType, copy.settings);
+            DeviceConfiguration cloned = (DeviceConfiguration) super.clone();
+            // Deep copy the maps
+            cloned.settings = new HashMap<>(this.settings);
+            cloned.schedules = new HashMap<>(this.schedules);
+            cloned.isTemplate = false; // Cloned config is not a template
+            log.info("Configuration '{}' cloned", name);
+            return cloned;
         } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException("Prototype clone failed", e);
+            throw new RuntimeException("Clone failed", e);
         }
     }
-}
 
+    public void addSetting(String key, Object value) {
+        settings.put(key, value);
+    }
+
+    public void addSchedule(String eventName, String cronExpression) {
+        schedules.put(eventName, cronExpression);
+    }
+
+    public Object getSetting(String key) {
+        return settings.get(key);
+    }
+
+    /**
+     * Create a preset configuration for lights
+     */
+    public static DeviceConfiguration createLightPreset(String name, int brightness, String color) {
+        DeviceConfiguration config = new DeviceConfiguration(name, "LIGHT");
+        config.addSetting("brightness", brightness);
+        config.addSetting("color", color);
+        config.addSetting("transitionTime", 500); // ms
+        config.isTemplate = true;
+        return config;
+    }
+
+    /**
+     * Create a preset configuration for thermostats
+     */
+    public static DeviceConfiguration createThermostatPreset(String name, double targetTemp, String mode) {
+        DeviceConfiguration config = new DeviceConfiguration(name, "THERMOSTAT");
+        config.addSetting("targetTemperature", targetTemp);
+        config.addSetting("mode", mode);
+        config.addSetting("fanSpeed", "AUTO");
+        config.isTemplate = true;
+        return config;
+    }
+
+    /**
+     * Create a preset configuration for cameras
+     */
+    public static DeviceConfiguration createCameraPreset(String name, String resolution, boolean motionDetection) {
+        DeviceConfiguration config = new DeviceConfiguration(name, "CAMERA");
+        config.addSetting("resolution", resolution);
+        config.addSetting("motionDetection", motionDetection);
+        config.addSetting("nightVision", true);
+        config.addSetting("recordingQuality", "HIGH");
+        config.isTemplate = true;
+        return config;
+    }
+
+    // Add getPresetName for Service compatibility
+    public String getPresetName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("DeviceConfiguration[name=%s, type=%s, settings=%d, isTemplate=%s]",
+                name, deviceType, settings.size(), isTemplate);
+    }
+}

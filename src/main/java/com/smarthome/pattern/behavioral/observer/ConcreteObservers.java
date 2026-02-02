@@ -48,7 +48,7 @@ class DashboardObserver implements DeviceObserver {
     @Override
     public void onDeviceEvent(String eventType, String data) {
         lastEvent = eventType;
-        log.info("[Dashboard] Update for session '{}': {} - {}", sessionId, eventType, data);
+        log.info("[Dashboard] Update widget for session '{}': {} - {}", sessionId, eventType, data);
     }
 
     @Override

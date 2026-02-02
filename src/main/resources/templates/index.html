@@ -4,117 +4,412 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home - Design Patterns Demo</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-item .label {
+            color: #888;
+        }
+        
+        .status-item .value {
+            font-weight: bold;
+            color: #00d2ff;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .card-icon {
+            font-size: 1.5em;
+        }
+        
+        .device-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .status-on {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        
+        .status-off {
+            background: rgba(255, 100, 100, 0.2);
+            color: #ff6464;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 1200px) {
+            .patterns-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .patterns-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .pattern-category {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .pattern-category h3 {
+            color: #00d2ff;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .pattern-list {
+            list-style: none;
+        }
+        
+        .pattern-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pattern-list li:hover {
+            padding-left: 10px;
+            color: #00d2ff;
+        }
+        
+        .pattern-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .scenes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .scene-btn {
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .scene-btn:hover {
+            background: rgba(0, 210, 255, 0.2);
+            border-color: #00d2ff;
+        }
+        
+        .scene-btn .icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .output-area {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .output-area pre {
+            white-space: pre-wrap;
+            color: #7ee787;
+        }
+        
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .mode-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn:hover, .mode-btn.active {
+            background: rgba(0, 210, 255, 0.2);
+            border-color: #00d2ff;
+        }
+        
+        .power-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .power-indicator .value {
+            color: #ffd700;
+        }
+
+        .pattern-descriptions {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: #ddd;
+        }
+
+        .pattern-group-title {
+            font-size: 1.3em;
+            margin: 20px 0 10px;
+            position: relative;
+        }
+
+        .pattern-group-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+        }
+
+        .demo-result {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: 'Consolas', monospace;
+            color: #7ee787;
+            display: none;
+        }
+
+        .form-input {
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .demo-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scenes-container-mini {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-scene {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <nav class="top-nav">
-            <div class="brand">Smart Home</div>
-            <div class="links">
-                <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
-                <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
-                <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
-                <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
-                <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
-                <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
-            </div>
-        </nav>
-
         <header>
             <h1>🏠 Smart Home Control Center</h1>
             <p class="subtitle">Demonstrating all 23 Gang of Four Design Patterns</p>
         </header>
-
-        <details class="card">
-            <summary>Architecture (Spring MVC)</summary>
-            <ul style="margin-top: 10px; padding-left: 18px;">
-                <li><code>com.smarthome.SmartHomeApplication</code></li>
-                <li><code>com.smarthome.controller.WebController</code> (views)</li>
-                <li><code>com.smarthome.controller.SmartHomeController</code> (REST API)</li>
-                <li><code>com.smarthome.controller.ApiExceptionHandler</code> (API errors)</li>
-                <li><code>com.smarthome.service.SmartHomeService</code> (business logic)</li>
-                <li><code>com.smarthome.config.DataSeeder</code> (demo data)</li>
-                <li><code>com.smarthome.web.catalog.PatternCatalog</code> (Patterns Lab)</li>
-                <li><code>com.smarthome.domain.*</code> + <code>com.smarthome.repository.*</code> (persistence)</li>
-            </ul>
-        </details>
-
+        
         <div class="status-bar">
+            <!-- Replaced status bar content with Home Mode (Singleton) buttons as requested -->
             <div class="status-item">
                 <span class="label">System Status:</span>
                 <span class="value" id="systemStatus" th:text="${systemStatus}">Loading...</span>
             </div>
-            <div class="status-item">
-                <span class="label">Home Mode:</span>
-                <span class="value" id="homeMode" th:text="${homeMode}">NORMAL</span>
+
+            <!-- Home Mode (Singleton) -->
+            <div class="mode-selector">
+                <span class="label" style="align-self: center; margin-right: 10px;">Home Mode (Singleton):</span>
+                <button class="mode-btn" id="mode-normal" onclick="setMode('NORMAL')">🏡 Normal</button>
+                <button class="mode-btn" id="mode-away" onclick="setMode('AWAY')">🚗 Away</button>
+                <button class="mode-btn" id="mode-night" onclick="setMode('NIGHT')">🌙 Night</button>
+                <button class="mode-btn" id="mode-vacation" onclick="setMode('VACATION')">🏖️ Vacation</button>
             </div>
+
             <div class="status-item">
                 <span class="label">Active Devices:</span>
-                <span class="value" id="activeDevices" th:text="${activeDevices}">0</span>
+                <span class="value" id="activeDevices">0</span>
             </div>
         </div>
-
-        <div class="section">
-            <h2 class="section-title">🏠 Home Mode (Singleton)</h2>
-            <div class="scenes-container">
-                <button class="scene-btn mode-btn" type="button" data-mode="NORMAL">
-                    <span class="icon">🏡</span>
-                    Normal
-                </button>
-                <button class="scene-btn mode-btn" type="button" data-mode="AWAY">
-                    <span class="icon">🚗</span>
-                    Away
-                </button>
-                <button class="scene-btn mode-btn" type="button" data-mode="NIGHT">
-                    <span class="icon">🌙</span>
-                    Night
-                </button>
-                <button class="scene-btn mode-btn" type="button" data-mode="VACATION">
-                    <span class="icon">🏖️</span>
-                    Vacation
-                </button>
-            </div>
-        </div>
-
+        
         <!-- Quick Scene Buttons -->
         <div class="section">
             <h2 class="section-title">🎬 Quick Scenes (Facade Pattern)</h2>
             <div class="scenes-container">
-                <button class="scene-btn" type="button" data-scene="morning">
+                <button class="scene-btn" onclick="activateScene('morning')">
                     <span class="icon">🌅</span>
                     Good Morning
                 </button>
-                <button class="scene-btn" type="button" data-scene="night">
+                <button class="scene-btn" onclick="activateScene('night')">
                     <span class="icon">🌙</span>
                     Good Night
                 </button>
-                <button class="scene-btn" type="button" data-scene="leave">
+                <button class="scene-btn" onclick="activateScene('leave')">
                     <span class="icon">🚪</span>
                     Leave Home
                 </button>
-                <button class="scene-btn" type="button" data-scene="arrive">
+                <button class="scene-btn" onclick="activateScene('arrive')">
                     <span class="icon">🏠</span>
                     Arrive Home
                 </button>
-                <button class="scene-btn" type="button" data-scene="movie">
+                <button class="scene-btn" onclick="activateScene('movie')">
                     <span class="icon">🎬</span>
                     Movie Night
                 </button>
-                <button class="scene-btn" type="button" data-scene="party">
+                <button class="scene-btn" onclick="activateScene('party')">
                     <span class="icon">🎉</span>
                     Party Mode
                 </button>
             </div>
         </div>
-
+        
         <!-- Devices Grid -->
         <div class="section">
             <h2 class="section-title">📱 Devices (Factory Method Pattern)</h2>
             <div class="grid" id="devicesGrid">
-                <div class="card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
+                <div class="card" th:each="device : ${devices}">
                     <div class="card-header">
                         <span class="card-title" th:text="${device.info}">Device Name</span>
-                        <span class="device-status"
+                        <span class="device-status" 
                               th:class="${device.isOn} ? 'device-status status-on' : 'device-status status-off'"
                               th:text="${device.isOn} ? 'ON' : 'OFF'">OFF</span>
                     </div>
@@ -123,13 +418,13 @@
                         <span class="value" th:text="${device.power + 'W'}">0W</span>
                     </div>
                     <div style="margin-top: 15px;">
-                        <button class="btn btn-primary device-control-btn" type="button" data-action="on" th:attr="data-device-id=${device.id}">Turn On</button>
-                        <button class="btn btn-secondary device-control-btn" type="button" data-action="off" th:attr="data-device-id=${device.id}">Turn Off</button>
+                        <button class="btn btn-primary" th:onclick="'controlDevice(\'' + ${device.id} + '\', \'on\')'">Turn On</button>
+                        <button class="btn btn-secondary" th:onclick="'controlDevice(\'' + ${device.id} + '\', \'off\')'">Turn Off</button>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <!-- Room Controls -->
         <div class="section">
             <h2 class="section-title">🏢 Rooms (Composite Pattern)</h2>
@@ -140,66 +435,593 @@
                         <span class="card-icon">🚪</span>
                     </div>
                     <div style="margin-top: 15px;">
-                        <button class="btn btn-primary room-control-btn" type="button" data-action="on" th:attr="data-room=${room}">All On</button>
-                        <button class="btn btn-secondary room-control-btn" type="button" data-action="off" th:attr="data-room=${room}">All Off</button>
+                        <button class="btn btn-primary" th:onclick="'controlRoom(\'' + ${room} + '\', \'on\')'">All On</button>
+                        <button class="btn btn-secondary" th:onclick="'controlRoom(\'' + ${room} + '\', \'off\')'">All Off</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Design Patterns -->
+        
+        <!-- 1. CREATIONAL PATTERNS -->
         <div class="section">
-            <h2 class="section-title">📐 Design Patterns Demo</h2>
+            <h2 class="section-title">🔨 Creational Patterns</h2>
             <div class="patterns-grid">
-                <div class="pattern-category">
-                    <h3>🔨 Creational Patterns</h3>
-                    <ul class="pattern-list">
-                        <li class="pattern-list-item" data-pattern="singleton">1. Singleton - HomeController</li>
-                        <li class="pattern-list-item" data-pattern="factory">2. Factory Method - Device Factories</li>
-                        <li class="pattern-list-item" data-pattern="abstract-factory">3. Abstract Factory - Ecosystems</li>
-                        <li class="pattern-list-item" data-pattern="builder">4. Builder - Automation Rules</li>
-                        <li class="pattern-list-item" data-pattern="prototype">5. Prototype - Config Templates</li>
-                    </ul>
+
+                <!-- Singleton -->
+                <div class="card" id="singleton">
+                    <div class="card-header"><span class="card-title">1. Singleton</span></div>
+                    <p class="pattern-desc">Ensures <code>HomeController</code> has only one instance managing the entire system state.</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="singleton">Check Status</button>
+                    <div id="singleton-result" class="demo-result"></div>
                 </div>
-                <div class="pattern-category">
-                    <h3>🏗️ Structural Patterns</h3>
-                    <ul class="pattern-list">
-                        <li class="pattern-list-item" data-pattern="adapter">6. Adapter - Legacy Devices</li>
-                        <li class="pattern-list-item" data-pattern="bridge">7. Bridge - Remote Controls</li>
-                        <li class="pattern-list-item" data-pattern="composite">8. Composite - Device Groups</li>
-                        <li class="pattern-list-item" data-pattern="decorator">9. Decorator - Add Features</li>
-                        <li class="pattern-list-item" data-pattern="facade">10. Facade - Quick Scenes</li>
-                        <li class="pattern-list-item" data-pattern="flyweight">11. Flyweight - Device Types</li>
-                        <li class="pattern-list-item" data-pattern="proxy">12. Proxy - Remote Access</li>
-                    </ul>
+
+                <!-- Factory Method -->
+                <div class="card" id="factory">
+                    <div class="card-header"><span class="card-title">2. Factory Method</span></div>
+                    <p class="pattern-desc">Creates devices without specifying exact classes (<code>LightFactory</code>, etc).</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/factory/create">
+                        <input type="hidden" name="location" value="Kitchen">
+                        <select name="type" class="form-input">
+                            <option value="LIGHT">Light</option>
+                            <option value="THERMOSTAT">Thermostat</option>
+                            <option value="CAMERA">Camera</option>
+                        </select>
+                        <input type="text" name="name" placeholder="Device Name" class="form-input" required>
+                        <button type="submit" class="btn btn-primary">Create Device</button>
+                    </form>
+                    <div id="factory-result" class="demo-result"></div>
                 </div>
-                <div class="pattern-category">
-                    <h3>🎭 Behavioral Patterns</h3>
-                    <ul class="pattern-list">
-                        <li class="pattern-list-item" data-pattern="chain">13. Chain of Responsibility</li>
-                        <li class="pattern-list-item" data-pattern="command">14. Command - Undo/Redo</li>
-                        <li class="pattern-list-item" data-pattern="interpreter">15. Interpreter - Rule Language</li>
-                        <li class="pattern-list-item" data-pattern="iterator">16. Iterator - Device Traversal</li>
-                        <li class="pattern-list-item" data-pattern="mediator">17. Mediator - Device Hub</li>
-                        <li class="pattern-list-item" data-pattern="memento">18. Memento - Scene Snapshots</li>
-                        <li class="pattern-list-item" data-pattern="observer">19. Observer - Notifications</li>
-                        <li class="pattern-list-item" data-pattern="state">20. State - Device States</li>
-                        <li class="pattern-list-item" data-pattern="strategy">21. Strategy - Energy Modes</li>
-                        <li class="pattern-list-item" data-pattern="template">22. Template Method - Init</li>
-                        <li class="pattern-list-item" data-pattern="visitor">23. Visitor - Device Audits</li>
-                    </ul>
+
+                <!-- Abstract Factory -->
+                <div class="card" id="abstract-factory">
+                    <div class="card-header"><span class="card-title">3. Abstract Factory</span></div>
+                    <p class="pattern-desc">Creates families of related devices (SmartThings vs HomeKit ecosystem).</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/abstract-factory/create">
+                        <select name="ecosystem" class="form-input">
+                            <option value="SMARTTHINGS">SmartThings</option>
+                            <option value="HOMEKIT">HomeKit</option>
+                        </select>
+                        <input type="text" name="location" placeholder="Location" value="Living Room" class="form-input">
+                        <button type="submit" class="btn btn-primary">Create Family</button>
+                    </form>
+                    <div id="abstract-factory-result" class="demo-result"></div>
+                </div>
+
+                <!-- Builder -->
+                <div class="card" id="builder">
+                    <div class="card-header"><span class="card-title">4. Builder</span></div>
+                    <p class="pattern-desc">Constructs complex <code>AutomationRule</code> objects step-by-step.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/builder/rule">
+                        <input type="text" name="name" placeholder="Rule Name" value="Morning Routine" class="form-input">
+                        <input type="text" name="trigger" placeholder="Trigger" value="At 7:00 AM" class="form-input">
+                        <input type="text" name="action" placeholder="Action" value="Turn on lights" class="form-input">
+                        <input type="hidden" name="condition" value="If user is home">
+                        <button type="submit" class="btn btn-primary">Build Rule</button>
+                    </form>
+                    <div id="builder-result" class="demo-result"></div>
+                </div>
+
+                <!-- Prototype -->
+                <div class="card" id="prototype">
+                    <div class="card-header"><span class="card-title">5. Prototype</span></div>
+                    <p class="pattern-desc">Clones existing device configurations efficiently.</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="prototype">Clone Templates</button>
+                    <div id="prototype-result" class="demo-result"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Output Area -->
+        <!-- 2. STRUCTURAL PATTERNS -->
         <div class="section">
-            <h2 class="section-title">📋 Output Log</h2>
-            <div class="output-area">
-                <pre id="output">Click on any pattern or action to see the result here...</pre>
+            <h2 class="section-title">🏗️ Structural Patterns</h2>
+            <div class="patterns-grid">
+
+                <!-- Adapter -->
+                <div class="card" id="adapter">
+                    <div class="card-header"><span class="card-title">6. Adapter</span></div>
+                    <p class="pattern-desc">Adapts <code>LegacyThermostat</code> to the new <code>SmartDevice</code> interface.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/adapter/legacy">
+                        <input type="text" name="name" value="Old Thermo" class="form-input">
+                        <button type="submit" class="btn btn-primary">Adapt Legacy</button>
+                    </form>
+                    <div id="adapter-result" class="demo-result"></div>
+                </div>
+
+                <!-- Bridge -->
+                <div class="card" id="bridge">
+                    <div class="card-header"><span class="card-title">7. Bridge</span></div>
+                    <p class="pattern-desc">Decouples <code>RemoteControl</code> abstraction from <code>Device</code> implementation.</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="bridge">Test Remotes</button>
+                    <div id="bridge-result" class="demo-result"></div>
+                </div>
+
+                <!-- Composite -->
+                <div class="card" id="composite">
+                    <div class="card-header"><span class="card-title">8. Composite</span></div>
+                    <p class="pattern-desc">Treats rooms (groups) and devices uniformly.</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="composite">Show Hierarchy</button>
+                    <div id="composite-result" class="demo-result"></div>
+                </div>
+
+                <!-- Decorator -->
+                <div class="card" id="decorator">
+                    <div class="card-header"><span class="card-title">9. Decorator</span></div>
+                    <p class="pattern-desc">Dynamically adds logging, security, or caching to devices.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/decorator/wrap">
+                        <input type="text" name="deviceId" placeholder="Device ID" value="light-1" class="form-input">
+                        <select name="decorators" class="form-input">
+                            <option value="LOGGING">Logging</option>
+                            <option value="SECURITY">Security</option>
+                            <option value="CACHING">Caching</option>
+                            <option value="LOGGING,SECURITY">Log + Secure</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Wrap Device</button>
+                    </form>
+                    <div id="decorator-result" class="demo-result"></div>
+                </div>
+
+                <!-- Facade -->
+                <div class="card" id="facade">
+                    <div class="card-header"><span class="card-title">10. Facade</span></div>
+                    <p class="pattern-desc">Provides a simple interface for complex subsystem actions (Scenes).</p>
+                    <div class="scenes-container-mini">
+                        <button class="btn btn-secondary btn-scene" data-scene="morning">Morning</button>
+                        <button class="btn btn-secondary btn-scene" data-scene="movie">Movie</button>
+                        <button class="btn btn-secondary btn-scene" data-scene="leave">Leave</button>
+                    </div>
+                    <div id="facade-result" class="demo-result"></div>
+                </div>
+
+                <!-- Flyweight -->
+                <div class="card" id="flyweight">
+                    <div class="card-header"><span class="card-title">11. Flyweight</span></div>
+                    <p class="pattern-desc">Shares common `DeviceType` state to save memory.</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="flyweight">Show Memory Savings</button>
+                    <div id="flyweight-result" class="demo-result"></div>
+                </div>
+
+                <!-- Proxy -->
+                <div class="card" id="proxy">
+                    <div class="card-header"><span class="card-title">12. Proxy</span></div>
+                    <p class="pattern-desc">Controls access to remote/heavy objects (Lazy Init, Access Control).</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/proxy/remote">
+                        <input type="text" name="name" value="Remote Cam" class="form-input">
+                        <input type="text" name="address" value="192.168.1.99" class="form-input">
+                        <button type="submit" class="btn btn-primary">Access Proxy</button>
+                    </form>
+                    <div id="proxy-result" class="demo-result"></div>
+                </div>
             </div>
         </div>
+
+        <!-- 3. BEHAVIORAL PATTERNS -->
+        <div class="section">
+            <h2 class="section-title">🎭 Behavioral Patterns</h2>
+            <div class="patterns-grid">
+
+                <!-- Chain of Responsibility -->
+                <div class="card" id="chain">
+                    <div class="card-header"><span class="card-title">13. Chain of Resp.</span></div>
+                    <p class="pattern-desc">Passes alerts through a chain of handlers.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/chain/alert">
+                        <select name="level" class="form-input">
+                            <option value="INFO">Info (Log only)</option>
+                            <option value="WARNING">Warning (Notify)</option>
+                            <option value="CRITICAL">Critical (Alarm)</option>
+                            <option value="EMERGENCY">Emergency (911)</option>
+                        </select>
+                        <input type="text" name="message" value="Motion Detected" class="form-input">
+                        <input type="hidden" name="deviceId" value="sensor-1">
+                        <button type="submit" class="btn btn-primary">Send Alert</button>
+                    </form>
+                    <div id="chain-result" class="demo-result"></div>
+                </div>
+
+                <!-- Command -->
+                <div class="card" id="command">
+                    <div class="card-header"><span class="card-title">14. Command</span></div>
+                    <p class="pattern-desc">Encapsulates requests as objects -> Undo/Redo.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/command/execute">
+                        <input type="text" name="deviceId" placeholder="Device ID" value="light-1" class="form-input">
+                        <select name="command" class="form-input">
+                            <option value="ON">Turn On</option>
+                            <option value="OFF">Turn Off</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Execute</button>
+                    </form>
+                    <div style="margin-top:10px">
+                        <button class="btn btn-secondary" id="undo-btn">↩️ Undo Last</button>
+                        <button class="btn btn-secondary" id="redo-btn">↪️ Redo Last</button>
+                    </div>
+                    <div id="command-result" class="demo-result"></div>
+                </div>
+
+                <!-- Interpreter -->
+                <div class="card" id="interpreter">
+                    <div class="card-header"><span class="card-title">15. Interpreter</span></div>
+                    <p class="pattern-desc">Parses and evaluates automation rule expressions.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/interpreter/evaluate">
+                        <input type="text" name="rule" value="light_is_on AND motion_detected" class="form-input" style="font-family:monospace">
+                        <div style="font-size:0.8em; margin:5px 0;">Context: light_is_on=true, motion_detected=true</div>
+                        <input type="hidden" name="light_is_on" value="true">
+                        <input type="hidden" name="motion_detected" value="true">
+                        <button type="submit" class="btn btn-primary">Evaluate</button>
+                    </form>
+                    <div id="interpreter-result" class="demo-result"></div>
+                </div>
+
+                <!-- Iterator -->
+                <div class="card" id="iterator">
+                    <div class="card-header"><span class="card-title">16. Iterator</span></div>
+                    <p class="pattern-desc">Traverses device collections without exposing structure.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/iterator/demo" data-api-method="GET">
+                        <select name="filterType" class="form-input">
+                            <option value="ALL">All Devices</option>
+                            <option value="ROOM">By Room</option>
+                            <option value="TYPE">By Type</option>
+                        </select>
+                        <input type="text" name="filterValue" placeholder="Value (e.g. Kitchen)" class="form-input">
+                        <button type="submit" class="btn btn-primary">Iterate</button>
+                    </form>
+                    <div id="iterator-result" class="demo-result"></div>
+                </div>
+
+                <!-- Mediator -->
+                <div class="card" id="mediator">
+                    <div class="card-header"><span class="card-title">17. Mediator</span></div>
+                    <p class="pattern-desc">Centralizes communication between devices.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/mediator/notify">
+                        <input type="text" name="event" value="MOTION_DETECTED" class="form-input">
+                        <button type="submit" class="btn btn-primary">Notify Hub</button>
+                    </form>
+                    <div id="mediator-result" class="demo-result"></div>
+                </div>
+
+                <!-- Memento -->
+                <div class="card" id="memento">
+                    <div class="card-header"><span class="card-title">18. Memento</span></div>
+                    <p class="pattern-desc">Captures and restores device states (Snapshots).</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/memento/save">
+                        <input type="text" name="sceneName" placeholder="Snapshot Name" value="Backup 1" class="form-input">
+                        <button type="submit" class="btn btn-primary" style="width:100%">Save State</button>
+                    </form>
+                    <div style="margin-top:10px; display:flex; gap:5px;">
+                        <button class="btn btn-secondary" id="list-mementos-btn">List</button>
+                        <button class="btn btn-secondary" id="restore-btn">Restore "Backup 1"</button>
+                    </div>
+                    <div id="memento-result" class="demo-result"></div>
+                </div>
+
+                <!-- Observer -->
+                <div class="card" id="observer">
+                    <div class="card-header"><span class="card-title">19. Observer</span></div>
+                    <p class="pattern-desc">Notifies subscribers when device state changes.</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/observer/subscribe">
+                        <input type="text" name="deviceId" placeholder="Device ID" value="sensor-1" class="form-input">
+                        <select name="observerType" class="form-input">
+                            <option value="MOBILE">Mobile App</option>
+                            <option value="EMAIL">Email Alert</option>
+                            <option value="DASHBOARD">Dashboard</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" style="width:100%">Subscribe</button>
+                    </form>
+                    <button class="btn btn-secondary" id="trigger-event-btn" style="margin-top:10px; width:100%">Trigger Event on sensor-1</button>
+                    <div id="observer-result" class="demo-result"></div>
+                </div>
+
+                <!-- State -->
+                <div class="card" id="state">
+                    <div class="card-header"><span class="card-title">20. State</span></div>
+                    <p class="pattern-desc">Alters behavior when internal state changes (Media Player).</p>
+                    <button class="btn btn-primary pattern-run-btn" data-pattern="state">Run State Demo</button>
+                    <div id="state-result" class="demo-result"></div>
+                </div>
+
+                <!-- Strategy -->
+                <div class="card" id="strategy">
+                    <div class="card-header"><span class="card-title">21. Strategy</span></div>
+                    <p class="pattern-desc">Interchangeable energy consumption strategies.</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:5px;">
+                        <button class="btn btn-secondary btn-strategy" data-strategy="NORMAL">Normal</button>
+                        <button class="btn btn-secondary btn-strategy" data-strategy="ECO">Eco Mode</button>
+                        <button class="btn btn-secondary btn-strategy" data-strategy="PERFORMANCE">Performance</button>
+                    </div>
+                    <div id="strategy-result" class="demo-result"></div>
+                </div>
+
+                <!-- Template Method -->
+                <div class="card" id="template">
+                    <div class="card-header"><span class="card-title">22. Template Method</span></div>
+                    <p class="pattern-desc">Defines skeleton of an algorithm (Device Initialization).</p>
+                    <form class="demo-form" data-api-endpoint="/patterns/template/init">
+                        <select name="deviceType" class="form-input">
+                            <option value="LIGHT">Light</option>
+                            <option value="THERMOSTAT">Thermostat</option>
+                            <option value="CAMERA">Camera</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Run Init Sequence</button>
+                    </form>
+                    <div id="template-result" class="demo-result"></div>
+                </div>
+
+                <!-- Visitor -->
+                <div class="card" id="visitor">
+                    <div class="card-header"><span class="card-title">23. Visitor</span></div>
+                    <p class="pattern-desc">Operations performed on object structure (Audits).</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:5px;">
+                        <button class="btn btn-secondary btn-audit" data-audit="energy">Energy Audit</button>
+                        <button class="btn btn-secondary btn-audit" data-audit="security">Security Audit</button>
+                    </div>
+                    <div id="visitor-result" class="demo-result"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <script th:src="@{/js/app.js}"></script>
+    
+    <script>
+        const API_BASE = '/api';
+        
+        // Simplified log that doesn't update a visible pre element
+        function log(message) {
+            console.log(message);
+        }
+        
+        async function apiCall(method, endpoint, params = {}) {
+            let url = API_BASE + endpoint;
+            const options = { method };
+            
+            if (method === 'GET') {
+                const searchParams = new URLSearchParams(params);
+                if (searchParams.toString()) {
+                    url += '?' + searchParams.toString();
+                }
+            } else {
+                const searchParams = new URLSearchParams(params);
+                url += '?' + searchParams.toString();
+            }
+            
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                log('Error: ' + error.message);
+                return null;
+            }
+        }
+        
+        async function controlDevice(deviceId, action) {
+            const result = await apiCall('POST', `/devices/${deviceId}/control`, { action });
+            log(`Device Control: ${deviceId} -> ${action}\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        }
+        
+        async function controlRoom(roomId, action) {
+            const result = await apiCall('POST', `/patterns/composite/rooms/${roomId}/control`, { action });
+            log(`Room Control: ${roomId} -> ${action}\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        }
+        
+        async function setMode(mode) {
+            const result = await apiCall('POST', `/mode/${mode}`);
+            if (result && result.homeMode) {
+                document.getElementById('homeMode').textContent = result.homeMode;
+                // Visual feedback
+                document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+                const btnId = `mode-${mode.toLowerCase()}`;
+                const btn = document.getElementById(btnId);
+                if (btn) btn.classList.add('active');
+            }
+            log(`Mode Set: ${mode} -> ${JSON.stringify(result)}`);
+            refreshDevices();
+        }
+
+        async function activateScene(sceneName) {
+            const result = await apiCall('POST', `/patterns/facade/scene/${sceneName}`);
+            log(`Scene Activated: ${sceneName}\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        }
+        
+        async function demoPattern(pattern) {
+            let result;
+            switch(pattern) {
+                case 'singleton':
+                    result = await apiCall('GET', '/status');
+                    break;
+                case 'factory':
+                    result = await apiCall('POST', '/patterns/factory/create', 
+                        { type: 'LIGHT', name: 'New Light', location: 'Demo Room' });
+                    break;
+                case 'abstract-factory':
+                    result = await apiCall('POST', '/patterns/abstract-factory/create',
+                        { ecosystem: 'SMARTTHINGS', location: 'Demo Room' });
+                    break;
+                case 'builder':
+                    result = await apiCall('POST', '/patterns/builder/rule',
+                        { name: 'Motion Lights', trigger: 'motion', condition: 'night', action: 'light on' });
+                    break;
+                case 'prototype':
+                    result = await apiCall('GET', '/patterns/prototype/templates');
+                    break;
+                case 'adapter':
+                    result = await apiCall('POST', '/patterns/adapter/legacy',
+                        { name: 'Old Thermostat', location: 'Basement' });
+                    break;
+                case 'bridge':
+                    result = await apiCall('GET', '/patterns/bridge/demo');
+                    break;
+                case 'composite':
+                    result = await apiCall('GET', '/patterns/composite/rooms');
+                    break;
+                case 'decorator':
+                    result = await apiCall('POST', '/patterns/decorator/wrap',
+                        { deviceId: 'living-light-1', decorators: 'LOGGING,SECURITY' });
+                    break;
+                case 'facade':
+                    result = await apiCall('POST', '/patterns/facade/scene/movie');
+                    break;
+                case 'flyweight':
+                    result = { pattern: 'Flyweight', description: 'DeviceType objects are shared flyweights containing common device metadata (icon, category, capabilities)' };
+                    break;
+                case 'proxy':
+                    result = await apiCall('POST', '/patterns/proxy/remote',
+                        { name: 'Remote Camera', address: '192.168.1.100' });
+                    break;
+                case 'chain':
+                    result = await apiCall('POST', '/patterns/chain/alert',
+                        { deviceId: 'sensor-1', level: 'WARNING', message: 'Motion detected at front door' });
+                    break;
+                case 'command':
+                    result = await apiCall('POST', '/patterns/command/execute',
+                        { deviceId: 'living-light-1', command: 'ON' });
+                    break;
+                case 'interpreter':
+                    result = { pattern: 'Interpreter', description: 'Rule language: "IF motion AND time > 18:00 THEN lights ON" - parsed and executed by RuleInterpreter' };
+                    break;
+                case 'iterator':
+                    result = { pattern: 'Iterator', description: 'DeviceIterator provides different ways to traverse devices - by room, type, or status' };
+                    break;
+                case 'mediator':
+                    result = { pattern: 'Mediator', description: 'CentralHubMediator coordinates communication between devices without them knowing about each other' };
+                    break;
+                case 'memento':
+                    result = await apiCall('POST', '/patterns/memento/save', { sceneName: 'Current State' });
+                    break;
+                case 'observer':
+                    result = await apiCall('POST', '/patterns/observer/register',
+                        { deviceId: 'sensor-1', observerType: 'MOBILE' });
+                    break;
+                case 'state':
+                    result = await apiCall('GET', '/patterns/state/demo');
+                    break;
+                case 'strategy':
+                    result = await apiCall('POST', '/patterns/strategy/apply', { strategy: 'ECO' });
+                    break;
+                case 'template':
+                    result = { pattern: 'Template Method', description: 'DeviceInitializer defines the initialization algorithm; subclasses (LightInitializer, ThermostatInitializer) implement device-specific steps' };
+                    break;
+                case 'visitor':
+                    result = await apiCall('GET', '/patterns/visitor/audit', { type: 'SECURITY' });
+                    break;
+                default:
+                    result = await apiCall('GET', '/patterns');
+            }
+            log(`Pattern Demo: ${pattern}\n${JSON.stringify(result, null, 2)}`);
+        }
+        
+        async function refreshDevices() {
+            const devices = await apiCall('GET', '/devices');
+            if (devices) {
+                const activeCount = devices.filter(d => d.isOn).length;
+                document.getElementById('activeDevices').textContent = activeCount;
+            }
+        }
+
+        // Generic form handler
+        document.querySelectorAll('.demo-form').forEach(form => {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const endpoint = form.dataset.apiEndpoint;
+                const method = form.dataset.apiMethod || 'POST';
+                const formData = new FormData(form);
+                const params = Object.fromEntries(formData.entries());
+
+                const result = await apiCall(method, endpoint, params);
+                const resultDiv = form.nextElementSibling; // Usually the result div is next
+                if (resultDiv && resultDiv.classList.contains('demo-result')) {
+                    resultDiv.style.display = 'block';
+                    resultDiv.textContent = JSON.stringify(result, null, 2);
+                }
+                log(`Executed ${endpoint}:\n${JSON.stringify(result, null, 2)}`);
+
+                if (endpoint.includes('/create') || endpoint.includes('/control')) {
+                    refreshDevices();
+                }
+            });
+        });
+
+        // Generic run button handler
+        document.querySelectorAll('.pattern-run-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                demoPattern(btn.dataset.pattern);
+            });
+        });
+
+        // Specific Button Handlers
+        document.getElementById('undo-btn')?.addEventListener('click', async () => {
+            const result = await apiCall('POST', '/patterns/command/undo');
+            const div = document.getElementById('command-result');
+            div.style.display = 'block';
+            div.textContent = JSON.stringify(result, null, 2);
+            log(`Undo Result:\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        });
+
+        document.getElementById('redo-btn')?.addEventListener('click', async () => {
+            const result = await apiCall('POST', '/patterns/command/redo');
+            const div = document.getElementById('command-result');
+            div.style.display = 'block';
+            div.textContent = JSON.stringify(result, null, 2);
+            log(`Redo Result:\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        });
+
+        document.getElementById('list-mementos-btn')?.addEventListener('click', async () => {
+            const result = await apiCall('GET', '/patterns/memento/list');
+            const div = document.getElementById('memento-result');
+            div.style.display = 'block';
+            div.textContent = JSON.stringify(result, null, 2);
+            log(`Mementos:\n${JSON.stringify(result, null, 2)}`);
+        });
+
+        document.getElementById('restore-btn')?.addEventListener('click', async () => {
+            const input = document.querySelector('input[name="sceneName"]');
+            const sceneName = input ? input.value : 'Backup 1';
+            const result = await apiCall('POST', '/patterns/memento/restore', { sceneName });
+            log(`Restored Memento:\n${JSON.stringify(result, null, 2)}`);
+            refreshDevices();
+        });
+
+        document.getElementById('trigger-event-btn')?.addEventListener('click', async () => {
+            const result = await apiCall('POST', '/patterns/observer/trigger', { deviceId: 'sensor-1' });
+            const div = document.getElementById('observer-result');
+            div.style.display = 'block';
+            div.textContent = JSON.stringify(result, null, 2);
+            log(`Triggered Event:\n${JSON.stringify(result, null, 2)}`);
+        });
+
+        document.querySelectorAll('.btn-scene').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activateScene(btn.dataset.scene);
+            });
+        });
+
+        document.querySelectorAll('.btn-strategy').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await apiCall('POST', '/patterns/strategy/apply', { strategy: btn.dataset.strategy });
+                const div = document.getElementById('strategy-result');
+                div.style.display = 'block';
+                div.textContent = JSON.stringify(result, null, 2);
+                log(`Applied Strategy:\n${JSON.stringify(result, null, 2)}`);
+            });
+        });
+
+        document.querySelectorAll('.btn-audit').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const result = await apiCall('GET', '/patterns/visitor/audit', { type: btn.dataset.audit });
+                const div = document.getElementById('visitor-result');
+                div.style.display = 'block';
+                div.textContent = JSON.stringify(result, null, 2);
+                log(`Visitor Audit:\n${JSON.stringify(result, null, 2)}`);
+            });
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshDevices();
+            log('Smart Home System loaded. All 23 GoF Design Patterns are implemented!');
+        });
+    </script>
 </body>
 </html>

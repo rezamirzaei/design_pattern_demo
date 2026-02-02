@@ -2,10 +2,10 @@ package com.smarthome.pattern.structural.bridge;
 
 /**
  * BRIDGE PATTERN
- *
+ * 
  * Intent: Decouple an abstraction from its implementation so that the two
  * can vary independently.
- *
+ * 
  * Smart Home Application: Remote controls (abstraction) can control different
  * device types (implementation). A basic remote and advanced remote can both
  * control lights, thermostats, etc. The bridge separates the remote UI from

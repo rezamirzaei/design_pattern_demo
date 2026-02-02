@@ -33,6 +33,8 @@ public class WebController {
     @GetMapping("/ui/patterns")
     public String patterns(Model model) {
         model.addAttribute("patterns", patternCatalog.all());
+        model.addAttribute("devices", smartHomeService.getDevices());
+        model.addAttribute("rooms", smartHomeService.getRooms());
         return "patterns";
     }
 

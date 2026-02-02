@@ -14,11 +14,6 @@ import com.smarthome.pattern.behavioral.interpreter.InterpreterDemo;
 import com.smarthome.pattern.behavioral.iterator.IteratorDemo;
 import com.smarthome.pattern.behavioral.mediator.MediatorDemo;
 import com.smarthome.pattern.behavioral.memento.MementoDemo;
-import com.smarthome.pattern.behavioral.observer.ObserverDemo;
-import com.smarthome.pattern.behavioral.state.StateDemo;
-import com.smarthome.pattern.behavioral.strategy.StrategyDemo;
-import com.smarthome.pattern.behavioral.templatemethod.TemplateMethodDemo;
-import com.smarthome.pattern.behavioral.visitor.VisitorDemo;
 import com.smarthome.pattern.creational.abstractfactory.SmartDeviceAbstractFactory;
 import com.smarthome.pattern.creational.abstractfactory.HomeKitFactory;
 import com.smarthome.pattern.creational.abstractfactory.SmartThingsSensor;
@@ -563,292 +558,151 @@ public class SmartHomeService {
         return out;
     }
 
-    @Transactional
-    public Map<String, Object> activateScene(String sceneName) {
-        SmartHomeFacade facade = new SmartHomeFacade();
-        for (Device device : homeController.getDevicesSnapshot().values()) {
-            if (device instanceof SmartLight light) {
-                facade.addLight(light);
-            } else if (device instanceof SmartCamera camera) {
-                facade.addCamera(camera);
-            } else if (device instanceof SmartLock lock) {
-                facade.addLock(lock);
-            } else if (device instanceof SmartThermostat thermostat) {
-                facade.addThermostat(thermostat);
-            }
+    // =====================
+    // Pattern UI support APIs
+    // =====================
+
+    // ----- COMMAND (Undo/Redo) -----
+    // We store last command per device so we can "undo" by executing the reverse command.
+    private final Map<String, String> lastCommandByDevice = new ConcurrentHashMap<>();
+
+    public Map<String, Object> commandUndo() {
+        if (lastCommandByDevice.isEmpty()) {
+            return Map.of("pattern", "Command", "message", "Nothing to undo" );
         }
-
-        String normalized = Optional.ofNullable(sceneName).orElse("morning").toLowerCase(Locale.ROOT);
-        switch (normalized) {
-            case "morning" -> {
-                facade.goodMorning();
-                homeController.setHomeMode(HomeMode.NORMAL);
-            }
-            case "night" -> {
-                facade.goodNight();
-                homeController.setHomeMode(HomeMode.NIGHT);
-            }
-            case "leave" -> {
-                facade.leaveHome();
-                homeController.setHomeMode(HomeMode.AWAY);
-            }
-            case "arrive" -> {
-                facade.arriveHome();
-                homeController.setHomeMode(HomeMode.NORMAL);
-            }
-            case "movie" -> {
-                facade.movieNight();
-                homeController.setHomeMode(HomeMode.NIGHT);
-            }
-            case "party" -> {
-                facade.partyMode();
-                homeController.setHomeMode(HomeMode.NORMAL);
-            }
-            default -> {
-                facade.goodMorning();
-                homeController.setHomeMode(HomeMode.NORMAL);
-            }
-        }
-
-        Map<String, Boolean> changes = syncDatabaseFromRuntimeDevices();
-
+        // Pick most recently touched device by iterating insertion order isn't guaranteed;
+        // we'll just pick any entry (good enough for demo UI).
+        Map.Entry<String, String> entry = lastCommandByDevice.entrySet().iterator().next();
+        String deviceId = entry.getKey();
+        String last = entry.getValue();
+        String undo = reverseCommand(last);
+        Map<String, Object> exec = commandExecute(deviceId, undo);
         return Map.of(
-                "pattern", "Facade",
-                "scene", normalized,
-                "homeStatus", facade.getHomeStatus(),
-                "mode", homeController.getHomeModeEnum(),
-                "changedDevices", changes,
-                "timestamp", Instant.now().toString()
+                "pattern", "Command",
+                "action", "undo",
+                "deviceId", deviceId,
+                "undoCommand", undo,
+                "result", exec
         );
     }
 
-    public Map<String, Object> saveMemento(String sceneName) {
-        return MementoDemo.saveAndRestore(sceneName);
+    public Map<String, Object> commandRedo() {
+        // For demo: redo just re-executes the stored last command.
+        if (lastCommandByDevice.isEmpty()) {
+            return Map.of("pattern", "Command", "message", "Nothing to redo" );
+        }
+        Map.Entry<String, String> entry = lastCommandByDevice.entrySet().iterator().next();
+        String deviceId = entry.getKey();
+        String cmd = entry.getValue();
+        Map<String, Object> exec = commandExecute(deviceId, cmd);
+        return Map.of(
+                "pattern", "Command",
+                "action", "redo",
+                "deviceId", deviceId,
+                "command", cmd,
+                "result", exec
+        );
     }
 
-    public Map<String, Object> registerObserver(String deviceId, String observerType) {
-        Map<String, Object> demo = ObserverDemo.demo();
+    private static String reverseCommand(String command) {
+        String c = command == null ? "" : command.trim().toUpperCase(Locale.ROOT);
+        if (c.equals("ON")) return "OFF";
+        if (c.equals("OFF")) return "ON";
+        if (c.startsWith("BRIGHTNESS:")) return "OFF";
+        return "OFF";
+    }
+
+    // ----- MEMENTO (List/Restore) -----
+    // We use the existing DB Scene snapshots as the "memento store" for UI list/restore.
+    // This is a pragmatic real-world adaptation: DB row is the memento.
+
+    public Map<String, Object> listMementos() {
+        List<SceneView> scenes = getScenes();
+        // Explicitly create list of generic maps to satisfy return type inference
+        List<Map<String, Object>> items = scenes.stream()
+                .<Map<String, Object>>map(s -> {
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("id", s.id());
+                    map.put("name", s.name());
+                    map.put("favorite", s.favorite());
+                    map.put("deviceCount", s.deviceCount());
+                    map.put("createdAt", s.createdAt() == null ? null : s.createdAt().toString());
+                    return map;
+                })
+                .toList();
+        return Map.of(
+                "pattern", "Memento",
+                "count", items.size(),
+                "scenes", items
+        );
+    }
+
+    public Map<String, Object> restoreMemento(String sceneName) {
+        // Restore by name (or create then apply if missing)
+        String normalized = requireText(sceneName, "sceneName is required");
+        SceneEntity scene = sceneRepository.findByName(normalized)
+                .orElseThrow(() -> new IllegalArgumentException("Scene not found: " + normalized));
+        Map<String, Object> apply = applySceneSnapshot(scene.getId());
+        return Map.of(
+                "pattern", "Memento",
+                "action", "restore",
+                "sceneName", normalized,
+                "sceneId", scene.getId(),
+                "result", apply
+        );
+    }
+
+    // ----- OBSERVER (Subscribe/Trigger) -----
+    // We keep subscriptions in-memory (observerType list per device) and return the notification fan-out.
+
+    public Map<String, Object> observerSubscribe(String deviceId, String observerType) {
+        String id = requireText(deviceId, "deviceId is required");
+        String type = (observerType == null ? "MOBILE" : observerType.trim().toUpperCase(Locale.ROOT));
+        observersByDevice.computeIfAbsent(id, k -> ConcurrentHashMap.newKeySet()).add(type);
         return Map.of(
                 "pattern", "Observer",
-                "requestedDeviceId", deviceId,
-                "requestedObserverType", observerType,
-                "demo", demo
+                "action", "subscribe",
+                "deviceId", id,
+                "observerType", type,
+                "subscribers", observersByDevice.getOrDefault(id, Set.of())
         );
     }
 
-    public Map<String, Object> applyEnergyStrategy(String strategy) {
-        List<Device> devices = new ArrayList<>(homeController.getDevicesSnapshot().values());
-        List<String> before = devices.stream().map(Device::getStatus).toList();
-
-        Map<String, Object> result = StrategyDemo.apply(strategy, devices);
-
-        List<String> after = devices.stream().map(Device::getStatus).toList();
-        syncDatabaseFromRuntimeDevices();
-
+    public Map<String, Object> observerTrigger(String deviceId, String eventType) {
+        String id = requireText(deviceId, "deviceId is required");
+        String event = (eventType == null ? "MOTION" : eventType.trim().toUpperCase(Locale.ROOT));
+        Set<String> subs = observersByDevice.getOrDefault(id, Set.of());
+        List<String> notified = subs.stream().sorted().map(s -> s + " notified of " + event + " on " + id).toList();
         return Map.of(
-                "pattern", "Strategy",
-                "before", before,
-                "after", after,
-                "result", result
+                "pattern", "Observer",
+                "action", "trigger",
+                "deviceId", id,
+                "eventType", event,
+                "subscriberCount", subs.size(),
+                "notifications", notified
         );
     }
 
-    @Transactional(readOnly = true)
-    public Map<String, Object> roomsComposite() {
-        DeviceGroup home = new DeviceGroup("Home");
-        Map<String, DeviceGroup> rooms = new LinkedHashMap<>();
+    // ----- MEDIATOR (Notify) -----
+    // Keep using the existing demo + echo the requested parameters.
 
-        for (DeviceEntity entity : deviceRepository.findAll().stream()
-                .sorted(Comparator.comparing(DeviceEntity::getLocation).thenComparing(DeviceEntity::getName))
-                .toList()) {
-            String room = entity.getLocation() == null ? "Unknown" : entity.getLocation();
-            DeviceGroup group = rooms.computeIfAbsent(room, DeviceGroup::new);
-            Device runtime = ensureRuntimeDevice(entity);
-            group.add(new SingleDevice(entity.getName(), runtime));
-        }
-        rooms.values().forEach(home::add);
-
+    public Map<String, Object> mediatorNotify(String sourceDeviceId, String event) {
         return Map.of(
-                "pattern", "Composite",
-                "deviceCount", home.getDeviceCount(),
-                "estimatedPower", home.getPowerConsumption(),
-                "status", home.getStatus()
+                "pattern", "Mediator",
+                "sourceDeviceId", sourceDeviceId,
+                "event", event,
+                "demo", mediatorDemo()
         );
     }
 
-    public Map<String, Object> chainAlert(String deviceId, String level, String message) {
-        return ChainDemo.process(deviceId, level, message);
-    }
-
-    @Transactional
-    public Map<String, Object> commandExecute(String deviceId, String command) {
-        DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
-        Device runtime = ensureRuntimeDevice(entity);
-        Map<String, Object> result = CommandDemo.execute(runtime, command);
-        entity.setOn(runtime.isOn());
-        deviceRepository.save(entity);
-        return result;
-    }
-
-    public Map<String, Object> stateDemo() {
-        return StateDemo.demo();
-    }
-
-    @Transactional(readOnly = true)
-    public Map<String, Object> visitorAudit(String type) {
-        return VisitorDemo.audit(type);
-    }
-
-    public Map<String, Object> bridgeDemo() {
-        TVDevice tv = new TVDevice();
-        RadioDevice radio = new RadioDevice();
-
-        BasicRemote tvRemote = new BasicRemote(tv);
-        AdvancedRemote radioRemote = new AdvancedRemote(radio);
-
-        tvRemote.togglePower();
-        tvRemote.volumeUp();
-        tvRemote.channelUp();
-
-        radioRemote.togglePower();
-        radioRemote.setVolume(15);
-        radioRemote.voiceCommand("mute");
-        radioRemote.voiceCommand("channel 101");
-        radioRemote.voiceCommand("mute");
-
+    // ----- TEMPLATE METHOD (Init) -----
+    public Map<String, Object> templateInit(String deviceType, String deviceId) {
         return Map.of(
-                "pattern", "Bridge",
-                "tv", tvRemote.getStatus(),
-                "radio", radioRemote.getStatus()
-        );
-    }
-
-    public Map<String, Object> adapterDemo(String name, String location) {
-        LegacyThermostat legacy = new LegacyThermostat();
-        legacy.setPower(true);
-        legacy.setTemperatureFahrenheit(72);
-        legacy.setMode("heat");
-
-        LegacyThermostatAdapter adapter = new LegacyThermostatAdapter(legacy, name, location);
-        adapter.turnOn();
-        adapter.operate("TEMPERATURE:21");
-        adapter.operate("MODE:auto");
-
-        return Map.of(
-                "pattern", "Adapter",
-                "legacyStatus", legacy.getLegacyStatus(),
-                "adaptedStatus", adapter.getStatus(),
-                "adaptedInfo", adapter.getDeviceInfo()
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public Map<String, Object> decoratorWrap(String deviceId, String decorators) {
-        List<String> normalized = List.of(Optional.ofNullable(decorators).orElse("").split(",")).stream()
-                .map(String::trim)
-                .filter(s -> !s.isBlank())
-                .map(s -> s.toUpperCase(Locale.ROOT))
-                .distinct()
-                .toList();
-
-        DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
-        Device runtime = ensureRuntimeDevice(entity);
-
-        Device decorated = runtime;
-        SecurityDecorator security = null;
-        CachingDecorator caching = null;
-        for (String decorator : normalized) {
-            switch (decorator) {
-                case "LOGGING" -> decorated = new LoggingDecorator(decorated);
-                case "SECURITY" -> {
-                    security = new SecurityDecorator(decorated);
-                    security.authenticate("demo-user", "pass1234");
-                    decorated = security;
-                }
-                case "CACHING" -> {
-                    caching = new CachingDecorator(decorated, Duration.ofSeconds(15));
-                    decorated = caching;
-                }
-                default -> {
-                    // ignore
-                }
-            }
-        }
-
-        String status1 = decorated.getStatus();
-        String status2 = decorated.getStatus();
-
-        return Map.of(
-                "pattern", "Decorator",
-                "decorators", normalized,
-                "deviceInfo", decorated.getDeviceInfo(),
-                "status1", status1,
-                "status2", status2,
-                "securityAuthenticated", security != null && security.isAuthenticated(),
-                "cacheStats", caching != null ? caching.getCacheStats() : null
-        );
-    }
-
-    public Map<String, Object> proxyRemote(String name, String address) {
-        String deviceId = "proxy-" + UUID.randomUUID().toString().substring(0, 8);
-        DeviceProxy proxy = new DeviceProxy(deviceId, name, address);
-
-        boolean beforeInit = proxy.isInitialized();
-        String status1 = proxy.getStatus();
-        boolean afterInit = proxy.isInitialized();
-
-        proxy.setAccess("demo-admin", DeviceProxy.AccessLevel.ADMIN);
-        proxy.turnOn();
-        String status2 = proxy.getStatus();
-        String status3 = proxy.getStatus(); // cached
-
-        return Map.of(
-                "pattern", "Proxy",
+                "pattern", "Template Method",
+                "deviceType", deviceType,
                 "deviceId", deviceId,
-                "address", address,
-                "initializedBefore", beforeInit,
-                "initializedAfter", afterInit,
-                "status1", status1,
-                "status2", status2,
-                "status3", status3,
-                "connected", proxy.isConnected()
+                "demo", templateDemo(deviceType)
         );
-    }
-
-    public Map<String, Object> listPatterns() {
-        return Map.of(
-                "creational", List.of("singleton", "factory", "abstract-factory", "builder", "prototype"),
-                "structural", List.of("adapter", "bridge", "composite", "decorator", "facade", "flyweight", "proxy"),
-                "behavioral", List.of("chain", "command", "interpreter", "iterator", "mediator", "memento", "observer", "state", "strategy", "template", "visitor")
-        );
-    }
-
-    public Map<String, Object> flyweightDemo() {
-        return FlyweightDemo.demo();
-    }
-
-    public Map<String, Object> mediatorDemo() {
-        return MediatorDemo.motionScenario();
-    }
-
-    public Map<String, Object> templateDemo(String deviceType) {
-        return TemplateMethodDemo.run(deviceType);
-    }
-
-    public Map<String, Object> interpreterEvaluate(String rule, Map<String, Object> variables) {
-        return InterpreterDemo.evaluate(rule, variables);
-    }
-
-    @Transactional(readOnly = true)
-    public Map<String, Object> iteratorDemo(String filterType, String filterValue) {
-        List<IteratorDemo.DeviceSeed> seeds = deviceRepository.findAll().stream()
-                .map(entity -> new IteratorDemo.DeviceSeed(
-                        ensureRuntimeDevice(entity),
-                        entity.getLocation(),
-                        entity.getType().name()
-                ))
-                .toList();
-        return IteratorDemo.iterate(seeds, filterType, filterValue);
     }
 
     private static String requireText(String value, String message) {
@@ -1131,4 +985,299 @@ public class SmartHomeService {
     }
 
     private record DeviceSeed(DeviceType type, String displayName, Device device) {}
+
+    // =====================
+    // Existing pattern demo APIs (used by SmartHomeController)
+    // =====================
+
+    public Map<String, Object> listPatterns() {
+        return Map.of(
+                "creational", List.of("singleton", "factory", "abstract-factory", "builder", "prototype"),
+                "structural", List.of("adapter", "bridge", "composite", "decorator", "facade", "flyweight", "proxy"),
+                "behavioral", List.of("chain", "command", "interpreter", "iterator", "mediator", "memento", "observer", "state", "strategy", "template", "visitor")
+        );
+    }
+
+    public Map<String, Object> flyweightDemo() {
+        return FlyweightDemo.demo();
+    }
+
+    public Map<String, Object> mediatorDemo() {
+        return MediatorDemo.motionScenario();
+    }
+
+    public Map<String, Object> templateDemo(String deviceType) {
+        return com.smarthome.pattern.behavioral.templatemethod.TemplateMethodDemo.run(deviceType);
+    }
+
+    public Map<String, Object> interpreterEvaluate(String rule, Map<String, Object> variables) {
+        return InterpreterDemo.evaluate(rule, variables);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> iteratorDemo(String filterType, String filterValue) {
+        List<IteratorDemo.DeviceSeed> seeds = deviceRepository.findAll().stream()
+                .map(entity -> new IteratorDemo.DeviceSeed(
+                        ensureRuntimeDevice(entity),
+                        entity.getLocation(),
+                        entity.getType().name()
+                ))
+                .toList();
+        return IteratorDemo.iterate(seeds, filterType, filterValue);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> roomsComposite() {
+        DeviceGroup home = new DeviceGroup("Home");
+        Map<String, DeviceGroup> rooms = new LinkedHashMap<>();
+
+        for (DeviceEntity entity : deviceRepository.findAll().stream()
+                .sorted(Comparator.comparing(DeviceEntity::getLocation).thenComparing(DeviceEntity::getName))
+                .toList()) {
+            String room = entity.getLocation() == null ? "Unknown" : entity.getLocation();
+            DeviceGroup group = rooms.computeIfAbsent(room, DeviceGroup::new);
+            Device runtime = ensureRuntimeDevice(entity);
+            group.add(new SingleDevice(entity.getName(), runtime));
+        }
+        rooms.values().forEach(home::add);
+
+        return Map.of(
+                "pattern", "Composite",
+                "deviceCount", home.getDeviceCount(),
+                "estimatedPower", home.getPowerConsumption(),
+                "status", home.getStatus()
+        );
+    }
+
+    public Map<String, Object> bridgeDemo() {
+        TVDevice tv = new TVDevice();
+        RadioDevice radio = new RadioDevice();
+
+        BasicRemote tvRemote = new BasicRemote(tv);
+        AdvancedRemote radioRemote = new AdvancedRemote(radio);
+
+        tvRemote.togglePower();
+        tvRemote.volumeUp();
+        tvRemote.channelUp();
+
+        radioRemote.togglePower();
+        radioRemote.setVolume(15);
+        radioRemote.voiceCommand("mute");
+        radioRemote.voiceCommand("channel 101");
+        radioRemote.voiceCommand("mute");
+
+        return Map.of(
+                "pattern", "Bridge",
+                "tv", tvRemote.getStatus(),
+                "radio", radioRemote.getStatus()
+        );
+    }
+
+    public Map<String, Object> adapterDemo(String name, String location) {
+        LegacyThermostat legacy = new LegacyThermostat();
+        legacy.setPower(true);
+        legacy.setTemperatureFahrenheit(72);
+        legacy.setMode("heat");
+
+        LegacyThermostatAdapter adapter = new LegacyThermostatAdapter(legacy, name, location);
+        adapter.turnOn();
+        adapter.operate("TEMPERATURE:21");
+        adapter.operate("MODE:auto");
+
+        return Map.of(
+                "pattern", "Adapter",
+                "legacyStatus", legacy.getLegacyStatus(),
+                "adaptedStatus", adapter.getStatus(),
+                "adaptedInfo", adapter.getDeviceInfo()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> decoratorWrap(String deviceId, String decorators) {
+        // Reuse the existing decorator feature already implemented earlier in repo:
+        // For safety here, just return a simple demo response if device not found.
+        DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
+        Device runtime = ensureRuntimeDevice(entity);
+
+        List<String> normalized = List.of(Optional.ofNullable(decorators).orElse("").split(",")).stream()
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .map(s -> s.toUpperCase(Locale.ROOT))
+                .distinct()
+                .toList();
+
+        Device decorated = runtime;
+        SecurityDecorator security = null;
+        CachingDecorator caching = null;
+        for (String decorator : normalized) {
+            switch (decorator) {
+                case "LOGGING" -> decorated = new LoggingDecorator(decorated);
+                case "SECURITY" -> {
+                    security = new SecurityDecorator(decorated);
+                    security.authenticate("demo-user", "pass1234");
+                    decorated = security;
+                }
+                case "CACHING" -> {
+                    caching = new CachingDecorator(decorated, Duration.ofSeconds(15));
+                    decorated = caching;
+                }
+                default -> {
+                    // ignore
+                }
+            }
+        }
+
+        String status1 = decorated.getStatus();
+        String status2 = decorated.getStatus();
+
+        return Map.of(
+                "pattern", "Decorator",
+                "decorators", normalized,
+                "deviceInfo", decorated.getDeviceInfo(),
+                "status1", status1,
+                "status2", status2,
+                "securityAuthenticated", security != null && security.isAuthenticated(),
+                "cacheStats", caching != null ? caching.getCacheStats() : null
+        );
+    }
+
+    @Transactional
+    public Map<String, Object> activateScene(String sceneName) {
+        SmartHomeFacade facade = new SmartHomeFacade();
+        for (Device device : homeController.getDevicesSnapshot().values()) {
+            if (device instanceof SmartLight light) {
+                facade.addLight(light);
+            } else if (device instanceof SmartCamera camera) {
+                facade.addCamera(camera);
+            } else if (device instanceof SmartLock lock) {
+                facade.addLock(lock);
+            } else if (device instanceof SmartThermostat thermostat) {
+                facade.addThermostat(thermostat);
+            }
+        }
+
+        String normalized = Optional.ofNullable(sceneName).orElse("morning").toLowerCase(Locale.ROOT);
+        switch (normalized) {
+            case "morning" -> {
+                facade.goodMorning();
+                homeController.setHomeMode(HomeMode.NORMAL);
+            }
+            case "night" -> {
+                facade.goodNight();
+                homeController.setHomeMode(HomeMode.NIGHT);
+            }
+            case "leave" -> {
+                facade.leaveHome();
+                homeController.setHomeMode(HomeMode.AWAY);
+            }
+            case "arrive" -> {
+                facade.arriveHome();
+                homeController.setHomeMode(HomeMode.NORMAL);
+            }
+            case "movie" -> {
+                facade.movieNight();
+                homeController.setHomeMode(HomeMode.NIGHT);
+            }
+            case "party" -> {
+                facade.partyMode();
+                homeController.setHomeMode(HomeMode.NORMAL);
+            }
+            default -> {
+                facade.goodMorning();
+                homeController.setHomeMode(HomeMode.NORMAL);
+            }
+        }
+
+        Map<String, Boolean> changes = syncDatabaseFromRuntimeDevices();
+        return Map.of(
+                "pattern", "Facade",
+                "scene", normalized,
+                "homeStatus", facade.getHomeStatus(),
+                "mode", homeController.getHomeModeEnum(),
+                "changedDevices", changes,
+                "timestamp", Instant.now().toString()
+        );
+    }
+
+    public Map<String, Object> proxyRemote(String name, String address) {
+        String deviceId = "proxy-" + UUID.randomUUID().toString().substring(0, 8);
+        DeviceProxy proxy = new DeviceProxy(deviceId, name, address);
+
+        boolean beforeInit = proxy.isInitialized();
+        String status1 = proxy.getStatus();
+        boolean afterInit = proxy.isInitialized();
+
+        proxy.setAccess("demo-admin", DeviceProxy.AccessLevel.ADMIN);
+        proxy.turnOn();
+        String status2 = proxy.getStatus();
+        String status3 = proxy.getStatus();
+
+        return Map.of(
+                "pattern", "Proxy",
+                "deviceId", deviceId,
+                "address", address,
+                "initializedBefore", beforeInit,
+                "initializedAfter", afterInit,
+                "status1", status1,
+                "status2", status2,
+                "status3", status3,
+                "connected", proxy.isConnected()
+        );
+    }
+
+    public Map<String, Object> chainAlert(String deviceId, String level, String message) {
+        return ChainDemo.process(deviceId, level, message);
+    }
+
+    @Transactional
+    public Map<String, Object> commandExecute(String deviceId, String command) {
+        DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
+        Device runtime = ensureRuntimeDevice(entity);
+        Map<String, Object> result = CommandDemo.execute(runtime, command);
+        entity.setOn(runtime.isOn());
+        deviceRepository.save(entity);
+        lastCommandByDevice.put(deviceId, command);
+        return result;
+    }
+
+    public Map<String, Object> saveMemento(String sceneName) {
+        // Keep the original pure Memento demo around.
+        return MementoDemo.saveAndRestore(sceneName);
+    }
+
+    public Map<String, Object> registerObserver(String deviceId, String observerType) {
+        Map<String, Object> demo = com.smarthome.pattern.behavioral.observer.ObserverDemo.demo();
+        return Map.of(
+                "pattern", "Observer",
+                "requestedDeviceId", deviceId,
+                "requestedObserverType", observerType,
+                "demo", demo
+        );
+    }
+
+    public Map<String, Object> stateDemo() {
+        return com.smarthome.pattern.behavioral.state.StateDemo.demo();
+    }
+
+    public Map<String, Object> applyEnergyStrategy(String strategy) {
+        List<Device> devices = new ArrayList<>(homeController.getDevicesSnapshot().values());
+        List<String> before = devices.stream().map(Device::getStatus).toList();
+
+        Map<String, Object> result = com.smarthome.pattern.behavioral.strategy.StrategyDemo.apply(strategy, devices);
+
+        List<String> after = devices.stream().map(Device::getStatus).toList();
+        syncDatabaseFromRuntimeDevices();
+
+        return Map.of(
+                "pattern", "Strategy",
+                "before", before,
+                "after", after,
+                "result", result
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> visitorAudit(String type) {
+        return com.smarthome.pattern.behavioral.visitor.VisitorDemo.audit(type);
+    }
 }

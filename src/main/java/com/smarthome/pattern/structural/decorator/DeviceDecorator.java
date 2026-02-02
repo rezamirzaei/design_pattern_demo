@@ -4,10 +4,10 @@ import com.smarthome.pattern.creational.factory.Device;
 
 /**
  * DECORATOR PATTERN
- *
+ * 
  * Intent: Attach additional responsibilities to an object dynamically.
  * Decorators provide a flexible alternative to subclassing for extending functionality.
- *
+ * 
  * Smart Home Application: We can add features to devices dynamically:
  * - Logging: Log all device operations
  * - Security: Add authentication before operations

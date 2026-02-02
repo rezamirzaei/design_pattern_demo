@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Home - Patterns Lab</title>
+    <title>Smart Home - All 23 Design Patterns</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/patterns.css}">
 </head>
 <body>
 <div class="container">
@@ -21,86 +22,838 @@
     </nav>
 
     <header>
-        <h1>📐 Patterns Lab</h1>
-        <p class="subtitle">Run live demos for all 23 GoF patterns and see the involved classes</p>
+        <h1>📐 Design Patterns Lab</h1>
+        <p class="subtitle">Interactive demos for all 23 Gang of Four Design Patterns implemented in our Smart Home system</p>
     </header>
 
-    <div class="patterns-grid">
-        <div class="card pattern-card" th:each="pattern : ${patterns}">
-            <div class="meta">
-                <div class="card-title" th:text="${pattern.name}">Pattern Name</div>
-                <span class="badge" th:text="${pattern.category}">Category</span>
-            </div>
-            <p class="muted" th:text="${pattern.description}">Description</p>
-
-            <details>
-                <summary>Classes</summary>
-                <ul style="margin-top: 10px; padding-left: 18px;">
-                    <li th:each="cls : ${pattern.classes}">
-                        <code th:text="${cls}">com.example.Class</code>
-                    </li>
-                </ul>
-            </details>
-
-            <!-- NO PARAMETERS: Simple Button -->
-            <div th:if="${#lists.isEmpty(pattern.parameters)}" style="display:flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
-                <button class="btn btn-primary pattern-run-btn" type="button" th:attr="data-pattern=${pattern.id}">
-                    Run Demo
-                </button>
-                <span class="muted">
-                    <code th:text="${pattern.httpMethod + ' /api' + pattern.apiEndpoint}">GET /api/...</code>
-                </span>
-            </div>
-
-            <!-- PARAMETERS: Form -->
-            <form th:if="${!#lists.isEmpty(pattern.parameters)}"
-                  th:attr="data-api-endpoint=${pattern.apiEndpoint}, data-api-method=${pattern.httpMethod}"
-                  class="pattern-form" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px;">
-                    <div th:each="param : ${pattern.parameters}" class="form-group" style="margin-bottom: 5px;">
-                        <label th:for="${pattern.id + '-' + param.name}" th:text="${param.label}" style="display:block; font-size: 0.85em; margin-bottom: 3px; color: #666;">Label</label>
-
-                        <select th:if="${param.type == 'select'}"
-                                th:name="${param.name}"
-                                th:id="${pattern.id + '-' + param.name}"
-                                class="form-control"
-                                style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-                            <option th:each="opt : ${param.options}"
-                                    th:value="${opt}"
-                                    th:text="${opt}"
-                                    th:selected="${opt == param.defaultValue}">Option</option>
-                        </select>
-
-                        <input th:if="${param.type != 'select'}"
-                               th:type="${param.type}"
-                               th:name="${param.name}"
-                               th:id="${pattern.id + '-' + param.name}"
-                               th:value="${param.defaultValue}"
-                               class="form-control"
-                               style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-                    </div>
-                </div>
-
-                <div style="display:flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <button class="btn btn-primary" type="submit">Run Demo</button>
-                    <span class="muted">
-                        <code th:text="${pattern.httpMethod + ' /api' + pattern.apiEndpoint}">POST /api/...</code>
-                    </span>
-                </div>
-            </form>
-
+    <!-- Pattern Navigation -->
+    <div class="pattern-nav">
+        <div class="pattern-nav-group">
+            <span class="nav-group-title">🏗️ Creational</span>
+            <a href="#singleton">Singleton</a>
+            <a href="#factory">Factory Method</a>
+            <a href="#abstract-factory">Abstract Factory</a>
+            <a href="#builder">Builder</a>
+            <a href="#prototype">Prototype</a>
+        </div>
+        <div class="pattern-nav-group">
+            <span class="nav-group-title">🔧 Structural</span>
+            <a href="#adapter">Adapter</a>
+            <a href="#bridge">Bridge</a>
+            <a href="#composite">Composite</a>
+            <a href="#decorator">Decorator</a>
+            <a href="#facade">Facade</a>
+            <a href="#flyweight">Flyweight</a>
+            <a href="#proxy">Proxy</a>
+        </div>
+        <div class="pattern-nav-group">
+            <span class="nav-group-title">🎭 Behavioral</span>
+            <a href="#chain">Chain of Resp.</a>
+            <a href="#command">Command</a>
+            <a href="#interpreter">Interpreter</a>
+            <a href="#iterator">Iterator</a>
+            <a href="#mediator">Mediator</a>
+            <a href="#memento">Memento</a>
+            <a href="#observer">Observer</a>
+            <a href="#state">State</a>
+            <a href="#strategy">Strategy</a>
+            <a href="#template">Template Method</a>
+            <a href="#visitor">Visitor</a>
         </div>
     </div>
 
+    <!-- ==================== CREATIONAL PATTERNS ==================== -->
+    <div class="pattern-category">
+        <h2 class="category-title">🏗️ Creational Patterns</h2>
+        <p class="category-desc">Deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.</p>
+    </div>
+
+    <!-- 1. SINGLETON -->
+    <section id="singleton" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>1. Singleton Pattern</h3>
+                <span class="badge badge-creational">Creational</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Ensure a class has only one instance and provide a global point of access to it.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> The <code>HomeController</code> is a singleton that manages all devices and home modes. Only one controller should exist to maintain consistent state.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Get Singleton Instance</h4>
+                <p>Click to retrieve the single HomeController instance and see the current home status.</p>
+                <button class="btn btn-primary pattern-run-btn" data-pattern="singleton">Get Home Status (Singleton)</button>
+            </div>
+            <div class="demo-result" id="singleton-result"></div>
+        </div>
+    </section>
+
+    <!-- 2. FACTORY METHOD -->
+    <section id="factory" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>2. Factory Method Pattern</h3>
+                <span class="badge badge-creational">Creational</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define an interface for creating an object, but let subclasses decide which class to instantiate.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceFactory</code> subclasses (<code>LightFactory</code>, <code>ThermostatFactory</code>, etc.) create specific device types without the client knowing the concrete classes.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Create Device via Factory</h4>
+                <form data-api-endpoint="/patterns/factory/create" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Device Type</label>
+                            <select name="type">
+                                <option value="LIGHT">💡 Light</option>
+                                <option value="THERMOSTAT">🌡️ Thermostat</option>
+                                <option value="CAMERA">📷 Camera</option>
+                                <option value="LOCK">🔒 Lock</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Device Name</label>
+                            <input type="text" name="name" value="Factory Demo Device" required>
+                        </div>
+                        <div>
+                            <label>Location</label>
+                            <input type="text" name="location" value="Demo Room" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create Device</button>
+                </form>
+            </div>
+            <div class="demo-result" id="factory-result"></div>
+        </div>
+    </section>
+
+    <!-- 3. ABSTRACT FACTORY -->
+    <section id="abstract-factory" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>3. Abstract Factory Pattern</h3>
+                <span class="badge badge-creational">Creational</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Provide an interface for creating families of related objects without specifying their concrete classes.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>SmartDeviceAbstractFactory</code> creates compatible device families for different ecosystems (HomeKit vs SmartThings).</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Create Device Family</h4>
+                <form data-api-endpoint="/patterns/abstract-factory/create" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Ecosystem</label>
+                            <select name="ecosystem">
+                                <option value="HOMEKIT">🍎 Apple HomeKit</option>
+                                <option value="SMARTTHINGS">📱 Samsung SmartThings</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Location</label>
+                            <input type="text" name="location" value="Smart Room" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create Device Family</button>
+                </form>
+            </div>
+            <div class="demo-result" id="abstract-factory-result"></div>
+        </div>
+    </section>
+
+    <!-- 4. BUILDER -->
+    <section id="builder" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>4. Builder Pattern</h3>
+                <span class="badge badge-creational">Creational</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Separate the construction of a complex object from its representation.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>AutomationRule.Builder</code> constructs complex automation rules step-by-step with fluent API.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Build Automation Rule</h4>
+                <form data-api-endpoint="/patterns/builder/rule" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Rule Name</label>
+                            <input type="text" name="name" value="Evening Automation" required>
+                        </div>
+                        <div>
+                            <label>Trigger Event</label>
+                            <input type="text" name="trigger" value="motion detected" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label>Condition</label>
+                            <input type="text" name="condition" value="time >= 18:00">
+                        </div>
+                        <div>
+                            <label>Action</label>
+                            <input type="text" name="action" value="turn on lights">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Build Rule</button>
+                </form>
+            </div>
+            <div class="demo-result" id="builder-result"></div>
+        </div>
+    </section>
+
+    <!-- 5. PROTOTYPE -->
+    <section id="prototype" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>5. Prototype Pattern</h3>
+                <span class="badge badge-creational">Creational</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Create new objects by copying a prototypical instance.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceConfiguration</code> prototypes are cloned to quickly create new configurations based on templates.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Clone Configuration Template</h4>
+                <form data-api-endpoint="/patterns/prototype/clone" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Template to Clone</label>
+                            <select name="template">
+                                <option value="bright-light">💡 Bright Light (100%, White)</option>
+                                <option value="dim-light">🌙 Dim Light (30%, Warm)</option>
+                                <option value="comfort-thermostat">🌡️ Comfort Thermostat (22°C)</option>
+                                <option value="security-camera">📷 Security Camera (1080p)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>New Config Name</label>
+                            <input type="text" name="newName" value="My Cloned Config" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Clone Template</button>
+                </form>
+            </div>
+            <div class="demo-result" id="prototype-result"></div>
+        </div>
+    </section>
+
+    <!-- ==================== STRUCTURAL PATTERNS ==================== -->
+    <div class="pattern-category">
+        <h2 class="category-title">🔧 Structural Patterns</h2>
+        <p class="category-desc">Deal with object composition, creating relationships between objects to form larger structures.</p>
+    </div>
+
+    <!-- 6. ADAPTER -->
+    <section id="adapter" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>6. Adapter Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Convert the interface of a class into another interface clients expect.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>LegacyThermostatAdapter</code> wraps an old thermostat (Fahrenheit) and makes it compatible with our smart <code>Device</code> interface (Celsius).</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Adapt Legacy Device</h4>
+                <form data-api-endpoint="/patterns/adapter/legacy" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Legacy Device Name</label>
+                            <input type="text" name="name" value="Old Basement Thermostat" required>
+                        </div>
+                        <div>
+                            <label>Location</label>
+                            <input type="text" name="location" value="Basement" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Adapt Legacy Device</button>
+                </form>
+            </div>
+            <div class="demo-result" id="adapter-result"></div>
+        </div>
+    </section>
+
+    <!-- 7. BRIDGE -->
+    <section id="bridge" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>7. Bridge Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Decouple an abstraction from its implementation so that the two can vary independently.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>RemoteControl</code> (abstraction) is separated from <code>DeviceImplementor</code> (TV, Radio). Basic or Advanced remotes can control any device.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Remote Controls Device</h4>
+                <form data-api-endpoint="/patterns/bridge/control" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Remote Type</label>
+                            <select name="remoteType">
+                                <option value="BASIC">🎮 Basic Remote</option>
+                                <option value="ADVANCED">🎛️ Advanced Remote</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Device</label>
+                            <select name="deviceType">
+                                <option value="TV">📺 TV</option>
+                                <option value="RADIO">📻 Radio</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Action</label>
+                            <select name="action">
+                                <option value="POWER">Toggle Power</option>
+                                <option value="VOLUME_UP">Volume Up</option>
+                                <option value="VOLUME_DOWN">Volume Down</option>
+                                <option value="MUTE">Mute</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Execute</button>
+                </form>
+            </div>
+            <div class="demo-result" id="bridge-result"></div>
+        </div>
+    </section>
+
+    <!-- 8. COMPOSITE -->
+    <section id="composite" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>8. Composite Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Compose objects into tree structures to represent part-whole hierarchies.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceGroup</code> (rooms, floors) contains devices or other groups. "Turn off Living Room" operates on all devices uniformly.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Control Device Groups</h4>
+                <form data-api-endpoint="/patterns/composite/rooms/{room}/control" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Room/Group</label>
+                            <select name="room">
+                                <option value="Living Room">🛋️ Living Room</option>
+                                <option value="Bedroom">🛏️ Bedroom</option>
+                                <option value="Kitchen">🍳 Kitchen</option>
+                                <option value="Entire Home">🏠 Entire Home</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Action</label>
+                            <select name="action">
+                                <option value="on">Turn All ON</option>
+                                <option value="off">Turn All OFF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Control Group</button>
+                </form>
+            </div>
+            <div class="demo-result" id="composite-result"></div>
+        </div>
+    </section>
+
+    <!-- 9. DECORATOR -->
+    <section id="decorator" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>9. Decorator Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Attach additional responsibilities to an object dynamically.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> Wrap devices with <code>LoggingDecorator</code>, <code>SecurityDecorator</code>, <code>CachingDecorator</code> to add features without modifying device classes.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Wrap Device with Decorators</h4>
+                <form data-api-endpoint="/patterns/decorator/wrap" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Target Device ID</label>
+                            <input type="text" name="deviceId" value="living-light-1" required>
+                        </div>
+                        <div>
+                            <label>Decorators (comma-separated)</label>
+                            <input type="text" name="decorators" value="LOGGING,SECURITY,CACHING">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Apply Decorators</button>
+                </form>
+            </div>
+            <div class="demo-result" id="decorator-result"></div>
+        </div>
+    </section>
+
+    <!-- 10. FACADE -->
+    <section id="facade" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>10. Facade Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Provide a unified interface to a set of interfaces in a subsystem.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>SmartHomeFacade</code> provides simple scene methods like <code>goodMorning()</code> that coordinate lighting, climate, and security subsystems.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Activate Scene (Facade)</h4>
+                <div class="scene-buttons">
+                    <button class="btn btn-scene" data-scene="morning">🌅 Good Morning</button>
+                    <button class="btn btn-scene" data-scene="leave">🚗 Leaving Home</button>
+                    <button class="btn btn-scene" data-scene="arrive">🏠 Arriving Home</button>
+                    <button class="btn btn-scene" data-scene="movie">🎬 Movie Time</button>
+                    <button class="btn btn-scene" data-scene="night">🌙 Good Night</button>
+                    <button class="btn btn-scene" data-scene="party">🎉 Party Mode</button>
+                </div>
+            </div>
+            <div class="demo-result" id="facade-result"></div>
+        </div>
+    </section>
+
+    <!-- 11. FLYWEIGHT -->
+    <section id="flyweight" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>11. Flyweight Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Use sharing to support large numbers of fine-grained objects efficiently.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceType</code> flyweights share common metadata across thousands of device instances instead of duplicating data.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: View Shared Flyweights</h4>
+                <button class="btn btn-primary pattern-run-btn" data-pattern="flyweight">Show Flyweight Pool</button>
+            </div>
+            <div class="demo-result" id="flyweight-result"></div>
+        </div>
+    </section>
+
+    <!-- 12. PROXY -->
+    <section id="proxy" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>12. Proxy Pattern</h3>
+                <span class="badge badge-structural">Structural</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Provide a surrogate or placeholder for another object to control access to it.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceProxy</code> provides lazy initialization, access control, and caching for remote devices.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Create Remote Device Proxy</h4>
+                <form data-api-endpoint="/patterns/proxy/remote" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Remote Device Name</label>
+                            <input type="text" name="name" value="Outdoor Camera" required>
+                        </div>
+                        <div>
+                            <label>IP Address</label>
+                            <input type="text" name="address" value="192.168.1.100" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create Proxy</button>
+                </form>
+            </div>
+            <div class="demo-result" id="proxy-result"></div>
+        </div>
+    </section>
+
+    <!-- ==================== BEHAVIORAL PATTERNS ==================== -->
+    <div class="pattern-category">
+        <h2 class="category-title">🎭 Behavioral Patterns</h2>
+        <p class="category-desc">Deal with object collaboration and the delegation of responsibilities among objects.</p>
+    </div>
+
+    <!-- 13. CHAIN OF RESPONSIBILITY -->
+    <section id="chain" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>13. Chain of Responsibility Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> Alert handlers form a chain: <code>LoggingHandler</code> → <code>NotificationHandler</code> → <code>AlarmHandler</code> → <code>EmergencyHandler</code>.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Send Alert Through Chain</h4>
+                <form data-api-endpoint="/patterns/chain/alert" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Source Device</label>
+                            <input type="text" name="deviceId" value="front-door-sensor" required>
+                        </div>
+                        <div>
+                            <label>Alert Level</label>
+                            <select name="level">
+                                <option value="INFO">ℹ️ INFO</option>
+                                <option value="WARNING" selected>⚠️ WARNING</option>
+                                <option value="CRITICAL">🔴 CRITICAL</option>
+                                <option value="EMERGENCY">🚨 EMERGENCY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label>Alert Message</label>
+                    <input type="text" name="message" value="Motion detected at front door" required>
+                    <button class="btn btn-primary" type="submit">Send Alert</button>
+                </form>
+            </div>
+            <div class="demo-result" id="chain-result"></div>
+        </div>
+    </section>
+
+    <!-- 14. COMMAND -->
+    <section id="command" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>14. Command Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Encapsulate a request as an object, supporting undo/redo operations.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> Device commands (<code>TurnOnCommand</code>, <code>SetBrightnessCommand</code>) have <code>execute()</code> and <code>undo()</code> methods.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Execute Device Commands</h4>
+                <form data-api-endpoint="/patterns/command/execute" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Device ID</label>
+                            <input type="text" name="deviceId" value="living-light-1" required>
+                        </div>
+                        <div>
+                            <label>Command</label>
+                            <select name="command">
+                                <option value="ON">Turn ON</option>
+                                <option value="OFF">Turn OFF</option>
+                                <option value="BRIGHTNESS:50">Set Brightness 50%</option>
+                                <option value="BRIGHTNESS:100">Set Brightness 100%</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Execute Command</button>
+                    <button class="btn btn-secondary" type="button" id="undo-btn">Undo Last</button>
+                </form>
+            </div>
+            <div class="demo-result" id="command-result"></div>
+        </div>
+    </section>
+
+    <!-- 15. INTERPRETER -->
+    <section id="interpreter" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>15. Interpreter Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define a representation for a language's grammar and an interpreter that uses it.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>RuleInterpreter</code> parses expressions like <code>"motion AND hour >= 18"</code>.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Evaluate Rule Expression</h4>
+                <form data-api-endpoint="/patterns/interpreter/evaluate" data-api-method="POST" class="demo-form">
+                    <label>Rule Expression</label>
+                    <input type="text" name="rule" value="motion AND hour >= 18" required>
+                    <div class="form-row">
+                        <div>
+                            <label>motion</label>
+                            <select name="motion">
+                                <option value="true" selected>true</option>
+                                <option value="false">false</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>hour</label>
+                            <input type="number" name="hour" value="20" min="0" max="23">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Evaluate</button>
+                </form>
+            </div>
+            <div class="demo-result" id="interpreter-result"></div>
+        </div>
+    </section>
+
+    <!-- 16. ITERATOR -->
+    <section id="iterator" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>16. Iterator Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Access elements of a collection sequentially without exposing its underlying representation.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceIterator</code> traverses devices by room, type, or status.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Iterate Devices</h4>
+                <form data-api-endpoint="/patterns/iterator/demo" data-api-method="GET" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Filter Type</label>
+                            <select name="filterType">
+                                <option value="ALL">All Devices</option>
+                                <option value="ROOM">By Room</option>
+                                <option value="TYPE">By Device Type</option>
+                                <option value="STATUS">By Status</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Filter Value</label>
+                            <input type="text" name="filterValue" value="Living Room">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Iterate</button>
+                </form>
+            </div>
+            <div class="demo-result" id="iterator-result"></div>
+        </div>
+    </section>
+
+    <!-- 17. MEDIATOR -->
+    <section id="mediator" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>17. Mediator Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define an object that encapsulates how a set of objects interact.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>CentralHubMediator</code> coordinates device communication so devices don't reference each other directly.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Device Communication via Mediator</h4>
+                <form data-api-endpoint="/patterns/mediator/notify" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Source Device</label>
+                            <select name="sourceDevice">
+                                <option value="motion-sensor">Motion Sensor</option>
+                                <option value="door-sensor">Door Sensor</option>
+                                <option value="temp-sensor">Temperature Sensor</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Event</label>
+                            <select name="event">
+                                <option value="MOTION_DETECTED">Motion Detected</option>
+                                <option value="DOOR_OPENED">Door Opened</option>
+                                <option value="TEMP_HIGH">Temperature High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Send Event</button>
+                </form>
+            </div>
+            <div class="demo-result" id="mediator-result"></div>
+        </div>
+    </section>
+
+    <!-- 18. MEMENTO -->
+    <section id="memento" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>18. Memento Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Capture an object's internal state to restore it later without violating encapsulation.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceStateMemento</code> captures snapshots of device states. Save your "Movie Night" setup and restore it anytime.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Save & Restore Snapshots</h4>
+                <form data-api-endpoint="/patterns/memento/save" data-api-method="POST" class="demo-form">
+                    <label>Snapshot Name</label>
+                    <input type="text" name="sceneName" value="My Perfect Setup" required>
+                    <button class="btn btn-primary" type="submit">💾 Save State</button>
+                    <button class="btn btn-secondary" type="button" id="restore-btn">♻️ Restore Last</button>
+                    <button class="btn btn-secondary" type="button" id="list-mementos-btn">📋 List All</button>
+                </form>
+            </div>
+            <div class="demo-result" id="memento-result"></div>
+        </div>
+    </section>
+
+    <!-- 19. OBSERVER -->
+    <section id="observer" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>19. Observer Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define a one-to-many dependency so that when one object changes, all dependents are notified.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>ObservableDevice</code> notifies <code>MobileAppObserver</code>, <code>DashboardObserver</code>, etc. when state changes.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Register Observers</h4>
+                <form data-api-endpoint="/patterns/observer/subscribe" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Device to Watch</label>
+                            <input type="text" name="deviceId" value="living-thermostat" required>
+                        </div>
+                        <div>
+                            <label>Observer Type</label>
+                            <select name="observerType">
+                                <option value="MOBILE">📱 Mobile App</option>
+                                <option value="DASHBOARD">🖥️ Dashboard</option>
+                                <option value="ANALYTICS">📊 Analytics</option>
+                                <option value="EMAIL">📧 Email</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Subscribe</button>
+                    <button class="btn btn-secondary" type="button" id="trigger-event-btn">🔔 Trigger Event</button>
+                </form>
+            </div>
+            <div class="demo-result" id="observer-result"></div>
+        </div>
+    </section>
+
+    <!-- 20. STATE -->
+    <section id="state" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>20. State Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Allow an object to alter its behavior when its internal state changes.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>StatefulDevice</code> has states: <code>OffState</code>, <code>OnState</code>, <code>StandbyState</code>, <code>ErrorState</code>. Each handles operations differently.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: State Transitions</h4>
+                <form data-api-endpoint="/patterns/state/transition" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Device</label>
+                            <input type="text" name="deviceId" value="stateful-device-1" required>
+                        </div>
+                        <div>
+                            <label>Action</label>
+                            <select name="action">
+                                <option value="TURN_ON">Turn ON</option>
+                                <option value="TURN_OFF">Turn OFF</option>
+                                <option value="STANDBY">Standby</option>
+                                <option value="ERROR">Simulate Error</option>
+                                <option value="RESET">Reset</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Perform Action</button>
+                    <button class="btn btn-secondary pattern-run-btn" data-pattern="state" type="button">View State</button>
+                </form>
+            </div>
+            <div class="demo-result" id="state-result"></div>
+        </div>
+    </section>
+
+    <!-- 21. STRATEGY -->
+    <section id="strategy" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>21. Strategy Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define a family of algorithms, encapsulate each one, and make them interchangeable.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>EnergyManager</code> uses different strategies: <code>EcoModeStrategy</code>, <code>ComfortModeStrategy</code>, <code>PartyModeStrategy</code>.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Apply Energy Strategy</h4>
+                <div class="strategy-buttons">
+                    <button class="btn btn-strategy" data-strategy="ECO">🌿 Eco<br><small>30% savings</small></button>
+                    <button class="btn btn-strategy" data-strategy="COMFORT">😊 Comfort<br><small>Balanced</small></button>
+                    <button class="btn btn-strategy" data-strategy="AWAY">🚗 Away<br><small>50% savings</small></button>
+                    <button class="btn btn-strategy" data-strategy="PARTY">🎉 Party<br><small>Full power</small></button>
+                    <button class="btn btn-strategy" data-strategy="NIGHT">🌙 Night<br><small>Sleep</small></button>
+                </div>
+            </div>
+            <div class="demo-result" id="strategy-result"></div>
+        </div>
+    </section>
+
+    <!-- 22. TEMPLATE METHOD -->
+    <section id="template" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>22. Template Method Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define the skeleton of an algorithm, deferring some steps to subclasses.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> <code>DeviceInitializer</code> defines init steps. Subclasses (<code>LightInitializer</code>, <code>CameraInitializer</code>) customize specific steps.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Initialize Device</h4>
+                <form data-api-endpoint="/patterns/template/init" data-api-method="POST" class="demo-form">
+                    <div class="form-row">
+                        <div>
+                            <label>Device Type</label>
+                            <select name="deviceType">
+                                <option value="LIGHT">💡 Light</option>
+                                <option value="THERMOSTAT">🌡️ Thermostat</option>
+                                <option value="CAMERA">📷 Camera</option>
+                                <option value="LOCK">🔒 Lock</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Device ID</label>
+                            <input type="text" name="deviceId" value="new-device-001" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Run Initialization</button>
+                </form>
+            </div>
+            <div class="demo-result" id="template-result"></div>
+        </div>
+    </section>
+
+    <!-- 23. VISITOR -->
+    <section id="visitor" class="pattern-section">
+        <div class="pattern-header">
+            <div class="pattern-title-row">
+                <h3>23. Visitor Pattern</h3>
+                <span class="badge badge-behavioral">Behavioral</span>
+            </div>
+            <p class="pattern-intent"><strong>Intent:</strong> Define a new operation without changing the classes of the elements it operates on.</p>
+            <p class="pattern-usecase"><strong>Smart Home Use Case:</strong> Different visitors perform audits: <code>MaintenanceVisitor</code>, <code>EnergyAuditVisitor</code>, <code>SecurityAuditVisitor</code>.</p>
+        </div>
+        <div class="pattern-demo">
+            <div class="demo-controls">
+                <h4>🔬 Live Demo: Run Device Audits</h4>
+                <div class="audit-buttons">
+                    <button class="btn btn-audit" data-audit="MAINTENANCE">🔧 Maintenance<br><small>Device health</small></button>
+                    <button class="btn btn-audit" data-audit="ENERGY">⚡ Energy<br><small>Power usage</small></button>
+                    <button class="btn btn-audit" data-audit="SECURITY">🔒 Security<br><small>Vulnerabilities</small></button>
+                </div>
+            </div>
+            <div class="demo-result" id="visitor-result"></div>
+        </div>
+    </section>
+
+    <!-- Global Output Log -->
     <div class="section">
-        <h2 class="section-title">📋 Output Log</h2>
+        <h2 class="section-title">📋 Global Output Log</h2>
         <div class="output-area">
-            <pre id="output">Click “Run Demo” to execute a pattern demo and see results here…</pre>
+            <pre id="output">Pattern demos will appear here. Scroll up to try each pattern!</pre>
         </div>
     </div>
 </div>
 
 <script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/patterns.js}"></script>
 </body>
 </html>

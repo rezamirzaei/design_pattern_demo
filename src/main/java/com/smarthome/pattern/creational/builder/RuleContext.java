@@ -53,7 +53,7 @@ public class RuleContext {
                 LocalTime timeBefore = LocalTime.parse(value);
                 return LocalTime.now().isBefore(timeBefore);
             case "MODE_EQUALS":
-                return value.equals(homeController.getHomeMode());
+                return value.equals(homeController.getHomeModeEnum().name());
             default:
                 return true;
         }
