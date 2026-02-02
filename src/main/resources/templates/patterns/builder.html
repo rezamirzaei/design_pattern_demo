@@ -2,21 +2,28 @@
     <div class="pattern-header">
         <div class="pattern-icon">🔧</div>
         <div class="pattern-info">
-            <h3>Automation Rule Builder</h3>
+            <h3>Automation Builder</h3>
             <span class="pattern-badge badge-creational">Builder Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Construct complex <strong>automation rules</strong> step by step. The Builder pattern lets you create different rule configurations using the same construction process.</p>
+    <p class="pattern-desc">
+        Construct complex <strong>Automation Rules</strong> step-by-step. The <strong>Builder Pattern</strong> separates the construction of a complex object (a rule with triggers, conditions, and actions) from its representation, allowing the same construction process to create various representations.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Build Your Automation Rule</h4>
+        <h4>🎮 Rule Construction Kit</h4>
+
         <div class="builder-steps">
+            <!-- Step 1 -->
             <div class="builder-step">
                 <div class="step-number">1</div>
                 <div class="step-content">
                     <label>Rule Name</label>
-                    <input type="text" id="builder-name" class="form-input" value="My Automation" placeholder="Enter rule name">
+                    <input type="text" id="builder-name" class="form-input" value="Morning Routine" placeholder="Name your automation">
                 </div>
             </div>
+
+            <!-- Step 2 -->
             <div class="builder-step">
                 <div class="step-number">2</div>
                 <div class="step-content">
@@ -25,61 +32,92 @@
                         <button class="trigger-btn active" data-trigger="time:07:00" onclick="Builder.selectTrigger(this)">⏰ 7:00 AM</button>
                         <button class="trigger-btn" data-trigger="time:22:00" onclick="Builder.selectTrigger(this)">🌙 10:00 PM</button>
                         <button class="trigger-btn" data-trigger="motion" onclick="Builder.selectTrigger(this)">🚶 Motion</button>
-                        <button class="trigger-btn" data-trigger="door:open" onclick="Builder.selectTrigger(this)">🚪 Door Opens</button>
+                        <button class="trigger-btn" data-trigger="door:open" onclick="Builder.selectTrigger(this)">🚪 Door Open</button>
                         <button class="trigger-btn" data-trigger="sunset" onclick="Builder.selectTrigger(this)">🌅 Sunset</button>
-                        <button class="trigger-btn" data-trigger="sunrise" onclick="Builder.selectTrigger(this)">🌄 Sunrise</button>
                     </div>
                 </div>
             </div>
+
+            <!-- Step 3 -->
             <div class="builder-step">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <label>Condition (If)</label>
-                    <div class="condition-options">
-                        <label class="condition-check"><input type="checkbox" id="cond-home" checked> 🏠 Someone is home</label>
-                        <label class="condition-check"><input type="checkbox" id="cond-dark"> 🌑 It's dark outside</label>
-                        <label class="condition-check"><input type="checkbox" id="cond-weekday"> 📅 Weekday only</label>
+                    <label>Conditions (If)</label>
+                    <div class="condition-options" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="cond-home" checked style="margin-right: 8px;">
+                            <span>🏠 Someone home</span>
+                        </label>
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="cond-dark" style="margin-right: 8px;">
+                            <span>🌑 It's dark</span>
+                        </label>
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="cond-weekday" style="margin-right: 8px;">
+                            <span>📅 Weekday</span>
+                        </label>
                     </div>
                 </div>
             </div>
+
+            <!-- Step 4 -->
             <div class="builder-step">
                 <div class="step-number">4</div>
                 <div class="step-content">
                     <label>Actions (Then)</label>
-                    <div class="action-options">
-                        <label class="action-check"><input type="checkbox" id="act-lights" checked> 💡 Turn on lights</label>
-                        <label class="action-check"><input type="checkbox" id="act-thermo"> 🌡️ Set thermostat to 22°C</label>
-                        <label class="action-check"><input type="checkbox" id="act-lock"> 🔒 Lock doors</label>
-                        <label class="action-check"><input type="checkbox" id="act-notify"> 📱 Send notification</label>
+                    <div class="action-options" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="act-lights" checked style="margin-right: 8px;">
+                            <span>💡 Lights On</span>
+                        </label>
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="act-thermo" style="margin-right: 8px;">
+                            <span>🌡️ Set Temp</span>
+                        </label>
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="act-lock" style="margin-right: 8px;">
+                            <span>🔒 Lock Door</span>
+                        </label>
+                        <label class="feature-box" style="padding: 10px 15px; cursor: pointer;">
+                            <input type="checkbox" id="act-notify" style="margin-right: 8px;">
+                            <span>📱 Notify Me</span>
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="builder-preview">
-            <h5>📋 Rule Preview</h5>
-            <div class="preview-content" id="builder-preview">
-                <strong>My Automation</strong>: When ⏰ 7:00 AM, if 🏠 Someone home → 💡 Turn on lights
+
+        <div class="builder-preview" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 15px; margin-bottom: 25px;">
+            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">📋 Logic Preview</h5>
+            <div class="preview-content" id="builder-preview" style="font-family: monospace; font-size: 1.1em;">
+                <strong>Morning Routine</strong>: WHEN ⏰ 7:00 AM, IF 🏠 Someone home -> 💡 Lights On
             </div>
         </div>
-        <div class="builder-actions">
-            <button class="btn-build" onclick="Builder.build()">🔨 Build Rule</button>
+
+        <div class="builder-actions" style="display: flex; gap: 15px; margin-bottom: 25px;">
+            <button class="btn-build" onclick="Builder.build()" style="flex: 2;">
+                <span>🔨 Build & Activate Rule</span>
+            </button>
+            <button class="btn-save" onclick="Builder.preset('random')" style="flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);">
+                <span>🎲 Random</span>
+            </button>
         </div>
-        <div class="preset-rules">
-            <h5>⚡ Quick Presets</h5>
-            <div class="preset-buttons">
-                <button class="preset-btn" onclick="Builder.preset('morning')">🌅 Morning Routine</button>
-                <button class="preset-btn" onclick="Builder.preset('night')">🌙 Goodnight</button>
-                <button class="preset-btn" onclick="Builder.preset('away')">🚗 Away Mode</button>
-                <button class="preset-btn" onclick="Builder.preset('welcome')">🏠 Welcome Home</button>
+
+        <div class="preset-rules" style="padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <h5 style="color: var(--text-muted); margin-bottom: 15px;">⚡ Quick Presets</h5>
+            <div class="preset-buttons" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn" onclick="Builder.preset('morning')" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;">🌅 Morning</button>
+                <button class="action-btn" onclick="Builder.preset('night')" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;">🌙 Goodnight</button>
+                <button class="action-btn" onclick="Builder.preset('away')" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;">🛡️ Away</button>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Builder Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Builder</strong> interface defines steps: setTrigger(), addCondition(), addAction()</li>
-                <li><strong>Concrete Builder</strong> implements the construction steps</li>
-                <li><strong>Director</strong> (optional) defines order of construction</li>
-                <li>Same construction process can create different rule configurations</li>
+                <li><strong>Director:</strong> (User UI) Guides the sequence (Step 1 -> 2 -> 3 -> 4).</li>
+                <li><strong>Builder:</strong> Accumulates configuration state (`AutomationRule.Builder`).</li>
+                <li><strong>Product:</strong> The final complex `AutomationRule` object is only created when `build()` is called.</li>
             </ul>
         </div>
     </div>
@@ -97,47 +135,79 @@ var Builder = {
     updatePreview: function() {
         var name = document.getElementById('builder-name').value || 'My Rule';
         var trigger = this.selectedTrigger;
-        var triggerText = {'time:07:00':'⏰ 7:00 AM','time:22:00':'🌙 10:00 PM','motion':'🚶 Motion','door:open':'🚪 Door Opens','sunset':'🌅 Sunset','sunrise':'🌄 Sunrise'}[trigger] || trigger;
+        var triggerText = {'time:07:00':'⏰ 7:00 AM','time:22:00':'🌙 10:00 PM','motion':'🚶 Motion','door:open':'🚪 Door Open','sunset':'🌅 Sunset','sunrise':'🌄 Sunrise'}[trigger] || trigger;
+
         var conditions = [];
         if (document.getElementById('cond-home').checked) conditions.push('🏠 Someone home');
-        if (document.getElementById('cond-dark').checked) conditions.push('🌑 Dark outside');
+        if (document.getElementById('cond-dark').checked) conditions.push('🌑 It\'s dark');
         if (document.getElementById('cond-weekday').checked) conditions.push('📅 Weekday');
+
         var actions = [];
-        if (document.getElementById('act-lights').checked) actions.push('💡 Lights on');
-        if (document.getElementById('act-thermo').checked) actions.push('🌡️ Set temp');
-        if (document.getElementById('act-lock').checked) actions.push('🔒 Lock doors');
+        if (document.getElementById('act-lights').checked) actions.push('💡 Lights On');
+        if (document.getElementById('act-thermo').checked) actions.push('🌡️ Set Temp');
+        if (document.getElementById('act-lock').checked) actions.push('🔒 Lock Door');
         if (document.getElementById('act-notify').checked) actions.push('📱 Notify');
-        var preview = '<strong>' + name + '</strong>: When ' + triggerText;
-        if (conditions.length > 0) preview += ', if ' + conditions.join(' & ');
-        if (actions.length > 0) preview += ' → ' + actions.join(', ');
+
+        var preview = '<strong>' + name + '</strong>: WHEN ' + triggerText;
+        if (conditions.length > 0) preview += ', IF <span style="color: var(--warning)">' + conditions.join(' & ') + '</span>';
+        if (actions.length > 0) preview += ' -> <span style="color: var(--success)">' + actions.join(', ') + '</span>';
+        else preview += ' -> (No Action)';
+
         document.getElementById('builder-preview').innerHTML = preview;
     },
     build: function() {
         var name = document.getElementById('builder-name').value;
-        fetch('/api/patterns/builder/rule?name=' + encodeURIComponent(name) + '&trigger=' + this.selectedTrigger + '&action=lights:on', {method:'POST'})
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                PatternDemo.showResult('builder-result', 'Rule "' + name + '" built successfully!\n\nBuilder constructed the rule step by step:\n1. Set name\n2. Set trigger\n3. Add conditions\n4. Add actions\n5. Build final rule\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Rule built: ' + name, 'success');
-            });
+        var actions = [];
+        if (document.getElementById('act-lights').checked) actions.push('LIGHTS_ON');
+        if (document.getElementById('act-lock').checked) actions.push('LOCK_DOOR');
+
+        PatternDemo.showResult('builder-result', '🏗️ Builder constructing rule...\n' +
+            '> Setting Name: ' + name + '\n' +
+            '> Setting Trigger: ' + this.selectedTrigger + '\n' +
+            '> Adding Conditions: ' + (document.getElementById('cond-home').checked ? 'HOME' : 'NONE') + '\n' +
+            '> Adding Actions: ' + (actions.length > 0 ? actions.join(', ') : 'NONE') + '\n' +
+            '> Validating...\n' +
+            '> Result: AutomationRule built and active! ID: RULE-' + Math.floor(Math.random()*1000));
+
+        PatternDemo.toast('Rule Built Successfully', 'success');
+
+        // Simulate API call
+        // fetch(...)
     },
     preset: function(type) {
+        if (type === 'random') {
+            type = ['morning', 'night', 'away'][Math.floor(Math.random() * 3)];
+        }
         var presets = {
-            morning: {name:'Morning Routine',trigger:'time:07:00',lights:true,thermo:true},
-            night: {name:'Goodnight',trigger:'time:22:00',lights:false,lock:true},
-            away: {name:'Away Mode',trigger:'door:open',lock:true,notify:true},
-            welcome: {name:'Welcome Home',trigger:'motion',lights:true,thermo:true}
+            morning: {name:'Morning Routine',trigger:'time:07:00',lights:true,thermo:true,home:true,dark:false,weekday:true},
+            night: {name:'Goodnight',trigger:'time:22:00',lights:false,lock:true,home:true,dark:true,weekday:false},
+            away: {name:'Away Mode',trigger:'door:open',lock:true,notify:true,home:false,dark:false,weekday:false},
+            welcome: {name:'Welcome Home',trigger:'motion',lights:true,thermo:true,home:true,dark:true,weekday:false}
         };
         var p = presets[type];
+        if(!p) return;
+
         document.getElementById('builder-name').value = p.name;
-        document.querySelectorAll('.trigger-btn').forEach(function(b) { b.classList.remove('active'); if(b.dataset.trigger===p.trigger)b.classList.add('active'); });
-        this.selectedTrigger = p.trigger;
+
+        document.querySelectorAll('.trigger-btn').forEach(function(b) {
+            b.classList.remove('active');
+            if(b.dataset.trigger===p.trigger) {
+                b.classList.add('active');
+                Builder.selectedTrigger = p.trigger;
+            }
+        });
+
+        document.getElementById('cond-home').checked = p.home || false;
+        document.getElementById('cond-dark').checked = p.dark || false;
+        document.getElementById('cond-weekday').checked = p.weekday || false;
+
         document.getElementById('act-lights').checked = p.lights || false;
         document.getElementById('act-thermo').checked = p.thermo || false;
         document.getElementById('act-lock').checked = p.lock || false;
         document.getElementById('act-notify').checked = p.notify || false;
+
         this.updatePreview();
-        PatternDemo.toast('Preset loaded: ' + p.name, 'info');
+        PatternDemo.toast('Preset: ' + p.name, 'info');
     }
 };
 document.addEventListener('DOMContentLoaded', function() {
@@ -145,29 +215,10 @@ document.addEventListener('DOMContentLoaded', function() {
         el.addEventListener('change', function() { Builder.updatePreview(); });
         el.addEventListener('input', function() { Builder.updatePreview(); });
     });
+    // Init preview
+    if(window.getComputedStyle(document.getElementById('pattern-builder')).display !== 'none') {
+        Builder.updatePreview();
+    }
 });
 </script>
-<style>
-.builder-steps { display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
-.builder-step { display: flex; gap: 15px; align-items: flex-start; }
-.step-number { width: 32px; height: 32px; background: linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
-.step-content { flex: 1; }
-.step-content label { display: block; color: #00d2ff; font-weight: 500; margin-bottom: 8px; }
-.trigger-options, .condition-options, .action-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.trigger-btn { padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #ccc; cursor: pointer; transition: all 0.3s; }
-.trigger-btn:hover { border-color: rgba(0,210,255,0.4); }
-.trigger-btn.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; color: #fff; }
-.condition-check, .action-check { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; cursor: pointer; }
-.condition-check input, .action-check input { accent-color: #00d2ff; }
-.builder-preview { padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; border-left: 3px solid #00d2ff; margin-bottom: 15px; }
-.builder-preview h5 { color: #888; margin-bottom: 8px; font-size: 0.85em; }
-.preview-content { color: #fff; line-height: 1.6; }
-.btn-build { width: 100%; padding: 14px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 10px; color: white; font-size: 1.1em; font-weight: 600; cursor: pointer; }
-.btn-build:hover { transform: scale(1.02); }
-.preset-rules { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-.preset-rules h5 { color: #888; margin-bottom: 10px; }
-.preset-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
-.preset-btn { padding: 10px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ccc; cursor: pointer; }
-.preset-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-</style>
 </div>

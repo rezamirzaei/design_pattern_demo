@@ -2,83 +2,96 @@
     <div class="pattern-header">
         <div class="pattern-icon">📋</div>
         <div class="pattern-info">
-            <h3>Device Initialization Template</h3>
+            <h3>Boot Sequence</h3>
             <span class="pattern-badge badge-behavioral">Template Method Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Define the <strong>skeleton of device initialization</strong> in a base class, letting subclasses override specific steps without changing the overall structure.</p>
+    <p class="pattern-desc">
+        Define the skeleton of an algorithm in the superclass but let subclasses override specific steps.
+        This ensures the <strong>structure remains invariant</strong> while steps can be specialized.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Initialize Devices</h4>
-        <div class="device-init-selector">
-            <button class="init-btn" onclick="Template.init('LIGHT')">
-                <span class="ib-icon">💡</span>
-                <span class="ib-name">Light</span>
+        <h4>🎮 Device Initializer</h4>
+
+        <div class="device-init-selector" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+            <button class="init-btn" onclick="Template.init('LIGHT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
+                <span style="font-size: 3em; margin-bottom: 10px;">💡</span>
+                <span style="font-weight: 600;">Lights</span>
             </button>
-            <button class="init-btn" onclick="Template.init('THERMOSTAT')">
-                <span class="ib-icon">🌡️</span>
-                <span class="ib-name">Thermostat</span>
+            <button class="init-btn" onclick="Template.init('THERMOSTAT')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
+                <span style="font-size: 3em; margin-bottom: 10px;">🌡️</span>
+                <span style="font-weight: 600;">Thermo</span>
             </button>
-            <button class="init-btn" onclick="Template.init('CAMERA')">
-                <span class="ib-icon">📷</span>
-                <span class="ib-name">Camera</span>
+            <button class="init-btn" onclick="Template.init('CAMERA')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
+                <span style="font-size: 3em; margin-bottom: 10px;">📷</span>
+                <span style="font-weight: 600;">Camera</span>
             </button>
-            <button class="init-btn" onclick="Template.init('LOCK')">
-                <span class="ib-icon">🔒</span>
-                <span class="ib-name">Lock</span>
+            <button class="init-btn" onclick="Template.init('LOCK')" style="display: flex; flex-direction: column; align-items: center; padding: 25px; background: rgba(255,255,255,0.03); border: 2px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; transition: all 0.3s; width: 120px;">
+                <span style="font-size: 3em; margin-bottom: 10px;">🔒</span>
+                <span style="font-weight: 600;">Lock</span>
             </button>
         </div>
-        <div class="init-progress">
-            <h5>📊 Initialization Progress</h5>
-            <div class="progress-steps" id="init-steps">
-                <div class="step" id="step-1">
-                    <div class="step-num">1</div>
-                    <div class="step-info">
-                        <div class="step-name">Connect to Network</div>
-                        <div class="step-desc">Common step for all devices</div>
+
+        <div class="init-progress" style="padding: 25px; background: var(--darker); border-radius: 20px; border: 1px solid var(--glass-border); position: relative;">
+            <div style="position: absolute; top: 15px; right: 20px; font-family: monospace; color: var(--text-muted); font-size: 0.8em;">boot_sequence.sh</div>
+            <h5 style="color: var(--primary); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase;">📊 Initialization Pipeline</h5>
+
+            <div class="progress-steps" id="init-steps" style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- Step 1: Base -->
+                <div class="step" id="step-1" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">1</div>
+                    <div class="step-info" style="flex: 1;">
+                        <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Connect Network</div>
                     </div>
-                    <div class="step-status">⏳</div>
+                    <div class="step-status"></div>
                 </div>
-                <div class="step" id="step-2">
-                    <div class="step-num">2</div>
-                    <div class="step-info">
-                        <div class="step-name">Authenticate</div>
-                        <div class="step-desc">Common step for all devices</div>
+
+                <!-- Step 2: Base -->
+                <div class="step" id="step-2" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">2</div>
+                    <div class="step-info" style="flex: 1;">
+                        <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Authenticate</div>
                     </div>
-                    <div class="step-status">⏳</div>
+                    <div class="step-status"></div>
                 </div>
-                <div class="step" id="step-3">
-                    <div class="step-num">3</div>
-                    <div class="step-info">
-                        <div class="step-name">Device-Specific Setup</div>
-                        <div class="step-desc" id="step-3-desc">Varies by device type</div>
+
+                <!-- Step 3: Abstract -->
+                <div class="step" id="step-3" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 2px dashed var(--glass-border); border-radius: 10px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">3</div>
+                    <div class="step-info" style="flex: 1;">
+                        <div class="step-name" style="font-weight: 600; color: var(--accent);">HOOK: Device Specific Setup</div>
+                        <div class="step-desc" id="step-3-desc" style="font-size: 0.85em; color: var(--text-muted); font-style: italic; margin-top: 3px;">(Overridden by subclass)</div>
                     </div>
-                    <div class="step-status">⏳</div>
+                    <div class="step-status"></div>
                 </div>
-                <div class="step" id="step-4">
-                    <div class="step-num">4</div>
-                    <div class="step-info">
-                        <div class="step-name">Register with Hub</div>
-                        <div class="step-desc">Common step for all devices</div>
+
+                <!-- Step 4: Base -->
+                <div class="step" id="step-4" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">4</div>
+                    <div class="step-info" style="flex: 1;">
+                        <div class="step-name" style="font-weight: 600; color: var(--text-muted);">Common: Hub Register</div>
                     </div>
-                    <div class="step-status">⏳</div>
+                    <div class="step-status"></div>
                 </div>
-                <div class="step" id="step-5">
-                    <div class="step-num">5</div>
-                    <div class="step-info">
-                        <div class="step-name">Ready</div>
-                        <div class="step-desc">Device is now operational</div>
+
+                <!-- Step 5: Final -->
+                <div class="step" id="step-5" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; transition: all 0.3s;">
+                    <div class="step-num" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace;">5</div>
+                    <div class="step-info" style="flex: 1;">
+                        <div class="step-name" style="font-weight: 600; color: var(--text-muted);">DONE: Ready</div>
                     </div>
-                    <div class="step-status">⏳</div>
+                    <div class="step-status"></div>
                 </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Template Method Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Abstract Class</strong> defines template method: initialize()</li>
-                <li><strong>Template Method</strong> calls steps in order: connect → auth → setup → register</li>
-                <li><strong>Hook Methods</strong>: deviceSpecificSetup() is overridden by subclasses</li>
-                <li>LightDevice, ThermostatDevice each implement their own setup</li>
+                <li><strong>Abstract Class:</strong> Defines `final void initialize()` skeleton calling steps 1-5.</li>
+                <li><strong>Common Methods:</strong> Steps 1, 2, 4 are standard.</li>
+                <li><strong>Abstract Method:</strong> Step 3 `setupHardware()` is abstract, forcing subclasses to implement valid logic.</li>
             </ul>
         </div>
     </div>
@@ -88,62 +101,67 @@
 var Template = {
     init: function(deviceType) {
         var specificSteps = {
-            LIGHT: 'Calibrate brightness, Set color temp',
-            THERMOSTAT: 'Read sensors, Set schedules',
-            CAMERA: 'Initialize video stream, Set resolution',
-            LOCK: 'Verify PIN codes, Test motor'
+            LIGHT: { desc: '⚡ Voltage Check -> 🎨 Color Calibration', icon: '💡' },
+            THERMOSTAT: { desc: '🌡️ Sensor Calibration -> 📅 Schedule Sync', icon: '🌡️' },
+            CAMERA: { desc: '📷 Lens Focus -> 💾 Storage Check', icon: '📷' },
+            LOCK: { desc: '🔑 Key Exchange -> ⚙️ Motor Test', icon: '🔒' }
         };
+
         // Reset steps
         document.querySelectorAll('.step').forEach(function(s) {
-            s.classList.remove('active', 'done');
-            s.querySelector('.step-status').textContent = '⏳';
+            s.style.background = 'rgba(255,255,255,0.02)';
+            s.style.borderColor = 'var(--glass-border)';
+            s.querySelector('.step-name').style.color = 'var(--text-muted)';
+            s.querySelector('.step-status').innerHTML = '';
+            s.querySelector('.step-num').style.background = 'rgba(255,255,255,0.1)';
         });
-        document.getElementById('step-3-desc').textContent = specificSteps[deviceType] || 'Device-specific';
-        // Animate steps
+
+        // Setup Step 3
+        var step3 = document.getElementById('step-3');
+        step3.style.borderColor = 'var(--accent)';
+        document.getElementById('step-3-desc').innerHTML = specificSteps[deviceType].desc;
+        step3.querySelector('.step-name').style.color = 'var(--accent)';
+
+        // Animation Loop
         var steps = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
         var delay = 0;
+
         steps.forEach(function(stepId, index) {
             setTimeout(function() {
                 var step = document.getElementById(stepId);
-                step.classList.add('active');
-                step.querySelector('.step-status').textContent = '⚙️';
+
+                // Active State
+                step.style.background = 'rgba(0, 210, 255, 0.1)';
+                step.style.borderColor = 'var(--primary)';
+                step.querySelector('.step-name').style.color = 'var(--text)';
+                step.querySelector('.step-status').innerHTML = '<span style="animation: spin 1s infinite">⏳</span>';
+
+                // Done State (after short processing)
                 setTimeout(function() {
-                    step.classList.remove('active');
-                    step.classList.add('done');
-                    step.querySelector('.step-status').textContent = '✅';
+                    step.style.background = 'rgba(40, 167, 69, 0.1)';
+                    step.style.borderColor = 'var(--success)';
+                    step.querySelector('.step-num').style.background = 'var(--success)';
+                    step.querySelector('.step-status').innerHTML = '✅';
                 }, 400);
             }, delay);
             delay += 500;
         });
+
+        // API Call
         fetch('/api/patterns/template/init?deviceType=' + deviceType, {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 setTimeout(function() {
-                    PatternDemo.showResult('template-result', deviceType + ' initialized!\n\nTemplate method executed:\n1. connect() - common\n2. authenticate() - common\n3. deviceSpecificSetup() - ' + specificSteps[deviceType] + '\n4. registerWithHub() - common\n5. ready()\n\n' + JSON.stringify(data, null, 2));
-                    PatternDemo.toast(deviceType + ' initialized', 'success');
+                    PatternDemo.showResult('template-result', '✅ ' + deviceType + ' Online\n' +
+                        '-------------------------\n' +
+                        'Template Method Execution Complete.\n' +
+                        'Invariant Steps: 1, 2, 4, 5\n' +
+                        'Variant Step: 3 (' + specificSteps[deviceType].desc + ')');
+                    PatternDemo.toast('Device Ready', 'success');
                 }, 2500);
             });
     }
 };
 </script>
-<style>
-.device-init-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
-.init-btn { display: flex; flex-direction: column; align-items: center; padding: 20px 30px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; }
-.init-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateY(-3px); }
-.ib-icon { font-size: 2.5em; margin-bottom: 8px; }
-.ib-name { font-weight: 500; }
-.init-progress { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; }
-.init-progress h5 { color: #00d2ff; margin-bottom: 15px; }
-.progress-steps { display: flex; flex-direction: column; gap: 12px; }
-.step { display: flex; align-items: center; gap: 15px; padding: 12px 18px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; transition: all 0.3s; }
-.step.active { border-color: #ffc107; background: rgba(255,193,7,0.1); }
-.step.done { border-color: #28a745; background: rgba(40,167,69,0.1); }
-.step-num { width: 30px; height: 30px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-.step.done .step-num { background: #28a745; }
-.step.active .step-num { background: #ffc107; color: #000; }
-.step-info { flex: 1; }
-.step-name { font-weight: 500; margin-bottom: 2px; }
-.step-desc { font-size: 0.8em; color: #888; }
-.step-status { font-size: 1.2em; }
-</style>
+<style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
 </div>

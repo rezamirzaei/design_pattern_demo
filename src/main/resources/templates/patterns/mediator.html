@@ -2,65 +2,93 @@
     <div class="pattern-header">
         <div class="pattern-icon">🎛️</div>
         <div class="pattern-info">
-            <h3>Smart Home Hub (Mediator)</h3>
+            <h3>Centralized Coordination</h3>
             <span class="pattern-badge badge-behavioral">Mediator Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">The <strong>Smart Home Hub</strong> coordinates communication between all devices. Devices don't talk directly to each other - they notify the hub, which then coordinates the response.</p>
+    <p class="pattern-desc">
+        Reduce chaotic dependencies between objects. The <strong>Hub (Mediator)</strong> restricts direct communications between devices (Colleagues) and forces them to collaborate only via the central hub.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Trigger Events Through Hub</h4>
-        <div class="hub-visualization">
-            <div class="devices-ring">
-                <div class="device-node" id="node-motion"><span>🚶</span>Motion</div>
-                <div class="device-node" id="node-door"><span>🚪</span>Door</div>
-                <div class="device-node" id="node-light"><span>💡</span>Light</div>
-                <div class="device-node" id="node-camera"><span>📷</span>Camera</div>
-                <div class="device-node" id="node-alarm"><span>🚨</span>Alarm</div>
-                <div class="device-node" id="node-thermo"><span>🌡️</span>Thermo</div>
+        <h4>🎮 Smart Hub Simulation</h4>
+
+        <div class="hub-visualization" style="position: relative; height: 400px; margin-bottom: 30px; background: radial-gradient(circle at center, rgba(0,210,255,0.05) 0%, transparent 70%); border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border);">
+            <div class="devices-ring" style="width: 100%; height: 100%;">
+                <div class="device-node" id="node-motion" style="top: 15%; left: 50%; transform: translateX(-50%);"><span>🚶</span>Motion</div>
+                <div class="device-node" id="node-door" style="top: 35%; right: 10%;"><span>🚪</span>Door</div>
+                <div class="device-node" id="node-light" style="bottom: 20%; right: 20%;"><span>💡</span>Light</div>
+                <div class="device-node" id="node-camera" style="bottom: 10%; left: 50%; transform: translateX(-50%);"><span>📷</span>Camera</div>
+                <div class="device-node" id="node-alarm" style="bottom: 20%; left: 20%;"><span>🚨</span>Alarm</div>
+                <div class="device-node" id="node-thermo" style="top: 35%; left: 10%;"><span>🌡️</span>Thermo</div>
             </div>
-            <div class="hub-center">
-                <div class="hub-icon">🎛️</div>
-                <div class="hub-label">Smart Hub</div>
+
+            <div class="hub-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 30px; background: var(--darker); border: 2px solid var(--primary); border-radius: 50%; z-index: 10; box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);">
+                <div class="hub-icon" style="font-size: 3em;">🎛️</div>
+                <div class="hub-label" style="font-weight: 700; color: var(--primary); margin-top: 5px;">HUB</div>
+            </div>
+
+            <!-- Connection lines (SVG overlay) -->
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
+                <line x1="50%" y1="50%" x2="50%" y2="22%" stroke="var(--primary)" stroke-width="2" />
+                <line x1="50%" y1="50%" x2="50%" y2="78%" stroke="var(--primary)" stroke-width="2" />
+                <line x1="50%" y1="50%" x2="80%" y2="35%" stroke="var(--primary)" stroke-width="2" />
+                <line x1="50%" y1="50%" x2="20%" y2="35%" stroke="var(--primary)" stroke-width="2" />
+                <line x1="50%" y1="50%" x2="70%" y2="70%" stroke="var(--primary)" stroke-width="2" />
+                <line x1="50%" y1="50%" x2="30%" y2="70%" stroke="var(--primary)" stroke-width="2" />
+            </svg>
+        </div>
+
+        <div class="event-triggers" style="margin-bottom: 25px;">
+            <h5 style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">⚡ Trigger Event (Colleague -> Mediator)</h5>
+            <div class="trigger-btns" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <button class="trigger-btn" onclick="Mediator.trigger('motion','MOTION_DETECTED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
+                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🚶</span>
+                    <div>
+                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Motion Detected</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Lights ON, Record</span>
+                    </div>
+                </button>
+
+                <button class="trigger-btn" onclick="Mediator.trigger('door','DOOR_OPENED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
+                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🚪</span>
+                    <div>
+                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Door Opened</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Check Alarm, Notify</span>
+                    </div>
+                </button>
+
+                <button class="trigger-btn" onclick="Mediator.trigger('smoke','SMOKE_DETECTED')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
+                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🔥</span>
+                    <div>
+                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Smoke Detected</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">Alarm, Unlock, Call</span>
+                    </div>
+                </button>
+
+                <button class="trigger-btn" onclick="Mediator.trigger('temp','TEMP_HIGH')" style="display: flex; gap: 10px; align-items: center; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.3s;">
+                    <span class="tb-icon" style="font-size: 1.5em; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 5px;">🌡️</span>
+                    <div>
+                        <span class="tb-event" style="display: block; font-weight: 600; color: var(--text);">Temp High</span>
+                        <span class="tb-response" style="display: block; font-size: 0.7em; color: var(--text-muted);">AC Cooling, Notify</span>
+                    </div>
+                </button>
             </div>
         </div>
-        <div class="event-triggers">
-            <h5>⚡ Trigger Events</h5>
-            <div class="trigger-btns">
-                <button class="trigger-btn" onclick="Mediator.trigger('motion','MOTION_DETECTED')">
-                    <span class="tb-icon">🚶</span>
-                    <span class="tb-event">Motion Detected</span>
-                    <span class="tb-response">→ Lights ON, Camera Record</span>
-                </button>
-                <button class="trigger-btn" onclick="Mediator.trigger('door','DOOR_OPENED')">
-                    <span class="tb-icon">🚪</span>
-                    <span class="tb-event">Door Opened</span>
-                    <span class="tb-response">→ Check alarm, Notify</span>
-                </button>
-                <button class="trigger-btn" onclick="Mediator.trigger('smoke','SMOKE_DETECTED')">
-                    <span class="tb-icon">🔥</span>
-                    <span class="tb-event">Smoke Detected</span>
-                    <span class="tb-response">→ Alarm ON, Lights ON, Call 911</span>
-                </button>
-                <button class="trigger-btn" onclick="Mediator.trigger('temp','TEMP_HIGH')">
-                    <span class="tb-icon">🌡️</span>
-                    <span class="tb-event">Temperature High</span>
-                    <span class="tb-response">→ AC ON, Notify</span>
-                </button>
+
+        <div class="coordination-log" style="padding: 20px; background: var(--darker); border-radius: 12px; max-height: 200px; overflow-y: auto; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em;">📋 Logic Trace</h5>
+            <div class="log-content" id="mediator-log" style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="log-placeholder" style="text-align: center; padding: 20px; color: var(--text-muted); font-style: italic;">System Idle. Waiting for events...</div>
             </div>
         </div>
-        <div class="coordination-log">
-            <h5>📋 Hub Coordination Log</h5>
-            <div class="log-content" id="mediator-log">
-                <div class="log-placeholder">Trigger an event to see hub coordination...</div>
-            </div>
-        </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Mediator Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Mediator</strong> (Hub) knows all colleagues (devices)</li>
-                <li><strong>Colleagues</strong> (Devices) only know the mediator, not each other</li>
-                <li>Device sends event to hub → Hub notifies relevant devices</li>
-                <li>Reduces coupling: N*(N-1) connections → N connections</li>
+                <li><strong>Colleague:</strong> Sends event to Mediator. Does NOT know other devices.</li>
+                <li><strong>Mediator:</strong> Receives event, decides business logic, calls methods on other Colleagues.</li>
+                <li><strong>Decoupling:</strong> Removing many-to-many dependencies simplifies the system graph.</li>
             </ul>
         </div>
     </div>
@@ -71,76 +99,87 @@ var Mediator = {
     logCount: 0,
     trigger: function(source, event) {
         this.logCount++;
-        // Animate hub
-        document.querySelector('.hub-center').classList.add('pulse');
-        setTimeout(function() { document.querySelector('.hub-center').classList.remove('pulse'); }, 500);
-        // Define responses
+
+        // Visual effects
+        var hub = document.querySelector('.hub-center');
+        hub.style.transform = 'translate(-50%, -50%) scale(1.15)';
+        hub.style.boxShadow = '0 0 50px var(--primary)';
+        setTimeout(() => {
+            hub.style.transform = 'translate(-50%, -50%) scale(1)';
+            hub.style.boxShadow = '0 0 30px rgba(0, 210, 255, 0.2)';
+        }, 300);
+
+        // Logic
         var responses = {
             'MOTION_DETECTED': [{device:'light',action:'ON'},{device:'camera',action:'RECORD'}],
             'DOOR_OPENED': [{device:'alarm',action:'CHECK'},{device:'camera',action:'SNAPSHOT'}],
-            'SMOKE_DETECTED': [{device:'alarm',action:'ON'},{device:'light',action:'ON'},{device:'door',action:'UNLOCK'}],
-            'TEMP_HIGH': [{device:'thermo',action:'COOL'},{device:'alarm',action:'NOTIFY'}]
+            'SMOKE_DETECTED': [{device:'alarm',action:'SIREN'},{device:'light',action:'FLASH'},{device:'door',action:'UNLOCK'}],
+            'TEMP_HIGH': [{device:'thermo',action:'COOL'},{device:'alarm',action:'ALERT'}]
         };
         var actions = responses[event] || [];
-        // Animate affected devices
-        document.querySelectorAll('.device-node').forEach(function(n) { n.classList.remove('active','source'); });
-        document.getElementById('node-' + source).classList.add('source');
+
+        // Reset Nodes
+        document.querySelectorAll('.device-node').forEach(n => {
+            n.style.borderColor = 'var(--glass-border)';
+            n.style.background = 'var(--glass-bg)';
+            n.style.transform = 'translate(0, 0) scale(1)';
+        });
+
+        // Highlight Source
+        var srcNode = document.getElementById('node-' + source);
+        if(srcNode) {
+            srcNode.style.borderColor = 'var(--warning)';
+            srcNode.style.background = 'rgba(255, 193, 7, 0.2)';
+            srcNode.style.transform = 'translate(0, -5px) scale(1.1)';
+        }
+
+        // Highlight Targets with delay
         var delay = 300;
-        actions.forEach(function(a) {
-            setTimeout(function() {
+        actions.forEach(a => {
+            setTimeout(() => {
                 var node = document.getElementById('node-' + a.device);
-                if (node) node.classList.add('active');
+                if (node) {
+                    node.style.borderColor = 'var(--success)';
+                    node.style.background = 'rgba(0, 200, 100, 0.2)';
+                    node.style.transform = 'translate(0, -5px) scale(1.1)';
+                    // Pulse back
+                    setTimeout(() => {
+                        node.style.transform = 'translate(0, 0) scale(1)';
+                    }, 400);
+                }
             }, delay);
             delay += 200;
         });
-        // Update log
+
+        // Update Log
         var logEl = document.getElementById('mediator-log');
-        if (this.logCount === 1) logEl.innerHTML = '';
-        var logEntry = document.createElement('div');
-        logEntry.className = 'mlog-entry';
-        logEntry.innerHTML = '<div class="mlog-source">📡 ' + source + ' → Hub: ' + event + '</div>' +
-            '<div class="mlog-responses">' + actions.map(function(a) { return '↪️ Hub → ' + a.device + ': ' + a.action; }).join('<br>') + '</div>';
-        logEl.insertBefore(logEntry, logEl.firstChild);
+        if (logEl.querySelector('.log-placeholder')) logEl.innerHTML = '';
+
+        var entry = document.createElement('div');
+        entry.className = 'mlog-entry';
+        entry.style.cssText = 'padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 3px solid var(--primary); font-family: monospace; animation: slideIn 0.3s ease-out;';
+
+        entry.innerHTML =
+            '<div style="font-weight: 700; color: var(--warning); margin-bottom: 4px;">📡 INPUT: ' + source.toUpperCase() + ' -> ' + event + '</div>' +
+            '<div style="color: var(--text-muted); padding-left: 15px; border-left: 1px dashed var(--glass-border);">' +
+                actions.map(a => '<span style="color:var(--success);">↳ OUTPUT:</span> Hub -> ' + a.device + '.' + a.action.toLowerCase() + '()').join('<br>') +
+            '</div>';
+
+        logEl.prepend(entry);
+
         fetch('/api/patterns/mediator/notify?sourceDeviceId=' + source + '&event=' + event, {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('mediator-result', 'Hub received: ' + event + ' from ' + source + '\n\nHub coordinated responses:\n' + actions.map(function(a) { return '• ' + a.device + ' → ' + a.action; }).join('\n') + '\n\nDevices communicate through hub, not directly.\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Hub coordinated ' + actions.length + ' responses', 'success');
+                var output = '🎛️ Hub Processing Complete\n' +
+                             '-------------------------\n' +
+                             'Trigger: ' + event + '\n' +
+                             'Dependent Actions: ' + actions.length + '\n' +
+                             'Result: Coordinated execution successful.';
+
+                PatternDemo.showResult('mediator-result', output);
+                PatternDemo.toast('Hub coordinated response', 'success');
             });
     }
 };
 </script>
-<style>
-.hub-visualization { position: relative; height: 280px; margin-bottom: 25px; }
-.devices-ring { position: absolute; width: 100%; height: 100%; }
-.device-node { position: absolute; display: flex; flex-direction: column; align-items: center; padding: 12px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 0.8em; transition: all 0.3s; }
-.device-node span { font-size: 1.8em; margin-bottom: 4px; }
-.device-node.source { border-color: #ffc107; background: rgba(255,193,7,0.2); }
-.device-node.active { border-color: #00d2ff; background: rgba(0,210,255,0.2); box-shadow: 0 0 15px rgba(0,210,255,0.4); }
-#node-motion { top: 10%; left: 50%; transform: translateX(-50%); }
-#node-door { top: 30%; right: 10%; }
-#node-light { top: 70%; right: 15%; }
-#node-camera { bottom: 5%; left: 50%; transform: translateX(-50%); }
-#node-alarm { top: 70%; left: 15%; }
-#node-thermo { top: 30%; left: 10%; }
-.hub-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(0,210,255,0.2), rgba(58,123,213,0.2)); border: 2px solid #00d2ff; border-radius: 50%; transition: all 0.3s; }
-.hub-center.pulse { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 30px rgba(0,210,255,0.5); }
-.hub-icon { font-size: 2.5em; }
-.hub-label { font-weight: 600; color: #00d2ff; }
-.event-triggers { margin-bottom: 20px; }
-.event-triggers h5 { color: #888; margin-bottom: 12px; }
-.trigger-btns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.trigger-btn { display: flex; align-items: center; gap: 12px; padding: 15px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; text-align: left; transition: all 0.3s; }
-.trigger-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); }
-.tb-icon { font-size: 1.8em; }
-.tb-event { font-weight: 500; display: block; }
-.tb-response { font-size: 0.75em; color: #888; display: block; }
-.coordination-log { padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; max-height: 150px; overflow-y: auto; }
-.coordination-log h5 { color: #888; margin-bottom: 10px; }
-.log-placeholder { color: #666; font-style: italic; }
-.mlog-entry { padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #00d2ff; }
-.mlog-source { font-weight: 500; margin-bottom: 5px; }
-.mlog-responses { font-size: 0.85em; color: #888; }
-@media (max-width: 768px) { .trigger-btns { grid-template-columns: 1fr; } }
-</style>
 </div>

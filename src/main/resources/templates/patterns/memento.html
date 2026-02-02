@@ -2,89 +2,90 @@
     <div class="pattern-header">
         <div class="pattern-icon">📸</div>
         <div class="pattern-info">
-            <h3>Home State Snapshot</h3>
+            <h3>State Snapshots</h3>
             <span class="pattern-badge badge-behavioral">Memento Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Save <strong>snapshots of your home state</strong> and restore them later. Perfect for saving "before bedtime" settings and restoring them tomorrow!</p>
+    <p class="pattern-desc">
+        Capture and restore an object's internal state without violating encapsulation.
+        The <strong>Memento Pattern</strong> saves "checkpoints" (e.g., Night Mode, Morning Setup) that you can revert to anytime.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Manage State Snapshots</h4>
-        <div class="current-state">
-            <h5>🏠 Current Home State</h5>
-            <div class="state-grid">
-                <div class="state-device">
-                    <span class="sd-icon">💡</span>
-                    <span class="sd-name">Lights</span>
-                    <select class="state-select" id="state-lights">
-                        <option value="ON">ON (70%)</option>
+        <h4>🎮 Time Machine</h4>
+
+        <div class="current-state" style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 25px;">
+            <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">Current Configuration (Originator)</h5>
+            <div class="state-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
+                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
+                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">💡</span>
+                    <select class="form-input" id="state-lights" style="width: 100%; text-align: center; padding: 5px;">
+                        <option value="ON">ON (100%)</option>
                         <option value="DIM">DIM (30%)</option>
                         <option value="OFF">OFF</option>
                     </select>
                 </div>
-                <div class="state-device">
-                    <span class="sd-icon">🌡️</span>
-                    <span class="sd-name">Thermo</span>
-                    <select class="state-select" id="state-thermo">
-                        <option value="22">22°C</option>
-                        <option value="20">20°C</option>
-                        <option value="18">18°C</option>
+                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
+                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🌡️</span>
+                    <select class="form-input" id="state-thermo" style="width: 100%; text-align: center; padding: 5px;">
+                        <option value="22">22°C (Comfort)</option>
+                        <option value="20">20°C (Eco)</option>
+                        <option value="18">18°C (Sleep)</option>
                     </select>
                 </div>
-                <div class="state-device">
-                    <span class="sd-icon">🔒</span>
-                    <span class="sd-name">Locks</span>
-                    <select class="state-select" id="state-locks">
-                        <option value="LOCKED">Locked</option>
-                        <option value="UNLOCKED">Unlocked</option>
+                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
+                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🔒</span>
+                    <select class="form-input" id="state-locks" style="width: 100%; text-align: center; padding: 5px;">
+                        <option value="LOCKED">LOCKED</option>
+                        <option value="UNLOCKED">UNLOCKED</option>
                     </select>
                 </div>
-                <div class="state-device">
-                    <span class="sd-icon">🚨</span>
-                    <span class="sd-name">Alarm</span>
-                    <select class="state-select" id="state-alarm">
-                        <option value="OFF">Off</option>
+                <div class="state-device" style="background: var(--glass-bg); padding: 15px; border-radius: 12px; text-align: center;">
+                    <span class="sd-icon" style="font-size: 2em; display: block; margin-bottom: 10px;">🚨</span>
+                    <select class="form-input" id="state-alarm" style="width: 100%; text-align: center; padding: 5px;">
+                        <option value="OFF">Disarmed</option>
                         <option value="HOME">Home Mode</option>
                         <option value="AWAY">Away Mode</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div class="snapshot-actions">
-            <div class="save-snapshot">
-                <input type="text" id="snapshot-name" class="form-input" placeholder="Snapshot name" value="My Snapshot">
-                <button class="btn-save" onclick="Memento.save()">📸 Save Snapshot</button>
+
+        <div class="snapshot-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <input type="text" id="snapshot-name" class="form-input" placeholder="Snapshot Name (e.g. Party Prep)" style="flex: 1;">
+            <button class="btn-primary" onclick="Memento.save()" style="padding: 0 25px;">📸 Capture State</button>
+        </div>
+
+        <div class="snapshots-list" style="background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">💾 Saved Checkpoints (Caretaker)</h5>
+            <div class="snapshots" id="snapshots-list" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Default Presets -->
+                <div class="snapshot-item" onclick="Memento.restore('morning')" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                    <span class="si-icon" style="font-size: 1.5em;">🌅</span>
+                    <div style="flex: 1;">
+                        <span class="si-name" style="font-weight: 600; display: block;">Morning Default</span>
+                        <span class="si-desc" style="font-size: 0.8em; color: var(--text-muted);">22°C, Unlocked, Lights ON</span>
+                    </div>
+                    <button class="action-btn" style="padding: 5px 12px; font-size: 0.8em;">⏪ RESTORE</button>
+                </div>
+
+                <div class="snapshot-item" onclick="Memento.restore('night')" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                    <span class="si-icon" style="font-size: 1.5em;">🌙</span>
+                    <div style="flex: 1;">
+                        <span class="si-name" style="font-weight: 600; display: block;">Night Default</span>
+                        <span class="si-desc" style="font-size: 0.8em; color: var(--text-muted);">18°C, Locked, Lights OFF</span>
+                    </div>
+                    <button class="action-btn" style="padding: 5px 12px; font-size: 0.8em;">⏪ RESTORE</button>
+                </div>
             </div>
         </div>
-        <div class="snapshots-list">
-            <h5>📋 Saved Snapshots</h5>
-            <div class="snapshots" id="snapshots-list">
-                <div class="snapshot-item" onclick="Memento.restore('morning')">
-                    <span class="si-icon">🌅</span>
-                    <span class="si-name">Morning Setup</span>
-                    <span class="si-time">Built-in</span>
-                    <button class="si-restore">⏪ Restore</button>
-                </div>
-                <div class="snapshot-item" onclick="Memento.restore('night')">
-                    <span class="si-icon">🌙</span>
-                    <span class="si-name">Goodnight</span>
-                    <span class="si-time">Built-in</span>
-                    <button class="si-restore">⏪ Restore</button>
-                </div>
-                <div class="snapshot-item" onclick="Memento.restore('away')">
-                    <span class="si-icon">🚗</span>
-                    <span class="si-name">Away Mode</span>
-                    <span class="si-time">Built-in</span>
-                    <button class="si-restore">⏪ Restore</button>
-                </div>
-            </div>
-        </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Memento Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Originator</strong> (Home) creates memento with its current state</li>
-                <li><strong>Memento</strong> stores the state snapshot (lights, thermo, etc.)</li>
-                <li><strong>Caretaker</strong> keeps track of saved mementos</li>
-                <li>Restoration applies memento's state back to originator</li>
+                <li><strong>Originator (SmartHome):</strong> Creates a Memento containing a snapshot of its internal state.</li>
+                <li><strong>Memento:</strong> Passive object storing the state (Lights, Thermo, etc.).</li>
+                <li><strong>Caretaker:</strong> Holds the history of Mementos (The list below).</li>
             </ul>
         </div>
     </div>
@@ -94,86 +95,93 @@
 var Memento = {
     snapshots: [],
     save: function() {
-        var name = document.getElementById('snapshot-name').value || 'Snapshot';
+        var nameInput = document.getElementById('snapshot-name');
+        var name = nameInput.value || 'Snapshot #' + (this.snapshots.length + 1);
+
         var state = {
             lights: document.getElementById('state-lights').value,
             thermo: document.getElementById('state-thermo').value,
             locks: document.getElementById('state-locks').value,
             alarm: document.getElementById('state-alarm').value
         };
+
         this.snapshots.push({name: name, state: state, time: new Date()});
         this.updateList();
-        fetch('/api/patterns/memento/save?sceneName=' + encodeURIComponent(name), {method:'POST'})
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                PatternDemo.showResult('memento-result', 'Snapshot saved: ' + name + '\n\nState captured:\n• Lights: ' + state.lights + '\n• Thermo: ' + state.thermo + '\n• Locks: ' + state.locks + '\n• Alarm: ' + state.alarm + '\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Saved: ' + name, 'success');
-            });
+        nameInput.value = '';
+
+        PatternDemo.showResult('memento-result', '💾 State Captured: "' + name + '"\n' +
+            '----------------------\n' +
+            'Internal State Preserved:\n' +
+            JSON.stringify(state, null, 2));
+
+        PatternDemo.toast('Snapshot Saved', 'success');
+
+        fetch('/api/patterns/memento/save?sceneName=' + encodeURIComponent(name), {method:'POST'});
     },
+
     restore: function(preset) {
-        var presets = {
-            morning: {lights:'ON',thermo:'22',locks:'UNLOCKED',alarm:'OFF'},
-            night: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'HOME'},
-            away: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'AWAY'}
-        };
-        var state = presets[preset];
+        var state;
+
+        // Check if custom or preset
+        if(typeof preset === 'string') {
+            var presets = {
+                morning: {lights:'ON',thermo:'22',locks:'UNLOCKED',alarm:'OFF'},
+                night: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'HOME'},
+                away: {lights:'OFF',thermo:'18',locks:'LOCKED',alarm:'AWAY'}
+            };
+            state = presets[preset];
+        } else {
+            state = preset; // Custom object passed directly
+        }
+
         if (!state) return;
+
+        // Apply state
         document.getElementById('state-lights').value = state.lights;
         document.getElementById('state-thermo').value = state.thermo;
         document.getElementById('state-locks').value = state.locks;
         document.getElementById('state-alarm').value = state.alarm;
-        fetch('/api/patterns/memento/restore?sceneName=' + preset, {method:'POST'})
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                PatternDemo.showResult('memento-result', 'Restored: ' + preset + '\n\nState restored:\n• Lights: ' + state.lights + '\n• Thermo: ' + state.thermo + '\n• Locks: ' + state.locks + '\n• Alarm: ' + state.alarm + '\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Restored: ' + preset, 'success');
-            });
+
+        // Flash visualization
+        var grid = document.querySelector('.state-grid');
+        grid.style.transition = 'background 0.3s';
+        grid.style.background = 'rgba(0, 255, 136, 0.1)';
+        setTimeout(() => grid.style.background = 'transparent', 300);
+
+        PatternDemo.showResult('memento-result', '⏪ State Restored from Memento\n' +
+            '----------------------\n' +
+            'Applied Configuration:\n' +
+            JSON.stringify(state, null, 2));
+
+        PatternDemo.toast('State Restored', 'info');
+
+        if(typeof preset === 'string') {
+            fetch('/api/patterns/memento/restore?sceneName=' + preset, {method:'POST'});
+        }
     },
+
     updateList: function() {
         var list = document.getElementById('snapshots-list');
-        var customHtml = this.snapshots.map(function(s, i) {
-            return '<div class="snapshot-item custom" onclick="Memento.restoreCustom(' + i + ')">' +
-                '<span class="si-icon">📸</span>' +
-                '<span class="si-name">' + s.name + '</span>' +
-                '<span class="si-time">' + s.time.toLocaleTimeString() + '</span>' +
-                '<button class="si-restore">⏪ Restore</button></div>';
-        }).join('');
-        // Keep built-in and add custom
-        var builtIn = list.querySelectorAll('.snapshot-item:not(.custom)');
-        var builtInHtml = Array.from(builtIn).map(function(el) { return el.outerHTML; }).join('');
-        list.innerHTML = builtInHtml + customHtml;
-    },
-    restoreCustom: function(index) {
-        var s = this.snapshots[index];
-        document.getElementById('state-lights').value = s.state.lights;
-        document.getElementById('state-thermo').value = s.state.thermo;
-        document.getElementById('state-locks').value = s.state.locks;
-        document.getElementById('state-alarm').value = s.state.alarm;
-        PatternDemo.toast('Restored: ' + s.name, 'success');
+        // Remove old custom items
+        list.querySelectorAll('.custom-snap').forEach(e => e.remove());
+
+        this.snapshots.forEach((s, i) => {
+            var el = document.createElement('div');
+            el.className = 'snapshot-item custom-snap';
+            el.onclick = function() { Memento.restore(s.state) };
+            el.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); border-radius: 10px; cursor: pointer; transition: all 0.3s; animation: slideIn 0.3s;';
+
+            el.innerHTML =
+                '<span class="si-icon" style="font-size: 1.5em;">📸</span>' +
+                '<div style="flex: 1;">' +
+                    '<span class="si-name" style="font-weight: 600; display: block; color: var(--primary);">' + s.name + '</span>' +
+                    '<span class="si-desc" style="font-size: 0.8em; color: var(--text-muted);">' + s.time.toLocaleTimeString() + '</span>' +
+                '</div>' +
+                '<button class="action-btn" style="padding: 5px 12px; font-size: 0.8em;">⏪ RESTORE</button>';
+
+            list.appendChild(el);
+        });
     }
 };
 </script>
-<style>
-.current-state { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 20px; }
-.current-state h5 { color: #00d2ff; margin-bottom: 15px; }
-.state-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-.state-device { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.sd-icon { font-size: 2em; }
-.sd-name { font-size: 0.85em; color: #888; }
-.state-select { padding: 8px 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; text-align: center; cursor: pointer; }
-.snapshot-actions { margin-bottom: 20px; }
-.save-snapshot { display: flex; gap: 10px; }
-.save-snapshot .form-input { flex: 1; }
-.btn-save { padding: 10px 20px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 8px; color: white; cursor: pointer; white-space: nowrap; }
-.snapshots-list h5 { color: #888; margin-bottom: 12px; }
-.snapshots { display: flex; flex-direction: column; gap: 10px; }
-.snapshot-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; transition: all 0.3s; }
-.snapshot-item:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-.snapshot-item.custom { border-color: rgba(40,167,69,0.3); }
-.si-icon { font-size: 1.5em; }
-.si-name { flex: 1; font-weight: 500; }
-.si-time { font-size: 0.8em; color: #888; }
-.si-restore { padding: 6px 12px; background: rgba(0,210,255,0.2); border: none; border-radius: 6px; color: #00d2ff; cursor: pointer; }
-@media (max-width: 768px) { .state-grid { grid-template-columns: repeat(2, 1fr); } }
-</style>
 </div>

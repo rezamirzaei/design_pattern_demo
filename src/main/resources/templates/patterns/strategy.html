@@ -2,82 +2,78 @@
     <div class="pattern-header">
         <div class="pattern-icon">⚡</div>
         <div class="pattern-info">
-            <h3>Energy Management Strategy</h3>
+            <h3>Energy Optimizer</h3>
             <span class="pattern-badge badge-behavioral">Strategy Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Switch between different <strong>energy management algorithms</strong> at runtime. Normal, Eco, or Performance mode - same interface, different strategies!</p>
+    <p class="pattern-desc">
+        Define a family of algorithms (e.g., energy profiles), encapsulate each one, and make them interchangeable.
+        <strong>Strategy</strong> lets the algorithm vary independently from clients that use it.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Select Energy Strategy</h4>
-        <div class="strategy-selector">
-            <button class="strategy-btn active" id="strat-normal" onclick="Strategy.select('NORMAL')">
-                <span class="sb-icon">⚡</span>
-                <span class="sb-name">Normal</span>
-                <span class="sb-power">100% Power</span>
-                <div class="sb-details">
-                    <span>💡 Lights: Full brightness</span>
-                    <span>🌡️ Climate: Comfort (22°C)</span>
-                    <span>📺 Devices: Always on</span>
+        <h4>🎮 Mode Selector</h4>
+
+        <div class="strategy-selector" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px;">
+            <div class="strategy-btn active" id="strat-normal" onclick="Strategy.select('NORMAL')" style="position: relative; padding: 25px; background: rgba(0, 210, 255, 0.1); border: 2px solid var(--primary); border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s; overflow: hidden;">
+                <div class="sb-icon" style="font-size: 3em; margin-bottom: 15px; text-shadow: 0 0 20px rgba(0, 210, 255, 0.5);">⚡</div>
+                <div class="sb-name" style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Balanced</div>
+                <div class="sb-power" style="color: var(--primary); font-family: monospace; font-weight: bold;">100% Usage</div>
+                <div class="sb-details" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 0.85em; text-align: left; color: var(--text-muted); display: flex; flex-direction: column; gap: 5px;">
+                    <span>✓ Standard Brightness</span>
+                    <span>✓ Comfort Temp (22°C)</span>
+                </div>
+            </div>
+
+            <button class="strategy-btn" id="strat-eco" onclick="Strategy.select('ECO')" style="position: relative; padding: 25px; background: rgba(255, 255, 255, 0.03); border: 2px solid var(--glass-border); border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s; overflow: hidden;">
+                <div class="sb-icon" style="font-size: 3em; margin-bottom: 15px; filter: grayscale(100%);">🌿</div>
+                <div class="sb-name" style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">Eco Saver</div>
+                <div class="sb-power" style="color: var(--success); font-family: monospace; font-weight: bold;">70% Usage</div>
+                <div class="sb-details" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 0.85em; text-align: left; color: var(--text-muted); display: flex; flex-direction: column; gap: 5px;">
+                    <span>✓ Dimmed Lights</span>
+                    <span>✓ Eco Temp (20°C)</span>
                 </div>
             </button>
-            <button class="strategy-btn" id="strat-eco" onclick="Strategy.select('ECO')">
-                <span class="sb-icon">🌿</span>
-                <span class="sb-name">Eco</span>
-                <span class="sb-power">70% Power</span>
-                <div class="sb-details">
-                    <span>💡 Lights: Dimmed 30%</span>
-                    <span>🌡️ Climate: Efficient (20°C)</span>
-                    <span>📺 Devices: Auto-off when idle</span>
-                </div>
-            </button>
-            <button class="strategy-btn" id="strat-performance" onclick="Strategy.select('PERFORMANCE')">
-                <span class="sb-icon">🚀</span>
-                <span class="sb-name">Performance</span>
-                <span class="sb-power">130% Power</span>
-                <div class="sb-details">
-                    <span>💡 Lights: Maximum</span>
-                    <span>🌡️ Climate: Instant (max)</span>
-                    <span>📺 Devices: Pre-heated/ready</span>
+
+            <button class="strategy-btn" id="strat-performance" onclick="Strategy.select('PERFORMANCE')" style="position: relative; padding: 25px; background: rgba(255, 255, 255, 0.03); border: 2px solid var(--glass-border); border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s; overflow: hidden;">
+                <div class="sb-icon" style="font-size: 3em; margin-bottom: 15px; filter: grayscale(100%);">🚀</div>
+                <div class="sb-name" style="font-size: 1.2em; font-weight: 700; color: var(--text); margin-bottom: 5px;">High Performance</div>
+                <div class="sb-power" style="color: var(--warning); font-family: monospace; font-weight: bold;">130% Usage</div>
+                <div class="sb-details" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 0.85em; text-align: left; color: var(--text-muted); display: flex; flex-direction: column; gap: 5px;">
+                    <span>✓ Max Brightness</span>
+                    <span>✓ Instant Heat/Cool</span>
                 </div>
             </button>
         </div>
-        <div class="strategy-dashboard">
-            <div class="dash-stat">
-                <div class="stat-circle" id="power-circle">
-                    <span class="stat-value" id="power-value">100</span>
-                    <span class="stat-unit">%</span>
+
+        <div class="strategy-dashboard" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
+            <div class="dash-stat" style="flex: 1; background: var(--darker); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; gap: 20px;">
+                <div class="stat-circle" id="power-circle" style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em; color: var(--text); box-shadow: 0 0 20px rgba(0,210,255,0.3); transition: all 0.5s;">
+                    <span id="power-value">100</span>%
                 </div>
-                <span class="stat-label">Power Usage</span>
+                <div style="text-align: left;">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase;">Energy Load</div>
+                    <div style="font-size: 1.5em; font-weight: 700; color: var(--text);">Real-time</div>
+                </div>
             </div>
-            <div class="dash-stat">
-                <div class="stat-circle" id="cost-circle">
-                    <span class="stat-value" id="cost-value">$2.50</span>
+
+            <div class="dash-stat" style="flex: 1; background: var(--darker); padding: 20px; border-radius: 15px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; gap: 20px;">
+                <div class="stat-circle" id="cost-circle" style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1em; color: var(--text); box-shadow: 0 0 20px rgba(0,210,255,0.3); transition: all 0.5s;">
+                    <span id="cost-value">$2.50</span>
                 </div>
-                <span class="stat-label">Est. Daily Cost</span>
-            </div>
-            <div class="dash-stat">
-                <div class="stat-circle" id="carbon-circle">
-                    <span class="stat-value" id="carbon-value">5kg</span>
+                <div style="text-align: left;">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase;">Est. Cost</div>
+                    <div style="font-size: 1.5em; font-weight: 700; color: var(--text);">Daily Avg</div>
                 </div>
-                <span class="stat-label">CO₂ / Day</span>
             </div>
         </div>
-        <div class="strategy-devices">
-            <h5>📊 Strategy Applied To</h5>
-            <div class="affected-devices">
-                <div class="affected-item"><span>💡</span> 8 Lights</div>
-                <div class="affected-item"><span>🌡️</span> 3 Thermostats</div>
-                <div class="affected-item"><span>📺</span> 2 TVs</div>
-                <div class="affected-item"><span>🔌</span> 5 Outlets</div>
-            </div>
-        </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Strategy Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Strategy Interface</strong>: defines calculatePower(), optimizeDevices()</li>
-                <li><strong>Concrete Strategies</strong>: NormalStrategy, EcoStrategy, PerformanceStrategy</li>
-                <li><strong>Context</strong>: EnergyManager holds reference to current strategy</li>
-                <li>Strategies are interchangeable at runtime</li>
+                <li><strong>Context:</strong> `HomeEnergyManager` class uses a Strategy object.</li>
+                <li><strong>Strategy Interface:</strong> `EnergyStrategy` with method `executeOptimize()`.</li>
+                <li><strong>Concrete Strategies:</strong> `EcoStrategy`, `NormalStrategy`. The context can switch these at runtime.</li>
             </ul>
         </div>
     </div>
@@ -88,54 +84,53 @@ var Strategy = {
     current: 'NORMAL',
     select: function(strategy) {
         this.current = strategy;
-        document.querySelectorAll('.strategy-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.getElementById('strat-' + strategy.toLowerCase()).classList.add('active');
+
+        // UI Updates
+        document.querySelectorAll('.strategy-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'rgba(255, 255, 255, 0.03)';
+            b.style.borderColor = 'var(--glass-border)';
+            b.querySelector('.sb-icon').style.textShadow = 'none';
+            b.querySelector('.sb-icon').style.filter = 'grayscale(100%)';
+        });
+
+        var activeBtn = document.getElementById('strat-' + strategy.toLowerCase());
+
         var settings = {
-            NORMAL: {power:100, cost:'$2.50', carbon:'5kg', color:'#00d2ff'},
-            ECO: {power:70, cost:'$1.75', carbon:'3.5kg', color:'#28a745'},
-            PERFORMANCE: {power:130, cost:'$3.25', carbon:'6.5kg', color:'#ffc107'}
+            NORMAL: {power:100, cost:'$2.50', color:'var(--primary)', bg:'rgba(0, 210, 255, 0.1)'},
+            ECO: {power:70, cost:'$1.75', color:'var(--success)', bg:'rgba(40, 167, 69, 0.1)'},
+            PERFORMANCE: {power:130, cost:'$3.25', color:'var(--warning)', bg:'rgba(255, 193, 7, 0.1)'}
         };
         var s = settings[strategy];
+
+        activeBtn.classList.add('active');
+        activeBtn.style.background = s.bg;
+        activeBtn.style.borderColor = s.color;
+        activeBtn.style.transform = 'scale(1.02)';
+        activeBtn.querySelector('.sb-icon').style.textShadow = '0 0 20px ' + s.color;
+        activeBtn.querySelector('.sb-icon').style.filter = 'none';
+        setTimeout(() => activeBtn.style.transform = 'scale(1)', 200);
+
+        // Animate stats
         document.getElementById('power-value').textContent = s.power;
         document.getElementById('cost-value').textContent = s.cost;
-        document.getElementById('carbon-value').textContent = s.carbon;
+
         document.querySelectorAll('.stat-circle').forEach(function(c) {
             c.style.borderColor = s.color;
-            c.style.boxShadow = '0 0 20px ' + s.color + '40';
+            c.style.boxShadow = '0 0 20px ' + s.color;
         });
+
+        // API Call
         fetch('/api/patterns/strategy/apply?strategy=' + strategy, {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('strategy-result', 'Strategy changed to: ' + strategy + '\n\nPower: ' + s.power + '%\nEst. Cost: ' + s.cost + '/day\nCarbon: ' + s.carbon + '/day\n\nThe Strategy pattern swapped the algorithm at runtime.\nAll devices now use ' + strategy + ' energy management.\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Strategy: ' + strategy, 'success');
+                PatternDemo.showResult('strategy-result', '🔌 Strategy Swapped: ' + strategy + '\n' +
+                    '-------------------------\n' +
+                    'Algorithm replaced successfully.\n' +
+                    'New Power Profile: ' + s.power + '% Load');
+                PatternDemo.toast('Switched to ' + strategy, 'success');
             });
     }
 };
 </script>
-<style>
-.strategy-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-.strategy-btn { display: flex; flex-direction: column; align-items: center; padding: 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; text-align: center; }
-.strategy-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); transform: translateY(-3px); }
-.strategy-btn.active { background: rgba(0,210,255,0.15); border-color: #00d2ff; }
-#strat-eco.active { background: rgba(40,167,69,0.15); border-color: #28a745; }
-#strat-performance.active { background: rgba(255,193,7,0.15); border-color: #ffc107; }
-.sb-icon { font-size: 2.5em; margin-bottom: 10px; }
-.sb-name { font-size: 1.2em; font-weight: 600; margin-bottom: 5px; }
-.sb-power { font-size: 0.9em; color: #00d2ff; margin-bottom: 12px; }
-#strat-eco .sb-power { color: #28a745; }
-#strat-performance .sb-power { color: #ffc107; }
-.sb-details { display: flex; flex-direction: column; gap: 5px; font-size: 0.8em; color: #888; }
-.strategy-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
-.dash-stat { text-align: center; }
-.stat-circle { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #00d2ff; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 10px; transition: all 0.3s; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
-.stat-value { font-size: 1.5em; font-weight: bold; }
-.stat-unit { font-size: 0.8em; color: #888; }
-.stat-label { font-size: 0.85em; color: #888; }
-.strategy-devices { padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
-.strategy-devices h5 { color: #888; margin-bottom: 12px; }
-.affected-devices { display: flex; flex-wrap: wrap; gap: 10px; }
-.affected-item { padding: 8px 14px; background: rgba(255,255,255,0.05); border-radius: 20px; font-size: 0.9em; }
-.affected-item span { margin-right: 5px; }
-@media (max-width: 768px) { .strategy-selector { grid-template-columns: 1fr; } }
-</style>
 </div>

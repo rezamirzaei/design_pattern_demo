@@ -2,29 +2,35 @@
     <div class="pattern-header">
         <div class="pattern-icon">🔄</div>
         <div class="pattern-info">
-            <h3>Device Collection Iterator</h3>
+            <h3>Collection Traversal</h3>
             <span class="pattern-badge badge-behavioral">Iterator Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Traverse device collections <strong>without exposing internal structure</strong>. Browse by room, by type, or all devices - the iterator handles the details.</p>
+    <p class="pattern-desc">
+        Traverse elements of a collection without exposing its underlying representation (list, stack, tree, etc.).
+        The <strong>Iterator Pattern</strong> provides a standard way to loop through devices by room, type, or state.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Browse Device Collections</h4>
-        <div class="iterator-controls">
-            <div class="iter-type-selector">
-                <button class="iter-type active" onclick="Iterator.setType(this,'ALL')">📱 All Devices</button>
-                <button class="iter-type" onclick="Iterator.setType(this,'ROOM')">🏠 By Room</button>
-                <button class="iter-type" onclick="Iterator.setType(this,'TYPE')">🔌 By Type</button>
+        <h4>🎮 Device Browser</h4>
+
+        <div class="iterator-controls" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; align-items: center;">
+            <div class="iter-type-selector" style="display: flex; gap: 10px;">
+                <button class="action-btn active" onclick="Iterator.setType(this,'ALL')" style="padding: 10px 18px; border-radius: 20px; font-size: 0.9em;">📱 All Devices</button>
+                <button class="action-btn" onclick="Iterator.setType(this,'ROOM')" style="padding: 10px 18px; border-radius: 20px; font-size: 0.9em;">🏠 By Room</button>
+                <button class="action-btn" onclick="Iterator.setType(this,'TYPE')" style="padding: 10px 18px; border-radius: 20px; font-size: 0.9em;">🔌 By Type</button>
             </div>
-            <div class="iter-filter" id="iter-filter-room" style="display:none;">
-                <select class="form-input" id="iter-room" onchange="Iterator.iterate()">
+
+            <div class="iter-filter" id="iter-filter-room" style="display:none; margin-left: auto;">
+                <select class="form-input" id="iter-room" onchange="Iterator.iterate()" style="padding: 10px; border-radius: 10px; min-width: 150px;">
                     <option value="Living Room">🛋️ Living Room</option>
                     <option value="Bedroom">🛏️ Bedroom</option>
                     <option value="Kitchen">🍳 Kitchen</option>
                     <option value="Bathroom">🚿 Bathroom</option>
                 </select>
             </div>
-            <div class="iter-filter" id="iter-filter-type" style="display:none;">
-                <select class="form-input" id="iter-device-type" onchange="Iterator.iterate()">
+            <div class="iter-filter" id="iter-filter-type" style="display:none; margin-left: auto;">
+                <select class="form-input" id="iter-device-type" onchange="Iterator.iterate()" style="padding: 10px; border-radius: 10px; min-width: 150px;">
                     <option value="LIGHT">💡 Lights</option>
                     <option value="THERMOSTAT">🌡️ Thermostats</option>
                     <option value="CAMERA">📷 Cameras</option>
@@ -33,30 +39,34 @@
                 </select>
             </div>
         </div>
-        <div class="iterator-display">
-            <div class="iter-header">
-                <span class="iter-title" id="iter-title">All Devices</span>
-                <span class="iter-count" id="iter-count">0 items</span>
+
+        <div class="iterator-display" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); min-height: 200px;">
+            <div class="iter-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                <span class="iter-title" id="iter-title" style="font-size: 1.2em; font-weight: 700; color: var(--primary);">All Devices</span>
+                <span class="iter-count" id="iter-count" style="font-size: 0.9em; color: var(--text-muted); padding: 4px 10px; background: rgba(255,255,255,0.05); border-radius: 10px;">0 items</span>
             </div>
-            <div class="iter-navigation">
-                <button class="nav-btn" onclick="Iterator.first()">⏮️ First</button>
-                <button class="nav-btn" onclick="Iterator.prev()">◀️ Prev</button>
-                <span class="nav-position" id="iter-position">0 / 0</span>
-                <button class="nav-btn" onclick="Iterator.next()">Next ▶️</button>
-                <button class="nav-btn" onclick="Iterator.last()">Last ⏭️</button>
+
+            <div class="current-item-view" style="display: flex; align-items: center; gap: 30px; margin-bottom: 25px;">
+                <div class="iter-navigation" style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="nav-btn" onclick="Iterator.prev()" style="width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--text); font-size: 1.5em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">◀</button>
+                    <span class="nav-position" id="iter-position" style="text-align: center; font-family: monospace; color: var(--text-muted);">0/0</span>
+                    <button class="nav-btn" onclick="Iterator.next()" style="width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--text); font-size: 1.5em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">▶</button>
+                </div>
+
+                <div class="current-item" id="iter-current-item" style="flex: 1; padding: 30px; background: var(--darker); border-radius: 20px; border: 1px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 20px; animation: fadeIn 0.3s;">
+                    <div class="ci-placeholder" style="color: var(--text-muted); font-style: italic; width: 100%; text-align: center;">Select an iteration type to begin...</div>
+                </div>
             </div>
-            <div class="current-item" id="iter-current-item">
-                <div class="ci-placeholder">Select an iteration type to begin...</div>
-            </div>
-            <div class="all-items" id="iter-all-items"></div>
+
+            <div class="all-items" id="iter-all-items" style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 20px; border-top: 1px solid var(--glass-border);"></div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Iterator Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Iterator Interface</strong>: hasNext(), next(), first(), last()</li>
-                <li><strong>Concrete Iterators</strong>: RoomIterator, TypeIterator, AllDevicesIterator</li>
-                <li><strong>Collection</strong>: Devices stored internally (array, tree, etc.)</li>
-                <li>Client iterates without knowing collection's internal structure</li>
+                <li><strong>Iterator Interface:</strong> `hasNext()`, `next()`.</li>
+                <li><strong>Concrete Iterator:</strong> Keeps track of current position in a specific traversal (e.g., filtering by room).</li>
+                <li><strong>Aggregate:</strong> The collection providing the iterator.</li>
             </ul>
         </div>
     </div>
@@ -68,8 +78,15 @@ var Iterator = {
     items: [],
     position: 0,
     setType: function(btn, type) {
-        document.querySelectorAll('.iter-type').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.action-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'transparent';
+            b.style.borderColor = 'transparent';
+        });
         btn.classList.add('active');
+        btn.style.background = 'rgba(0, 210, 255, 0.15)';
+        btn.style.borderColor = 'var(--primary)';
+
         this.type = type;
         document.getElementById('iter-filter-room').style.display = type === 'ROOM' ? 'block' : 'none';
         document.getElementById('iter-filter-type').style.display = type === 'TYPE' ? 'block' : 'none';
@@ -106,24 +123,40 @@ var Iterator = {
         fetch('/api/patterns/iterator/iterate?type=' + this.type + '&filter=' + encodeURIComponent(filterValue))
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('iterator-result', 'Iterator: ' + Iterator.type + (filterValue ? ' (' + filterValue + ')' : '') + '\n\nFound ' + Iterator.items.length + ' devices.\nIterator provides uniform access regardless of collection structure.\n\n' + JSON.stringify(data, null, 2));
+                var output = '🔄 Iterator Created: ' + Iterator.type + (filterValue ? ' (' + filterValue + ')' : '') + '\n' +
+                             'Count: ' + Iterator.items.length + ' items\n' +
+                             'Strategy: Lazy Traversal';
+                PatternDemo.showResult('iterator-result', output);
             });
     },
     updateDisplay: function() {
         if (this.items.length === 0) {
-            document.getElementById('iter-current-item').innerHTML = '<div class="ci-placeholder">No items found</div>';
+            document.getElementById('iter-current-item').innerHTML = '<div class="ci-placeholder">No items found matching criteria</div>';
             document.getElementById('iter-position').textContent = '0 / 0';
             document.getElementById('iter-all-items').innerHTML = '';
             return;
         }
         var current = this.items[this.position];
-        document.getElementById('iter-current-item').innerHTML =
-            '<div class="ci-icon">' + current.icon + '</div>' +
-            '<div class="ci-info"><div class="ci-name">' + current.name + '</div><div class="ci-meta">' + current.room + ' • ' + current.type + '</div></div>';
+        var itemHtml = '<div class="ci-icon" style="font-size: 3.5em; filter: drop-shadow(0 0 10px rgba(0,210,255,0.5));">' + current.icon + '</div>' +
+            '<div class="ci-info" style="flex: 1;">' +
+                '<div class="ci-name" style="font-size: 1.5em; font-weight: 700; color: var(--text); margin-bottom: 5px;">' + current.name + '</div>' +
+                '<div class="ci-meta" style="color: var(--primary); font-family: monospace;">ID: dev-' + Math.floor(Math.random()*1000) + '</div>' +
+                '<div class="ci-badges" style="display: flex; gap: 8px; margin-top: 10px;">' +
+                    '<span style="padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 10px; font-size: 0.8em;">' + current.room + '</span>' +
+                    '<span style="padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 10px; font-size: 0.8em;">' + current.type + '</span>' +
+                '</div>' +
+            '</div>';
+
+        document.getElementById('iter-current-item').innerHTML = itemHtml;
+        document.getElementById('iter-current-item').style.animation = 'none';
+        document.getElementById('iter-current-item').offsetHeight; /* trigger reflow */
+        document.getElementById('iter-current-item').style.animation = 'fadeIn 0.3s';
+
         document.getElementById('iter-position').textContent = (this.position + 1) + ' / ' + this.items.length;
+
         var allHtml = this.items.map(function(item, i) {
-            var active = i === Iterator.position ? ' active' : '';
-            return '<div class="item-chip' + active + '" onclick="Iterator.goTo(' + i + ')">' + item.icon + ' ' + item.name + '</div>';
+            var activeStyle = i === Iterator.position ? 'background: var(--primary); color: #000; font-weight: bold; transform: scale(1.1);' : 'background: rgba(255,255,255,0.05); color: var(--text-muted);';
+            return '<div class="item-chip" onclick="Iterator.goTo(' + i + ')" style="padding: 6px 12px; border-radius: 20px; font-size: 0.8em; cursor: pointer; transition: all 0.2s; ' + activeStyle + '">' + item.icon + ' ' + item.name + '</div>';
         }).join('');
         document.getElementById('iter-all-items').innerHTML = allHtml;
     },
@@ -135,29 +168,4 @@ var Iterator = {
 };
 document.addEventListener('DOMContentLoaded', function() { Iterator.iterate(); });
 </script>
-<style>
-.iterator-controls { margin-bottom: 20px; }
-.iter-type-selector { display: flex; gap: 10px; margin-bottom: 12px; }
-.iter-type { padding: 10px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ccc; cursor: pointer; }
-.iter-type.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; color: white; }
-.iter-filter { margin-top: 10px; }
-.iter-filter .form-input { width: 100%; max-width: 300px; }
-.iterator-display { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; }
-.iter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.iter-title { font-size: 1.2em; font-weight: 600; color: #00d2ff; }
-.iter-count { font-size: 0.9em; color: #888; }
-.iter-navigation { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px; }
-.nav-btn { padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; cursor: pointer; }
-.nav-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-.nav-position { font-weight: 500; min-width: 60px; text-align: center; }
-.current-item { display: flex; align-items: center; gap: 15px; padding: 25px; background: rgba(0,210,255,0.1); border: 2px solid rgba(0,210,255,0.3); border-radius: 15px; margin-bottom: 15px; }
-.ci-placeholder { color: #888; font-style: italic; width: 100%; text-align: center; }
-.ci-icon { font-size: 3em; }
-.ci-name { font-size: 1.3em; font-weight: 600; }
-.ci-meta { font-size: 0.85em; color: #888; }
-.all-items { display: flex; flex-wrap: wrap; gap: 8px; }
-.item-chip { padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 20px; font-size: 0.85em; cursor: pointer; transition: all 0.3s; }
-.item-chip:hover { background: rgba(0,210,255,0.1); }
-.item-chip.active { background: rgba(0,210,255,0.3); color: #00d2ff; }
-</style>
 </div>

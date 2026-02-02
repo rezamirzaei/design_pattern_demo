@@ -2,121 +2,94 @@
     <div class="pattern-header">
         <div class="pattern-icon">👀</div>
         <div class="pattern-info">
-            <h3>Device Event Notifications</h3>
+            <h3>Event Broadcaster</h3>
             <span class="pattern-badge badge-behavioral">Observer Pattern</span>
         </div>
     </div>
     <p class="pattern-desc">
-        Subscribe to device events and get <strong>notified automatically</strong> when something changes.
-        Multiple observers can watch the same device - phone, email, dashboard all get updates!
+        Define a one-to-many dependency between objects so that when one object changes state, all its dependents are <strong>notified and updated automatically</strong>.
     </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Setup Event Subscriptions</h4>
-        <div class="observer-workspace">
-            <!-- Subscription Setup -->
-            <div class="subscription-panel">
-                <div class="devices-column">
-                    <h5>📱 Select Device to Watch</h5>
-                    <div class="watch-device-list">
-                        <button class="watch-device active" data-device="motion-sensor" onclick="Observer.selectDevice(this, 'motion-sensor')">
-                            <span class="wd-icon">🚶</span>
-                            <span class="wd-name">Motion Sensor</span>
+        <h4>🎮 Subscription Manager</h4>
+
+        <div class="observer-workspace" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
+            <!-- Setup Panel -->
+            <div class="setup-panel" style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px;">
+                <div class="subject-selection" style="background: var(--glass-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">1. Select Subject (Publisher)</h5>
+                    <div class="watch-device-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
+                        <button class="watch-device active" data-device="motion-sensor" onclick="Observer.selectDevice(this, 'motion-sensor')" style="padding: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 10px; cursor: pointer; text-align: center; color: var(--text); transition: all 0.3s;">
+                            <span style="font-size: 2em; display: block; margin-bottom: 5px;">🚶</span>
+                            <span>Motion Sensor</span>
                         </button>
-                        <button class="watch-device" data-device="door-sensor" onclick="Observer.selectDevice(this, 'door-sensor')">
-                            <span class="wd-icon">🚪</span>
-                            <span class="wd-name">Door Sensor</span>
+                        <button class="watch-device" data-device="door-bell" onclick="Observer.selectDevice(this, 'door-bell')" style="padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; text-align: center; color: var(--text); transition: all 0.3s;">
+                            <span style="font-size: 2em; display: block; margin-bottom: 5px;">🔔</span>
+                            <span>Door Bell</span>
                         </button>
-                        <button class="watch-device" data-device="front-camera" onclick="Observer.selectDevice(this, 'front-camera')">
-                            <span class="wd-icon">📷</span>
-                            <span class="wd-name">Front Camera</span>
-                        </button>
-                        <button class="watch-device" data-device="thermostat" onclick="Observer.selectDevice(this, 'thermostat')">
-                            <span class="wd-icon">🌡️</span>
-                            <span class="wd-name">Thermostat</span>
-                        </button>
-                        <button class="watch-device" data-device="smoke-detector" onclick="Observer.selectDevice(this, 'smoke-detector')">
-                            <span class="wd-icon">🔥</span>
-                            <span class="wd-name">Smoke Detector</span>
+                        <button class="watch-device" data-device="smoke-alarm" onclick="Observer.selectDevice(this, 'smoke-alarm')" style="padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; text-align: center; color: var(--text); transition: all 0.3s;">
+                            <span style="font-size: 2em; display: block; margin-bottom: 5px;">🔥</span>
+                            <span>Smoke Alarm</span>
                         </button>
                     </div>
                 </div>
-                <div class="observers-column">
-                    <h5>🔔 Choose Notification Methods</h5>
-                    <div class="observer-list">
-                        <label class="observer-checkbox">
-                            <input type="checkbox" value="MOBILE" checked>
-                            <span class="obs-box">
-                                <span class="obs-icon">📱</span>
-                                <span class="obs-info">
-                                    <span class="obs-name">Mobile Push</span>
-                                    <span class="obs-desc">Instant push notifications</span>
-                                </span>
-                            </span>
+
+                <div class="observer-selection" style="background: var(--glass-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <h5 style="color: var(--warning); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">2. Attach Observers (Subscribers)</h5>
+                    <div class="observer-list" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <label class="feature-box" style="padding: 12px; background: var(--glass-bg); border-radius: 8px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" value="MOBILE" checked style="accent-color: var(--warning);">
+                            <span>📱 Mobile App</span>
                         </label>
-                        <label class="observer-checkbox">
+                        <label class="feature-box" style="padding: 12px; background: var(--glass-bg); border-radius: 8px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 10px;">
                             <input type="checkbox" value="EMAIL">
-                            <span class="obs-box">
-                                <span class="obs-icon">📧</span>
-                                <span class="obs-info">
-                                    <span class="obs-name">Email Alert</span>
-                                    <span class="obs-desc">Detailed email notification</span>
-                                </span>
-                            </span>
+                            <span>📧 Email Service</span>
                         </label>
-                        <label class="observer-checkbox">
-                            <input type="checkbox" value="DASHBOARD">
-                            <span class="obs-box">
-                                <span class="obs-icon">📊</span>
-                                <span class="obs-info">
-                                    <span class="obs-name">Dashboard</span>
-                                    <span class="obs-desc">Update home dashboard</span>
-                                </span>
-                            </span>
-                        </label>
-                        <label class="observer-checkbox">
+                        <label class="feature-box" style="padding: 12px; background: var(--glass-bg); border-radius: 8px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 10px;">
                             <input type="checkbox" value="LOG">
-                            <span class="obs-box">
-                                <span class="obs-icon">📝</span>
-                                <span class="obs-info">
-                                    <span class="obs-name">Event Log</span>
-                                    <span class="obs-desc">Record to history</span>
-                                </span>
-                            </span>
+                            <span>📝 Logger</span>
+                        </label>
+                        <label class="feature-box" style="padding: 12px; background: var(--glass-bg); border-radius: 8px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" value="SIREN">
+                            <span>🚨 Siren API</span>
                         </label>
                     </div>
+                    <button class="btn-primary" onclick="Observer.subscribe()" style="width: 100%; margin-top: 15px; background: linear-gradient(90deg, var(--warning), #ff9800);">
+                        <span>🔗 Attach Selected Observers</span>
+                    </button>
                 </div>
             </div>
-            <div class="action-buttons">
-                <button class="btn-subscribe" onclick="Observer.subscribe()">
-                    <span>🔔</span> Subscribe Selected
+
+            <!-- Network Vis -->
+            <div class="network-panel" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+                <div class="observer-network" style="flex: 1; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--glass-border); padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px;">
+                    <div id="subject-node" style="padding: 20px 40px; background: var(--primary); color: #000; font-weight: bold; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 0 20px var(--primary); transition: all 0.3s;">
+                        Motion Sensor
+                    </div>
+                    <div id="observers-container" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; width: 100%;">
+                        <div style="color: var(--text-muted); font-style: italic;">No observers attached</div>
+                    </div>
+                </div>
+
+                <button class="btn-trigger" onclick="Observer.triggerEvent()" style="margin-top: 15px; padding: 15px; background: var(--danger); border: none; border-radius: 10px; color: white; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4); transition: transform 0.2s;">
+                    ⚡ TRIGGER EVENT
                 </button>
-                <button class="btn-trigger" onclick="Observer.triggerEvent()">
-                    <span>⚡</span> Simulate Device Event
-                </button>
-            </div>
-            <!-- Active Subscriptions -->
-            <div class="active-subscriptions">
-                <h5>📋 Active Subscriptions</h5>
-                <div class="subscriptions-list" id="subscriptions-list">
-                    <div class="no-subs">No subscriptions yet. Subscribe observers to devices above!</div>
-                </div>
-            </div>
-            <!-- Event Log -->
-            <div class="event-log">
-                <h5>📨 Event Notifications</h5>
-                <div class="event-list" id="event-list">
-                    <div class="no-events">Trigger a device event to see notifications...</div>
-                </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Observer Works Here:</h5>
+
+        <div class="event-log" style="background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); max-height: 200px; overflow-y: auto;">
+            <h5 style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.9em;">📨 Notification Log</h5>
+            <div class="event-list" id="event-list" style="display: flex; flex-direction: column-reverse; gap: 8px;">
+                <div style="text-align: center; color: var(--text-muted); font-style: italic;">Waiting for events...</div>
+            </div>
+        </div>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li>Devices are <strong>Subjects</strong> - they maintain a list of observers</li>
-                <li>Notification services (Mobile, Email, etc.) are <strong>Observers</strong></li>
-                <li>When device state changes, it calls <code>notifyAll()</code></li>
-                <li>Each observer's <code>update()</code> method is called automatically</li>
-                <li>Observers can be added/removed at runtime without changing device code</li>
+                <li><strong>Subject:</strong> Maintains a list of `Observer` interface implementations.</li>
+                <li><strong>Observer:</strong> Implements `update()`.</li>
+                <li><strong>Notify:</strong> Subject iterates through its list and calls `observer.update()`.</li>
             </ul>
         </div>
     </div>
@@ -125,132 +98,134 @@
 <script>
 var Observer = {
     selectedDevice: 'motion-sensor',
-    subscriptions: [],
-    eventCount: 0,
+    subscriptions: [], // {device: 'id', observer: 'TYPE'}
+
     selectDevice: function(btn, device) {
-        document.querySelectorAll('.watch-device').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.watch-device').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'var(--glass-bg)';
+            b.style.borderColor = 'var(--glass-border)';
+        });
         btn.classList.add('active');
+        btn.style.background = 'rgba(0, 210, 255, 0.15)';
+        btn.style.borderColor = 'var(--primary)';
+
         this.selectedDevice = device;
+
+        // Update Visualization Subject
+        var displayNames = {'motion-sensor':'Motion Sensor', 'door-bell':'Door Bell', 'smoke-alarm':'Smoke Alarm'};
+        document.getElementById('subject-node').textContent = displayNames[device];
+
+        this.renderNetwork();
     },
-    getSelectedObservers: function() {
-        var observers = [];
-        document.querySelectorAll('.observer-checkbox input:checked').forEach(function(cb) {
-            observers.push(cb.value);
-        });
-        return observers;
-    },
+
     subscribe: function() {
-        var observers = this.getSelectedObservers();
-        if (observers.length === 0) {
-            PatternDemo.toast('Select at least one notification method!', 'error');
+        var checkboxes = document.querySelectorAll('.observer-selection input:checked');
+        if (checkboxes.length === 0) {
+            PatternDemo.toast('Select observers first!', 'warning');
             return;
         }
-        var device = this.selectedDevice;
-        var self = this;
-        var promises = observers.map(function(obs) {
-            return fetch('/api/patterns/observer/subscribe?deviceId=' + device + '&observerType=' + obs, { method: 'POST' })
-                .then(function(r) { return r.json(); });
+
+        var added = 0;
+        checkboxes.forEach(cb => {
+            // Avoid duplicates
+            if(!this.subscriptions.find(s => s.device === this.selectedDevice && s.observer === cb.value)) {
+                this.subscriptions.push({device: this.selectedDevice, observer: cb.value});
+                added++;
+                // API call
+                fetch('/api/patterns/observer/subscribe?deviceId=' + this.selectedDevice + '&observerType=' + cb.value, { method: 'POST' });
+            }
         });
-        Promise.all(promises).then(function() {
-            observers.forEach(function(obs) {
-                self.subscriptions.push({ device: device, observer: obs });
-            });
-            self.updateSubscriptionsList();
-            PatternDemo.toast('Subscribed ' + observers.length + ' observer(s) to ' + device, 'success');
-        });
+
+        if(added > 0) {
+            this.renderNetwork();
+            PatternDemo.toast('Attached ' + added + ' observer(s)', 'success');
+        } else {
+            PatternDemo.toast('Observers already attached', 'info');
+        }
     },
-    updateSubscriptionsList: function() {
-        var list = document.getElementById('subscriptions-list');
-        if (this.subscriptions.length === 0) {
-            list.innerHTML = '<div class="no-subs">No subscriptions yet.</div>';
+
+    renderNetwork: function() {
+        var container = document.getElementById('observers-container');
+        var deviceSubs = this.subscriptions.filter(s => s.device === this.selectedDevice);
+
+        if (deviceSubs.length === 0) {
+            container.innerHTML = '<div style="color: var(--text-muted); font-style: italic;">No observers attached</div>';
             return;
         }
-        var icons = { MOBILE: '📱', EMAIL: '📧', DASHBOARD: '📊', LOG: '📝' };
-        var html = '';
-        this.subscriptions.forEach(function(sub) {
-            html += '<div class="sub-item">';
-            html += '<span class="sub-device">' + sub.device + '</span>';
-            html += '<span class="sub-arrow">→</span>';
-            html += '<span class="sub-observer">' + icons[sub.observer] + ' ' + sub.observer + '</span>';
-            html += '</div>';
-        });
-        list.innerHTML = html;
+
+        var icons = { MOBILE: '📱', EMAIL: '📧', LOG: '📝', SIREN: '🚨' };
+
+        container.innerHTML = deviceSubs.map(s =>
+            '<div class="obs-node" id="obs-' + s.observer + '" style="padding: 10px 15px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid var(--text-muted); position: relative; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">' +
+                '<span style="font-size: 1.5em; margin-bottom: 5px;">' + icons[s.observer] + '</span>' +
+                '<span style="font-size: 0.8em;">' + s.observer + '</span>' +
+                '<div class="connection-line" style="position: absolute; top: -40px; left: 50%; width: 2px; height: 40px; background: var(--text-muted); z-index: -1;"></div>' +
+            '</div>'
+        ).join('');
     },
+
     triggerEvent: function() {
-        var device = this.selectedDevice;
-        var self = this;
-        fetch('/api/patterns/observer/trigger?deviceId=' + device, { method: 'POST' })
+        // Flash Subject
+        var subject = document.getElementById('subject-node');
+        subject.style.transform = 'scale(1.1)';
+        subject.style.boxShadow = '0 0 40px red';
+        subject.style.background = 'var(--danger)';
+        subject.style.color = '#fff';
+
+        setTimeout(() => {
+            subject.style.transform = 'scale(1)';
+            subject.style.boxShadow = '0 0 20px var(--primary)';
+            subject.style.background = 'var(--primary)';
+            subject.style.color = '#000';
+        }, 300);
+
+        // Find Subs
+        var deviceSubs = this.subscriptions.filter(s => s.device === this.selectedDevice);
+        if(deviceSubs.length === 0) {
+            PatternDemo.toast('Event triggered, but no one was listening!', 'warning');
+            return;
+        }
+
+        // Flash Observers Sequentially
+        var delay = 200;
+        deviceSubs.forEach(s => {
+            setTimeout(() => {
+                var node = document.querySelector('#obs-' + s.observer);
+                if(node) {
+                    node.style.background = '#4caf50';
+                    node.style.borderColor = '#4caf50';
+                    node.style.transform = 'translateY(-5px)';
+                    setTimeout(() => {
+                        node.style.background = 'rgba(255,255,255,0.1)';
+                        node.style.borderColor = 'var(--text-muted)';
+                        node.style.transform = 'translateY(0)';
+                    }, 300);
+                }
+            }, delay);
+            delay += 150;
+        });
+
+        // Log
+        var list = document.getElementById('event-list');
+        if(list.innerText.includes('Waiting')) list.innerHTML = '';
+
+        var logItem = document.createElement('div');
+        logItem.style.cssText = 'padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; border-left: 3px solid var(--danger); font-family: monospace; font-size: 0.9em; animation: slideIn 0.3s;';
+        logItem.innerHTML = '⚡ [' + new Date().toLocaleTimeString() + '] <strong>' + this.selectedDevice + '</strong> notified ' + deviceSubs.length + ' observers';
+        list.prepend(logItem);
+
+        fetch('/api/patterns/observer/trigger?deviceId=' + this.selectedDevice, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                self.eventCount++;
-                var eventList = document.getElementById('event-list');
-                // Find subscriptions for this device
-                var deviceSubs = self.subscriptions.filter(function(s) { return s.device === device; });
-                var icons = { MOBILE: '📱', EMAIL: '📧', DASHBOARD: '📊', LOG: '📝' };
-                var html = eventList.innerHTML;
-                if (html.indexOf('no-events') >= 0) html = '';
-                html = '<div class="event-item new">' +
-                    '<div class="event-header">' +
-                    '<span class="event-time">' + new Date().toLocaleTimeString() + '</span>' +
-                    '<span class="event-device">⚡ ' + device + ' triggered</span>' +
-                    '</div>' +
-                    '<div class="event-notifications">' +
-                    deviceSubs.map(function(s) {
-                        return '<span class="notif-sent">' + icons[s.observer] + ' ' + s.observer + ' notified</span>';
-                    }).join('') +
-                    (deviceSubs.length === 0 ? '<span class="no-notif">No observers subscribed</span>' : '') +
-                    '</div>' +
-                    '</div>' + html;
-                eventList.innerHTML = html;
-                PatternDemo.showResult('observer-result',
-                    'Event triggered on "' + device + '"!\n\n' +
-                    'Observers notified: ' + deviceSubs.length + '\n' +
-                    deviceSubs.map(function(s) { return '  • ' + s.observer; }).join('\n') +
-                    '\n\nEach observer received the update through their update() method.'
-                );
-                PatternDemo.toast('Event: ' + device, 'info');
+                var msg = '📡 Notification Update:\n' +
+                          'Subject: ' + Observer.selectedDevice + '\n' +
+                          'Recipients: ' + deviceSubs.map(s => s.observer).join(', ') + '\n' +
+                          'Status: All notified successfully.';
+                PatternDemo.showResult('observer-result', msg);
             });
     }
 };
+// Initial render
+Observer.selectDevice(document.querySelector('.watch-device.active'), 'motion-sensor');
 </script>
-<style>
-.observer-workspace { display: flex; flex-direction: column; gap: 20px; }
-.subscription-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.devices-column h5, .observers-column h5 { color: #00d2ff; margin-bottom: 12px; font-size: 0.95em; }
-.watch-device-list { display: flex; flex-direction: column; gap: 8px; }
-.watch-device { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; cursor: pointer; transition: all 0.3s; }
-.watch-device:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-.watch-device.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
-.wd-icon { font-size: 1.3em; }
-.observer-list { display: flex; flex-direction: column; gap: 8px; }
-.observer-checkbox { cursor: pointer; }
-.observer-checkbox input { display: none; }
-.obs-box { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; transition: all 0.3s; }
-.observer-checkbox input:checked + .obs-box { background: rgba(0,210,255,0.15); border-color: #00d2ff; }
-.obs-icon { font-size: 1.3em; }
-.obs-info { display: flex; flex-direction: column; }
-.obs-name { font-weight: 500; color: #fff; }
-.obs-desc { font-size: 0.75em; color: #888; }
-.action-buttons { display: flex; gap: 15px; }
-.btn-subscribe, .btn-trigger { flex: 1; padding: 12px; border: none; border-radius: 10px; color: white; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.btn-subscribe { background: linear-gradient(90deg, #00d2ff, #3a7bd5); }
-.btn-trigger { background: linear-gradient(90deg, #f093fb, #f5576c); }
-.btn-subscribe:hover, .btn-trigger:hover { transform: scale(1.02); }
-.active-subscriptions, .event-log { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; }
-.active-subscriptions h5, .event-log h5 { color: #00d2ff; margin-bottom: 12px; font-size: 0.9em; }
-.no-subs, .no-events { color: #666; font-style: italic; font-size: 0.9em; }
-.sub-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 5px; }
-.sub-device { color: #fff; }
-.sub-arrow { color: #666; }
-.sub-observer { color: #00d2ff; }
-.event-item { padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #00d2ff; }
-.event-item.new { animation: fadeIn 0.5s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-.event-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-.event-time { color: #888; font-size: 0.8em; }
-.event-device { color: #fff; font-weight: 500; }
-.event-notifications { display: flex; flex-wrap: wrap; gap: 8px; }
-.notif-sent { padding: 4px 10px; background: rgba(0,210,255,0.2); border-radius: 15px; font-size: 0.8em; color: #00d2ff; }
-.no-notif { color: #888; font-size: 0.8em; font-style: italic; }
-@media (max-width: 768px) { .subscription-panel { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } }
-</style>

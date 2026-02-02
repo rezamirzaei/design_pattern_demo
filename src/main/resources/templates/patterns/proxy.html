@@ -7,107 +7,102 @@
         </div>
     </div>
     <p class="pattern-desc">
-        Access remote devices through a <strong>proxy</strong> that handles connection details, caching,
-        and access control. The proxy acts as a stand-in for the real device.
+        Access remote devices safely. The <strong>Proxy Pattern</strong> creates an intermediary wrapper that handles connection details, security checks, and lazy loading, making remote devices behave like local ones.
     </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Connect to Remote Devices via Proxy</h4>
-        <div class="proxy-workspace">
-            <!-- Remote Device Connection -->
-            <div class="connection-panel">
-                <h5>🌐 Add Remote Device Connection</h5>
-                <div class="connection-form">
+        <h4>🎮 Remote Connection Manager</h4>
+
+        <div class="proxy-workspace" style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Connection Panel -->
+            <div class="connection-panel" style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em;">🌐 New Connection</h5>
+                <div class="connection-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end;">
                     <div class="form-group">
-                        <label>Device Name</label>
-                        <input type="text" id="proxy-device-name" class="form-input" placeholder="e.g., Garage Camera" value="Remote Camera">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">Device Name</label>
+                        <input type="text" id="proxy-device-name" class="form-input" placeholder="e.g., Garage Camera" value="Garage Camera">
                     </div>
                     <div class="form-group">
-                        <label>IP Address</label>
-                        <input type="text" id="proxy-ip-address" class="form-input" placeholder="e.g., 192.168.1.100" value="192.168.1.100">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">IP Address</label>
+                        <input type="text" id="proxy-ip-address" class="form-input" placeholder="192.168.1.x" value="192.168.1.50">
                     </div>
                     <div class="form-group">
-                        <label>Port</label>
-                        <input type="text" id="proxy-port" class="form-input" placeholder="e.g., 8080" value="8080">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.85em;">Port</label>
+                        <input type="text" id="proxy-port" class="form-input" placeholder="8080" value="554">
                     </div>
-                    <button class="btn-connect" onclick="Proxy.connect()">
-                        <span class="btn-icon">🔗</span>
-                        Create Proxy Connection
+                    <button class="btn-primary" onclick="Proxy.connect()" style="height: 46px; margin-top: 0;">
+                        <span>🔗 Connect</span>
                     </button>
                 </div>
             </div>
-            <!-- Quick Connect Presets -->
+
+            <!-- Quick Connect -->
             <div class="presets-panel">
-                <h5>⚡ Quick Connect to Common Devices</h5>
-                <div class="preset-grid">
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Garage Camera', '192.168.1.50', '554')">
-                        <span class="preset-icon">📷</span>
-                        <span class="preset-info">
-                            <span class="preset-name">Garage Camera</span>
-                            <span class="preset-ip">192.168.1.50:554</span>
-                        </span>
-                        <span class="preset-status" id="status-garage">●</span>
+                <h5 style="color: var(--text-muted); margin-bottom: 12px; font-size: 0.9em;">⚡ Quick Presets</h5>
+                <div class="preset-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Backyard Cam', '192.168.1.51', '554')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
+                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">📷</span>
+                        <div class="preset-info" style="flex: 1;">
+                            <span class="preset-name" style="font-weight: 600; display: block;">Backyard Cam</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.51:554</span>
+                        </div>
+                        <span class="preset-status" id="status-backyard" style="font-size: 1.5em; color: var(--text-muted);">●</span>
                     </button>
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Doorbell Camera', '192.168.1.51', '554')">
-                        <span class="preset-icon">🚪</span>
-                        <span class="preset-info">
-                            <span class="preset-name">Doorbell Camera</span>
-                            <span class="preset-ip">192.168.1.51:554</span>
-                        </span>
-                        <span class="preset-status" id="status-doorbell">●</span>
+
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Pool Pump', '192.168.1.53', '80')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
+                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">🏊</span>
+                        <div class="preset-info" style="flex: 1;">
+                            <span class="preset-name" style="font-weight: 600; display: block;">Pool Pump</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.53:80</span>
+                        </div>
+                        <span class="preset-status" id="status-pool" style="font-size: 1.5em; color: var(--text-muted);">●</span>
                     </button>
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Garden Sensor', '192.168.1.52', '80')">
-                        <span class="preset-icon">🌱</span>
-                        <span class="preset-info">
-                            <span class="preset-name">Garden Sensor</span>
-                            <span class="preset-ip">192.168.1.52:80</span>
-                        </span>
-                        <span class="preset-status" id="status-garden">●</span>
-                    </button>
-                    <button class="preset-btn" onclick="Proxy.quickConnect('Pool Thermostat', '192.168.1.53', '80')">
-                        <span class="preset-icon">🏊</span>
-                        <span class="preset-info">
-                            <span class="preset-name">Pool Thermostat</span>
-                            <span class="preset-ip">192.168.1.53:80</span>
-                        </span>
-                        <span class="preset-status" id="status-pool">●</span>
+
+                    <button class="preset-btn" onclick="Proxy.quickConnect('Garden Sensor', '192.168.1.52', '8080')" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.3s;">
+                        <span class="preset-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">🌱</span>
+                        <div class="preset-info" style="flex: 1;">
+                            <span class="preset-name" style="font-weight: 600; display: block;">Garden Sensor</span>
+                            <span class="preset-ip" style="font-size: 0.8em; color: var(--text-muted); font-family: monospace;">192.168.1.52:8080</span>
+                        </div>
+                        <span class="preset-status" id="status-garden" style="font-size: 1.5em; color: var(--text-muted);">●</span>
                     </button>
                 </div>
             </div>
-            <!-- Proxy Features Demonstration -->
-            <div class="proxy-features">
-                <h5>🛡️ Proxy Features in Action</h5>
-                <div class="feature-demo-grid">
-                    <div class="feature-demo-item">
-                        <span class="feature-demo-icon">⏳</span>
-                        <span class="feature-demo-title">Lazy Loading</span>
-                        <p>Connection is only established when first needed</p>
+
+            <!-- Features Demo -->
+            <div class="proxy-features" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border-radius: 15px; border: 1px dashed var(--primary); margin-top: 10px;">
+                <h5 style="color: var(--primary); margin-bottom: 20px; text-align: center;">🛡️ Active Security Layer</h5>
+                <div class="feature-demo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
+                        <span style="font-size: 2em; display: block; margin-bottom: 10px;">⏳</span>
+                        <span style="display: block; font-weight: 600; color: var(--text); margin-bottom: 5px;">Lazy Load</span>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin: 0;">Connects on demand</p>
                     </div>
-                    <div class="feature-demo-item">
-                        <span class="feature-demo-icon">🔐</span>
-                        <span class="feature-demo-title">Access Control</span>
-                        <p>Proxy validates permissions before allowing access</p>
+                    <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
+                        <span style="font-size: 2em; display: block; margin-bottom: 10px;">🔐</span>
+                        <span style="display: block; font-weight: 600; color: var(--text); margin-bottom: 5px;">Secure</span>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin: 0;">Identity verification</p>
                     </div>
-                    <div class="feature-demo-item">
-                        <span class="feature-demo-icon">📦</span>
-                        <span class="feature-demo-title">Caching</span>
-                        <p>Proxy caches device state to reduce network calls</p>
+                    <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
+                        <span style="font-size: 2em; display: block; margin-bottom: 10px;">📦</span>
+                        <span style="display: block; font-weight: 600; color: var(--text); margin-bottom: 5px;">Caching</span>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin: 0;">Local data storage</p>
                     </div>
-                    <div class="feature-demo-item">
-                        <span class="feature-demo-icon">📊</span>
-                        <span class="feature-demo-title">Logging</span>
-                        <p>All remote operations are logged for debugging</p>
+                    <div class="feature-demo-item" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;">
+                        <span style="font-size: 2em; display: block; margin-bottom: 10px;">📊</span>
+                        <span style="display: block; font-weight: 600; color: var(--text); margin-bottom: 5px;">Logging</span>
+                        <p style="font-size: 0.8em; color: var(--text-muted); margin: 0;">Access audit trail</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Proxy Works Here:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Virtual Proxy</strong>: Delays creating expensive remote connections until needed</li>
-                <li><strong>Protection Proxy</strong>: Controls access to sensitive devices</li>
-                <li><strong>Remote Proxy</strong>: Provides local representation of remote device</li>
-                <li><strong>Caching Proxy</strong>: Stores results to avoid repeated network calls</li>
-                <li>Client code doesn't know if it's talking to proxy or real device!</li>
+                <li><strong>Subject Interface:</strong> Common to both RealDevice and Proxy.</li>
+                <li><strong>Real Subject:</strong> The actual heavy/remote object (`RemoteCamera`).</li>
+                <li><strong>Proxy:</strong> Controls access to the real subject. It can check permissions or lazy-load the connection.</li>
             </ul>
         </div>
     </div>
@@ -123,57 +118,37 @@ var Proxy = {
     },
     quickConnect: function(name, ip, port) {
         var address = ip + ':' + port;
+
+        // Show loading state
+        PatternDemo.showResult('proxy-result', '🛡️ Proxy Intercepting...\n' +
+            '> Request: Connect to ' + name + '\n' +
+            '> Checking Permissions... OK\n' +
+            '> Checking Cache... MISS\n' +
+            '> Establishing Tunnel to ' + address + '...');
+
+        // Reset status icons
+        document.querySelectorAll('.preset-status').forEach(el => el.style.color = 'var(--text-muted)');
+        var statusId = 'status-' + name.toLowerCase().split(' ')[0];
+        var statusEl = document.getElementById(statusId);
+        if (statusEl) statusEl.style.color = 'var(--warning)';
+
         var url = '/api/patterns/proxy/remote?name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address);
         fetch(url, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                var msg = '🔗 Proxy Connection Established!\n\n';
-                msg += 'Device: ' + name + '\n';
-                msg += 'Address: ' + address + '\n\n';
-                msg += 'Proxy Features Active:\n';
-                msg += '  ✓ Lazy Loading - Connection deferred until first use\n';
-                msg += '  ✓ Access Control - Permission check before operations\n';
-                msg += '  ✓ State Caching - Reduces network round-trips\n';
-                msg += '  ✓ Operation Logging - All calls recorded\n\n';
-                msg += 'The proxy now acts as a local stand-in for the remote device.\n';
-                msg += 'All operations go through the proxy transparently.';
+                if (statusEl) statusEl.style.color = 'var(--success)';
+
+                var msg = '🔗 Secure Connection Established\n' +
+                          '------------------------------\n' +
+                          'Target: ' + name + '\n' +
+                          'Endpoint: ' + address + '\n' +
+                          'Latency: 24ms\n\n' +
+                          'Proxy Services Active:\n' +
+                          ' [x] Access Control\n [x] Read Caching\n [x] Activity Logging';
+
                 PatternDemo.showResult('proxy-result', msg);
-                PatternDemo.toast('Proxy connected: ' + name, 'success');
-                // Update status indicator if exists
-                var statusId = 'status-' + name.toLowerCase().split(' ')[0];
-                var statusEl = document.getElementById(statusId);
-                if (statusEl) {
-                    statusEl.style.color = '#00ff88';
-                    statusEl.textContent = '●';
-                }
+                PatternDemo.toast('Connected: ' + name, 'success');
             });
     }
 };
 </script>
-<style>
-.proxy-workspace { display: flex; flex-direction: column; gap: 25px; }
-.connection-panel h5, .presets-panel h5, .proxy-features h5 { color: #00d2ff; margin-bottom: 12px; font-size: 0.95em; }
-.connection-form { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 15px; align-items: end; }
-.connection-form .form-group { margin: 0; }
-.connection-form label { display: block; margin-bottom: 5px; color: #888; font-size: 0.85em; }
-.btn-connect { padding: 10px 20px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 8px; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; height: 42px; }
-.btn-connect:hover { transform: scale(1.02); }
-.preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.preset-btn { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; transition: all 0.3s; text-align: left; }
-.preset-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateX(5px); }
-.preset-icon { font-size: 1.8em; }
-.preset-info { display: flex; flex-direction: column; flex: 1; }
-.preset-name { font-weight: 500; }
-.preset-ip { font-size: 0.8em; color: #888; font-family: monospace; }
-.preset-status { font-size: 1.2em; color: #666; }
-.feature-demo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-.feature-demo-item { padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; text-align: center; }
-.feature-demo-icon { font-size: 1.8em; display: block; margin-bottom: 8px; }
-.feature-demo-title { display: block; color: #00d2ff; font-weight: 500; margin-bottom: 5px; }
-.feature-demo-item p { font-size: 0.8em; color: #888; margin: 0; }
-@media (max-width: 900px) {
-    .connection-form { grid-template-columns: 1fr; }
-    .preset-grid { grid-template-columns: 1fr; }
-    .feature-demo-grid { grid-template-columns: repeat(2, 1fr); }
-}
-</style>

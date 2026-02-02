@@ -2,73 +2,86 @@
     <div class="pattern-header">
         <div class="pattern-icon">🏢</div>
         <div class="pattern-info">
-            <h3>Room & Device Groups</h3>
+            <h3>Unified Control Hierarchy</h3>
             <span class="pattern-badge badge-structural">Composite Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Treat <strong>individual devices</strong> and <strong>groups of devices</strong> uniformly. Control an entire room, floor, or the whole house with a single command!</p>
+    <p class="pattern-desc">
+        Treat individual devices (Leaves) and groups of devices (Composites) uniformly.
+        Whether you target a single bulb, a room, a floor, or the entire house, the <strong>Composite Pattern</strong> ensures the command propagates correctly.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Control Device Hierarchy</h4>
-        <div class="hierarchy-tree">
-            <div class="tree-node house" onclick="Composite.control('house','toggle')">
-                <div class="node-icon">🏠</div>
-                <div class="node-name">Whole House</div>
-                <div class="node-count">12 devices</div>
+        <h4>🎮 House Hierarchy</h4>
+
+        <div class="hierarchy-tree" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 25px; border: 1px solid var(--glass-border);">
+            <!-- Root: Whole House -->
+            <div class="tree-node house" onclick="Composite.control('house','toggle')" style="display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(255,193,7,0.1); border: 1px solid var(--warning); border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
+                <div class="node-icon" style="font-size: 2em;">🏠</div>
+                <div class="node-name" style="font-weight: 700; flex: 1; font-size: 1.1em; color: var(--warning);">Whole House</div>
+                <div class="node-count" style="font-size: 0.8em; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px;">12 Devices</div>
             </div>
-            <div class="tree-level">
-                <div class="tree-node floor" onclick="Composite.control('floor-1','toggle')">
-                    <div class="node-icon">🏢</div>
-                    <div class="node-name">First Floor</div>
-                    <div class="node-count">7 devices</div>
+
+            <div class="tree-level" style="margin-left: 30px; padding-left: 20px; border-left: 2px dashed var(--glass-border);">
+                <!-- Node: First Floor -->
+                <div class="tree-node floor" onclick="Composite.control('floor-1','toggle')" style="display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(40,167,69,0.1); border: 1px solid #28a745; border-radius: 12px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
+                    <div class="node-icon" style="font-size: 1.8em;">🏢</div>
+                    <div class="node-name" style="font-weight: 600; flex: 1; color: #28a745;">First Floor</div>
+                    <div class="node-count" style="font-size: 0.8em; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px;">7 Devices</div>
                 </div>
-                <div class="tree-sublevel">
-                    <div class="tree-node room" onclick="Composite.control('living-room','toggle')">
-                        <div class="node-icon">🛋️</div>
-                        <div class="node-name">Living Room</div>
-                        <div class="node-count">3 devices</div>
-                        <div class="room-devices">
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-light','toggle')">💡 Light</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-tv','toggle')">📺 TV</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-speaker','toggle')">🔊 Speaker</span>
+
+                <div class="tree-sublevel" style="margin-left: 30px; padding-left: 20px; border-left: 2px dashed var(--glass-border);">
+                    <!-- Leaf Composite: Living Room -->
+                    <div class="tree-node room" onclick="Composite.control('living-room','toggle')" style="display: flex; flex-direction: column; gap: 10px; padding: 15px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer;">
+                        <div style="display: flex; align-items: center; width: 100%; gap: 15px;">
+                            <div class="node-icon" style="font-size: 1.5em;">🛋️</div>
+                            <div class="node-name" style="font-weight: 600; flex: 1;">Living Room</div>
+                            <div class="node-count" style="font-size: 0.8em; color: var(--text-muted);">3 Devices</div>
+                        </div>
+                        <div class="room-devices" style="display: flex; gap: 8px; width: 100%;">
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-light','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">💡 Light</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-tv','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">📺 TV</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('living-speaker','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">🔊 Speaker</span>
                         </div>
                     </div>
-                    <div class="tree-node room" onclick="Composite.control('kitchen','toggle')">
-                        <div class="node-icon">🍳</div>
-                        <div class="node-name">Kitchen</div>
-                        <div class="node-count">2 devices</div>
-                        <div class="room-devices">
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-light','toggle')">💡 Light</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-sensor','toggle')">📡 Sensor</span>
+
+                    <!-- Leaf Composite: Kitchen -->
+                    <div class="tree-node room" onclick="Composite.control('kitchen','toggle')" style="display: flex; flex-direction: column; gap: 10px; padding: 15px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 15px; cursor: pointer;">
+                        <div style="display: flex; align-items: center; width: 100%; gap: 15px;">
+                            <div class="node-icon" style="font-size: 1.5em;">🍳</div>
+                            <div class="node-name" style="font-weight: 600; flex: 1;">Kitchen</div>
+                            <div class="node-count" style="font-size: 0.8em; color: var(--text-muted);">2 Devices</div>
                         </div>
-                    </div>
-                    <div class="tree-node room" onclick="Composite.control('bedroom','toggle')">
-                        <div class="node-icon">🛏️</div>
-                        <div class="node-name">Bedroom</div>
-                        <div class="node-count">2 devices</div>
-                        <div class="room-devices">
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('bed-light','toggle')">💡 Light</span>
-                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('bed-thermo','toggle')">🌡️ Thermo</span>
+                        <div class="room-devices" style="display: flex; gap: 8px; width: 100%;">
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-light','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">💡 Light</span>
+                            <span class="device-chip" onclick="event.stopPropagation();Composite.control('kitchen-sensor','toggle')" style="padding: 5px 12px; background: rgba(0, 210, 255, 0.15); border-radius: 15px; font-size: 0.8em; color: var(--primary);">📡 Sensor</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="composite-actions">
-            <h5>🎯 Quick Group Actions</h5>
-            <div class="group-btns">
-                <button class="group-btn" onclick="Composite.control('house','on')">🏠 All ON</button>
-                <button class="group-btn" onclick="Composite.control('house','off')">🏠 All OFF</button>
-                <button class="group-btn" onclick="Composite.control('living-room','on')">🛋️ Living ON</button>
-                <button class="group-btn" onclick="Composite.control('bedroom','off')">🛏️ Bedroom OFF</button>
+
+        <div class="composite-actions" style="padding: 20px; background: var(--glass-bg); border-radius: 15px; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">🎯 Quick Group Actions</h5>
+            <div class="group-btns" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <button class="action-btn" onclick="Composite.control('house','on')" style="padding: 10px 20px; background: rgba(255, 193, 7, 0.1); border: 1px solid var(--warning); border-radius: 8px; color: var(--warning); cursor: pointer; flex: 1;">
+                    🏠 ALL ON
+                </button>
+                <button class="action-btn" onclick="Composite.control('house','off')" style="padding: 10px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-muted); cursor: pointer; flex: 1;">
+                    🏠 ALL OFF
+                </button>
+                <button class="action-btn" onclick="Composite.control('living-room','on')" style="padding: 10px 20px; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); border-radius: 8px; color: var(--primary); cursor: pointer; flex: 1;">
+                    🛋️ Living ON
+                </button>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Composite Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Component</strong>: Common interface for all objects (turnOn, turnOff)</li>
-                <li><strong>Leaf</strong>: Individual devices (Light, TV, Thermostat)</li>
-                <li><strong>Composite</strong>: Groups (Room, Floor, House) containing children</li>
-                <li>Operations propagate down the tree to all children</li>
+                <li><strong>Component Interface:</strong> Defines `execute(command)` for everything.</li>
+                <li><strong>Composite:</strong> Holds a list of children (`List&lt;SmartHomeComponent&gt;`) and delegates commands recursively.</li>
+                <li><strong>Leaf:</strong> The actual device that executes the command.</li>
             </ul>
         </div>
     </div>
@@ -88,36 +101,34 @@ var Composite = {
         };
         var isGroup = counts[target] !== undefined;
         var affected = isGroup ? counts[target] : 1;
+
+        // Visual feedback on the node
+        var selector = target === 'house' ? '.tree-node.house' :
+                       target === 'floor-1' ? '.tree-node.floor' :
+                       '.tree-node.room[onclick*="' + target + '"]';
+
+        var node = document.querySelector(selector);
+        if(node && action === 'toggle') {
+            // Simple animation effect
+            node.style.transform = 'scale(0.98)';
+            setTimeout(() => node.style.transform = 'scale(1)', 150);
+        }
+
         fetch('/api/patterns/composite/control?target=' + target + '&action=' + action, {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                var msg = (isGroup ? 'Group' : 'Device') + ': ' + names[target] + '\nAction: ' + action.toUpperCase() + '\nAffected devices: ' + affected;
-                if (isGroup) msg += '\n\nThe Composite pattern propagated the command to all ' + affected + ' child devices.';
-                PatternDemo.showResult('composite-result', msg + '\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast(names[target] + ' ' + action, 'success');
+                var msg = '🌳 Command Propagated\n' +
+                          '---------------------\n' +
+                          'Target: ' + (isGroup ? 'NODE (Group)' : 'LEAF (Device)') + '\n' +
+                          'Name: ' + names[target] + '\n' +
+                          'Command: ' + action.toUpperCase() + '\n' +
+                          'Scope: ' + affected + ' device(s) affected\n\n' +
+                          (isGroup ? 'The Composite pattern automatically distributed the command down the tree structure.' : 'Direct control of leaf node.');
+
+                PatternDemo.showResult('composite-result', msg);
+                PatternDemo.toast(names[target] + (action === 'toggle' ? ' Toggled' : ' ' + action.toUpperCase()), 'success');
             });
     }
 };
 </script>
-<style>
-.hierarchy-tree { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 20px; }
-.tree-node { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s; }
-.tree-node:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); }
-.tree-node.house { border-color: #ffc107; background: rgba(255,193,7,0.1); }
-.tree-node.floor { border-color: #28a745; background: rgba(40,167,69,0.1); }
-.tree-node.room { flex-wrap: wrap; }
-.node-icon { font-size: 1.8em; }
-.node-name { font-weight: 600; flex: 1; }
-.node-count { font-size: 0.8em; color: #888; padding: 3px 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-.tree-level { margin-left: 30px; padding-left: 20px; border-left: 2px dashed rgba(255,255,255,0.1); }
-.tree-sublevel { margin-left: 30px; padding-left: 20px; border-left: 2px dashed rgba(255,255,255,0.1); }
-.room-devices { width: 100%; display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
-.device-chip { padding: 5px 12px; background: rgba(0,210,255,0.15); border-radius: 15px; font-size: 0.8em; cursor: pointer; transition: all 0.3s; }
-.device-chip:hover { background: rgba(0,210,255,0.3); }
-.composite-actions { padding: 15px; background: rgba(0,210,255,0.05); border-radius: 12px; }
-.composite-actions h5 { color: #888; margin-bottom: 12px; }
-.group-btns { display: flex; flex-wrap: wrap; gap: 10px; }
-.group-btn { padding: 10px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s; }
-.group-btn:hover { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
-</style>
 </div>

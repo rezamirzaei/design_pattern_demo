@@ -2,66 +2,95 @@
     <div class="pattern-header">
         <div class="pattern-icon">🪶</div>
         <div class="pattern-info">
-            <h3>Device Type Cache</h3>
+            <h3>Type Sharing (Memory Saver)</h3>
             <span class="pattern-badge badge-structural">Flyweight Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Share <strong>common device data</strong> across many instances to save memory. Device types (icons, capabilities, protocols) are shared - only unique data (name, location) is stored per device.</p>
+    <p class="pattern-desc">
+        Share common data across thousands of objects to save RAM.
+        The <strong>Flyweight Pattern</strong> stores intrinsic state (e.g., icons, protocols) in shared shared objects, while extrinsic state (e.g., location, status) remains in the individual instance.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Memory Optimization Demo</h4>
-        <div class="memory-comparison">
-            <div class="memory-box without">
-                <h5>❌ Without Flyweight</h5>
-                <div class="device-instances">
-                    <div class="instance">💡 Light #1 <span class="instance-data">+ icon, caps, protocol</span></div>
-                    <div class="instance">💡 Light #2 <span class="instance-data">+ icon, caps, protocol</span></div>
-                    <div class="instance">💡 Light #3 <span class="instance-data">+ icon, caps, protocol</span></div>
-                    <div class="instance">🌡️ Thermo #1 <span class="instance-data">+ icon, caps, protocol</span></div>
-                    <div class="instance">🌡️ Thermo #2 <span class="instance-data">+ icon, caps, protocol</span></div>
+        <h4>🎮 Memory Optimization Visualizer</h4>
+
+        <div class="memory-comparison" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px;">
+            <div class="memory-box without" style="padding: 20px; border-radius: 15px; background: rgba(220,53,69,0.05); border: 1px solid rgba(220,53,69,0.3);">
+                <h5 style="color: #ff6b6b; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">❌ Standard Approach</h5>
+                <div class="device-instances" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between;">
+                        <span>💡 Light #1</span>
+                        <span style="color: #ff6b6b; font-size: 0.8em;">[Icon, RGB, Zigbee]</span>
+                    </div>
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between;">
+                        <span>💡 Light #2</span>
+                        <span style="color: #ff6b6b; font-size: 0.8em;">[Icon, RGB, Zigbee]</span>
+                    </div>
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between;">
+                        <span>💡 Light #3</span>
+                        <span style="color: #ff6b6b; font-size: 0.8em;">[Icon, RGB, Zigbee]</span>
+                    </div>
                 </div>
-                <div class="memory-total">Memory: <span class="memory-bad">~500 KB</span></div>
+                <div class="memory-total" style="padding-top: 10px; border-top: 1px dashed rgba(220,53,69,0.3); font-weight: 600; color: #ff6b6b; text-align: right;">
+                    Usage: ~500 KB (Duplication)
+                </div>
             </div>
-            <div class="memory-box with">
-                <h5>✅ With Flyweight</h5>
-                <div class="shared-types">
-                    <div class="shared-type">💡 LightType <span class="shared-data">(shared)</span></div>
-                    <div class="shared-type">🌡️ ThermoType <span class="shared-data">(shared)</span></div>
+
+            <div class="memory-box with" style="padding: 20px; border-radius: 15px; background: rgba(40,167,69,0.05); border: 1px solid rgba(40,167,69,0.3);">
+                <h5 style="color: #28a745; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">✅ Flyweight Pattern</h5>
+
+                <div class="shared-types" style="margin-bottom: 15px; padding: 10px; background: rgba(40,167,69,0.1); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.8em; color: #28a745; margin-bottom: 5px;">SHARED TYPE</div>
+                    <div style="border: 1px solid #28a745; border-radius: 5px; padding: 5px;">[Icon, RGB, Zigbee]</div>
                 </div>
-                <div class="device-instances">
-                    <div class="instance light">Light #1 → 💡</div>
-                    <div class="instance light">Light #2 → 💡</div>
-                    <div class="instance light">Light #3 → 💡</div>
-                    <div class="instance thermo">Thermo #1 → 🌡️</div>
-                    <div class="instance thermo">Thermo #2 → 🌡️</div>
+
+                <div class="device-instances" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center;">
+                        <span>💡 Light #1</span>
+                        <span style="font-size: 1.2em; color: #28a745;">↗</span>
+                    </div>
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center;">
+                        <span>💡 Light #2</span>
+                        <span style="font-size: 1.2em; color: #28a745;">↗</span>
+                    </div>
+                    <div class="instance" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center;">
+                        <span>💡 Light #3</span>
+                        <span style="font-size: 1.2em; color: #28a745;">↗</span>
+                    </div>
                 </div>
-                <div class="memory-total">Memory: <span class="memory-good">~125 KB</span></div>
+                <div class="memory-total" style="padding-top: 10px; border-top: 1px dashed rgba(40,167,69,0.3); font-weight: 600; color: #28a745; text-align: right;">
+                    Usage: ~125 KB (Shared)
+                </div>
             </div>
         </div>
-        <div class="flyweight-stats">
-            <h5>📊 Current System Stats</h5>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-value" id="fw-types">4</span>
-                    <span class="stat-label">Shared Types</span>
+
+        <div class="flyweight-stats" style="padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); margin-top: 20px;">
+            <h5 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase;">📊 Live System Stats</h5>
+            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                <div class="stat-item" style="text-align: center; padding: 15px; background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <span class="stat-value" id="fw-types" style="display: block; font-size: 2.2em; font-weight: 700; color: var(--primary);">4</span>
+                    <span class="stat-label" style="font-size: 0.8em; color: var(--text-muted);">Unique Types</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="fw-instances">50+</span>
-                    <span class="stat-label">Device Instances</span>
+                <div class="stat-item" style="text-align: center; padding: 15px; background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <span class="stat-value" id="fw-instances" style="display: block; font-size: 2.2em; font-weight: 700; color: var(--accent);">50+</span>
+                    <span class="stat-label" style="font-size: 0.8em; color: var(--text-muted);">Device Objects</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="fw-saved">75%</span>
-                    <span class="stat-label">Memory Saved</span>
+                <div class="stat-item" style="text-align: center; padding: 15px; background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <span class="stat-value" id="fw-saved" style="display: block; font-size: 2.2em; font-weight: 700; color: var(--success);">75%</span>
+                    <span class="stat-label" style="font-size: 0.8em; color: var(--text-muted);">RAM Saved</span>
                 </div>
             </div>
-            <button class="btn-demo" onclick="Flyweight.demo()">🔄 Refresh Stats</button>
+            <button class="btn-primary" onclick="Flyweight.demo()" style="width: 100%;">
+                <span>🔄 Simulate Large Scale Generation</span>
+            </button>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Flyweight Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Intrinsic State</strong> (shared): icon, capabilities, protocol - stored in flyweight</li>
-                <li><strong>Extrinsic State</strong> (unique): name, location, status - stored per instance</li>
-                <li><strong>Flyweight Factory</strong> creates/reuses flyweight objects</li>
-                <li>Many devices share same type object instead of duplicating data</li>
+                <li><strong>Intrinsic State (Shared):</strong> Type, Icon, Protocol, Capabilities. (Immutable)</li>
+                <li><strong>Extrinsic State (Unique):</strong> Coordinate, ID, Current Status. (Passed in)</li>
+                <li><strong>Factory:</strong> Maintains the Cache/Map of existing Flyweights.</li>
             </ul>
         </div>
     </div>
@@ -70,39 +99,45 @@
 <script>
 var Flyweight = {
     demo: function() {
+        PatternDemo.showResult('flyweight-result', '🔄 Generating 10,000 devices...\n...');
+
         fetch('/api/patterns/flyweight/stats')
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                document.getElementById('fw-types').textContent = data.sharedTypes || 4;
-                document.getElementById('fw-instances').textContent = (data.instances || 50) + '+';
-                document.getElementById('fw-saved').textContent = (data.memorySaved || 75) + '%';
-                PatternDemo.showResult('flyweight-result', 'Flyweight Pattern Statistics\n\nShared Device Types: ' + (data.sharedTypes || 4) + '\n  • Light Type (icon, RGB capability, Zigbee protocol)\n  • Thermostat Type (icon, temp range, WiFi protocol)\n  • Camera Type (icon, resolution, RTSP protocol)\n  • Lock Type (icon, PIN capability, Z-Wave protocol)\n\nDevice Instances: ' + (data.instances || 50) + '+\nMemory Without Flyweight: ~500 KB\nMemory With Flyweight: ~125 KB\nMemory Saved: 75%\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Stats refreshed', 'success');
+                // Animate numbers
+                Flyweight.animateValue('fw-types', 4, data.sharedTypes || 4, 1000);
+                Flyweight.animateValue('fw-instances', 50, data.instances || 10000, 1500);
+
+                document.getElementById('fw-saved').textContent = (data.memorySaved || 90) + '%';
+
+                PatternDemo.showResult('flyweight-result', '📊 Analysis Complete\n' +
+                    '--------------------------\n' +
+                    'Total Devices Created: ' + (data.instances || 10000) + '\n' +
+                    'Actual Objects in Memory: ' + (data.sharedTypes || 4) + ' (Types) + ' + (data.instances || 10000) + ' (Lightweight Pointers)\n' +
+                    'Memory Without Pattern: ~500 MB\n' +
+                    'Memory With Pattern: ~12 MB\n' +
+                    '--------------------------\n' +
+                    '✅ OPTIMIZATION SUCCESSFUL');
+
+                PatternDemo.toast('Memory Stats Optimized', 'success');
             });
+    },
+    animateValue: function(id, start, end, duration) {
+        var range = end - start;
+        var current = start;
+        var increment = end > start ? 100 : -100;
+        if (Math.abs(range) < 100) increment = end > start ? 1 : -1;
+        var stepTime = Math.abs(Math.floor(duration / (range / increment)));
+        var obj = document.getElementById(id);
+        var timer = setInterval(function() {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                current = end;
+                clearInterval(timer);
+            }
+            obj.textContent = current.toLocaleString();
+        }, stepTime);
     }
 };
 </script>
-<style>
-.memory-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-.memory-box { padding: 20px; border-radius: 15px; }
-.memory-box.without { background: rgba(220,53,69,0.1); border: 2px solid rgba(220,53,69,0.3); }
-.memory-box.with { background: rgba(40,167,69,0.1); border: 2px solid rgba(40,167,69,0.3); }
-.memory-box h5 { margin-bottom: 15px; }
-.device-instances { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
-.instance { padding: 8px 12px; background: rgba(0,0,0,0.2); border-radius: 6px; font-size: 0.85em; }
-.instance-data { color: #dc3545; font-size: 0.75em; }
-.shared-types { margin-bottom: 10px; padding: 10px; background: rgba(0,210,255,0.1); border-radius: 8px; }
-.shared-type { padding: 5px 0; }
-.shared-data { color: #00d2ff; font-size: 0.8em; }
-.memory-total { font-weight: 600; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
-.memory-bad { color: #dc3545; }
-.memory-good { color: #28a745; }
-.flyweight-stats { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; }
-.flyweight-stats h5 { color: #00d2ff; margin-bottom: 15px; }
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
-.stat-item { text-align: center; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; }
-.stat-value { display: block; font-size: 2em; font-weight: bold; color: #00d2ff; }
-.stat-label { font-size: 0.8em; color: #888; }
-.btn-demo { width: 100%; padding: 12px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 10px; color: white; cursor: pointer; }
-</style>
 </div>

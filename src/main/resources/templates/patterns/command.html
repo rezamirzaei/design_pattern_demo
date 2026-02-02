@@ -2,98 +2,98 @@
     <div class="pattern-header">
         <div class="pattern-icon">📜</div>
         <div class="pattern-info">
-            <h3>Device Control with Undo/Redo</h3>
+            <h3>Undoable Actions</h3>
             <span class="pattern-badge badge-behavioral">Command Pattern</span>
         </div>
     </div>
     <p class="pattern-desc">
-        Every device action is a <strong>Command object</strong> that can be executed, undone, and redone.
-        Build up a command history and travel back and forth through your changes!
+        Encapsulate requests as objects. This allows parameterization of clients with queues/requests, and most importantly, support for <strong>Undo/Redo</strong> operations by storing the command history.
     </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Execute Device Commands</h4>
-        <div class="command-workspace">
-            <!-- Device Control Panel -->
-            <div class="control-panel">
+        <h4>🎮 Command Center</h4>
+
+        <div class="command-workspace" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
+            <!-- Device Panel -->
+            <div class="control-panel" style="flex: 1; min-width: 300px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
+
+                <!-- Light Control -->
+                <div class="control-device" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed var(--glass-border);">
+                    <h5 style="color: var(--warning); margin-bottom: 15px; display: flex; justify-content: space-between;">
+                        <span>💡 Smart Bulb</span>
+                        <span class="light-status" id="cmd-light-status" style="font-size: 0.8em; padding: 2px 8px; border-radius: 4px; background: var(--glass-bg); opacity: 0.8;">OFF</span>
+                    </h5>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="ctrl-btn on" onclick="Command.execute('living-light-1', 'ON')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--success); color: var(--success); border-radius: 8px; cursor: pointer;">ON</button>
+                        <button class="ctrl-btn off" onclick="Command.execute('living-light-1', 'OFF')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--danger); color: var(--danger); border-radius: 8px; cursor: pointer;">OFF</button>
+                        <button class="ctrl-btn dim" onclick="Command.execute('living-light-1', 'DIM')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--warning); color: var(--warning); border-radius: 8px; cursor: pointer;">DIM</button>
+                    </div>
+                </div>
+
+                <!-- Thermo Control -->
                 <div class="control-device">
-                    <h5>💡 Living Room Light</h5>
-                    <div class="device-visual">
-                        <div class="light-bulb" id="cmd-light-visual">💡</div>
-                        <span class="light-status" id="cmd-light-status">OFF</span>
-                    </div>
-                    <div class="control-buttons">
-                        <button class="ctrl-btn on" onclick="Command.execute('living-light-1', 'ON')">
-                            Turn ON
-                        </button>
-                        <button class="ctrl-btn off" onclick="Command.execute('living-light-1', 'OFF')">
-                            Turn OFF
-                        </button>
-                        <button class="ctrl-btn dim" onclick="Command.execute('living-light-1', 'DIM')">
-                            Dim 50%
-                        </button>
-                    </div>
-                </div>
-                <div class="control-device">
-                    <h5>🌡️ Thermostat</h5>
-                    <div class="device-visual">
-                        <div class="temp-display" id="cmd-temp-visual">22°C</div>
-                    </div>
-                    <div class="control-buttons">
-                        <button class="ctrl-btn up" onclick="Command.execute('thermostat', 'TEMP_UP')">
-                            🔺 Temp +
-                        </button>
-                        <button class="ctrl-btn down" onclick="Command.execute('thermostat', 'TEMP_DOWN')">
-                            🔻 Temp -
-                        </button>
+                    <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; justify-content: space-between;">
+                        <span>🌡️ Thermostat</span>
+                        <span class="temp-display" id="cmd-temp-visual" style="font-size: 0.8em; padding: 2px 8px; border-radius: 4px; background: var(--glass-bg); opacity: 0.8;">22°C</span>
+                    </h5>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="ctrl-btn up" onclick="Command.execute('thermostat', 'TEMP_UP')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--primary); color: var(--primary); border-radius: 8px; cursor: pointer;">🔼 +1°C</button>
+                        <button class="ctrl-btn down" onclick="Command.execute('thermostat', 'TEMP_DOWN')" style="flex: 1; padding: 10px; background: var(--glass-bg); border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; cursor: pointer;">🔽 -1°C</button>
                     </div>
                 </div>
             </div>
-            <!-- Undo/Redo Controls -->
-            <div class="history-controls">
-                <button class="history-btn undo" onclick="Command.undo()">
-                    <span class="hbtn-icon">↩️</span>
-                    <span class="hbtn-text">Undo</span>
-                </button>
-                <div class="history-indicator">
-                    <span id="history-position">0</span> / <span id="history-total">0</span>
-                </div>
-                <button class="history-btn redo" onclick="Command.redo()">
-                    <span class="hbtn-text">Redo</span>
-                    <span class="hbtn-icon">↪️</span>
-                </button>
-            </div>
-            <!-- Command History -->
-            <div class="command-history">
-                <h5>📋 Command History</h5>
-                <div class="history-list" id="command-history-list">
-                    <div class="history-empty">Execute commands to see history...</div>
-                </div>
-            </div>
-            <!-- Macro Recording -->
-            <div class="macro-section">
-                <h5>🎬 Record Command Macro</h5>
-                <p class="macro-desc">Record a sequence of commands and replay them later!</p>
-                <div class="macro-controls">
-                    <button class="macro-btn" id="macro-record-btn" onclick="Command.toggleRecording()">
-                        <span>⏺️</span> Start Recording
+
+            <!-- History Panel -->
+            <div class="history-panel" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+                <div class="history-controls" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="history-btn undo" onclick="Command.undo()" style="flex: 1; padding: 12px; background: var(--glass-bg); border: 1px solid var(--text-muted); border-radius: 10px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>↩️</span> Undo
                     </button>
-                    <button class="macro-btn" onclick="Command.playMacro()" disabled id="macro-play-btn">
-                        <span>▶️</span> Play Macro
+                    <div class="history-indicator" style="display: flex; align-items: center; justify-content: center; padding: 0 15px; background: rgba(0,0,0,0.3); border-radius: 10px; font-family: monospace;">
+                        <span id="history-position">0</span> / <span id="history-total">0</span>
+                    </div>
+                    <button class="history-btn redo" onclick="Command.redo()" style="flex: 1; padding: 12px; background: var(--glass-bg); border: 1px solid var(--text-muted); border-radius: 10px; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        Redo <span>↪️</span>
                     </button>
                 </div>
-                <div class="macro-status" id="macro-status"></div>
+
+                <div class="command-history" style="flex: 1; background: var(--darker); border-radius: 12px; padding: 15px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border);">
+                    <h5 style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.85em;">📜 ACTION LOG</h5>
+                    <div class="history-list" id="command-history-list" style="display: flex; flex-direction: column; gap: 5px;">
+                        <div class="history-empty" style="text-align: center; color: var(--text-muted); font-style: italic; padding: 20px;">
+                            Command buffer empty...
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Command Works Here:</h5>
+
+        <!-- Macro Section -->
+        <div class="macro-section" style="padding: 20px; background: rgba(0, 210, 255, 0.05); border-radius: 15px; border: 1px solid var(--glass-border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h5 style="color: var(--secondary); margin: 0;">🎬 Macro Recorder</h5>
+                <span id="macro-badge" style="display: none; color: #ff0000; font-weight: bold; animation: blink 1s infinite;">● REC</span>
+            </div>
+            <div class="macro-controls" style="display: flex; gap: 10px;">
+                <button class="macro-btn" id="macro-record-btn" onclick="Command.toggleRecording()" style="padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--danger); color: var(--text); border-radius: 20px; cursor: pointer;">
+                    ⏺️ Record
+                </button>
+                <button class="macro-btn" id="macro-play-btn" onclick="Command.playMacro()" disabled style="padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--success); color: var(--text-muted); border-radius: 20px; cursor: not-allowed; opacity: 0.5;">
+                    ▶️ Play
+                </button>
+            </div>
+        </div>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li>Each action creates a <strong>Command object</strong> (TurnOnCommand, TurnOffCommand, etc.)</li>
-                <li>Commands have <code>execute()</code> and <code>undo()</code> methods</li>
-                <li>An <strong>Invoker</strong> stores command history for undo/redo</li>
-                <li>Commands can be queued, logged, and even recorded as macros</li>
-                <li>Device (Receiver) doesn't know about Command pattern - loose coupling!</li>
+                <li><strong>Invoker:</strong> Stores the command history stack.</li>
+                <li><strong>Command:</strong> `TurnOnCommand` encapsulates `light.turnOn()`.</li>
+                <li><strong>Undo:</strong> `TurnOnCommand.undo()` executes `light.turnOff()`.</li>
             </ul>
         </div>
+
+        <style>@keyframes blink { 50% { opacity: 0; } }</style>
     </div>
     <div class="result-area" id="command-result"></div>
 </div>
@@ -105,83 +105,98 @@ var Command = {
     macro: [],
     lightOn: false,
     temp: 22,
+
     execute: function(device, command) {
         var self = this;
-        fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                // Truncate redo history
-                self.history = self.history.slice(0, self.position + 1);
-                // Add to history
-                self.history.push({ device: device, command: command, timestamp: new Date() });
-                self.position = self.history.length - 1;
-                // Record if recording
-                if (self.recording) {
-                    self.macro.push({ device: device, command: command });
-                    self.updateMacroStatus();
-                }
-                // Update visuals
-                self.updateVisuals(device, command);
-                self.updateHistoryDisplay();
-                PatternDemo.showResult('command-result',
-                    'Command executed!\n\n' +
-                    'Command: ' + command + '\n' +
-                    'Device: ' + device + '\n' +
-                    'History position: ' + (self.position + 1) + '/' + self.history.length + '\n\n' +
-                    'The command object has been stored and can be undone.'
-                );
-                PatternDemo.toast(command + ': ' + device, 'success');
-            });
+        // Simulate backend delay
+        setTimeout(() => {
+            // Truncate redo history
+            self.history = self.history.slice(0, self.position + 1);
+            // Add to history
+            var entry = { device: device, command: command, timestamp: new Date() };
+            self.history.push(entry);
+            self.position = self.history.length - 1;
+
+            // Record if recording
+            if (self.recording) {
+                self.macro.push(entry);
+                self.updateMacroUI();
+            }
+
+            // Update visuals
+            self.updateVisuals(device, command);
+            self.updateHistoryDisplay();
+
+            var msg = 'Executed: ' + command + ' on ' + device + '\n' +
+                      'Stack Pointer: ' + (self.position + 1);
+            PatternDemo.showResult('command-result', msg);
+            if(!self.replaying) PatternDemo.toast('Command: ' + command, 'success');
+
+            // Real API would be fetched here
+            fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' });
+        }, 100);
     },
+
     undo: function() {
         if (this.position < 0) {
-            PatternDemo.toast('Nothing to undo!', 'error');
+            PatternDemo.toast('History Start Reached', 'warning');
             return;
         }
-        var self = this;
-        fetch('/api/patterns/command/undo', { method: 'POST' })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                var cmd = self.history[self.position];
-                self.position--;
-                self.reverseVisuals(cmd.device, cmd.command);
-                self.updateHistoryDisplay();
-                PatternDemo.showResult('command-result',
-                    'Undo successful!\n\n' +
-                    'Reversed: ' + cmd.command + ' on ' + cmd.device + '\n' +
-                    'Position: ' + (self.position + 1) + '/' + self.history.length
-                );
-                PatternDemo.toast('Undone: ' + cmd.command, 'info');
-            });
+        var cmd = this.history[this.position];
+        this.position--;
+        this.reverseVisuals(cmd.device, cmd.command);
+        this.updateHistoryDisplay();
+
+        PatternDemo.showResult('command-result', '↩️ UNDO Operation\n' +
+            'Reversed: ' + cmd.command + '\n' +
+            'State restored to previous value.');
+        PatternDemo.toast('Undone: ' + cmd.command, 'info');
+
+        fetch('/api/patterns/command/undo', { method: 'POST' });
     },
+
     redo: function() {
         if (this.position >= this.history.length - 1) {
-            PatternDemo.toast('Nothing to redo!', 'error');
+            PatternDemo.toast('History End Reached', 'warning');
             return;
         }
-        var self = this;
-        fetch('/api/patterns/command/redo', { method: 'POST' })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                self.position++;
-                var cmd = self.history[self.position];
-                self.updateVisuals(cmd.device, cmd.command);
-                self.updateHistoryDisplay();
-                PatternDemo.showResult('command-result',
-                    'Redo successful!\n\n' +
-                    'Re-executed: ' + cmd.command + ' on ' + cmd.device + '\n' +
-                    'Position: ' + (self.position + 1) + '/' + self.history.length
-                );
-                PatternDemo.toast('Redone: ' + cmd.command, 'info');
-            });
+        this.position++;
+        var cmd = this.history[this.position];
+        this.updateVisuals(cmd.device, cmd.command);
+        this.updateHistoryDisplay();
+
+        PatternDemo.showResult('command-result', '↪️ REDO Operation\n' +
+            'Re-applied: ' + cmd.command);
+        PatternDemo.toast('Redone: ' + cmd.command, 'info');
+
+        fetch('/api/patterns/command/redo', { method: 'POST' });
     },
+
     updateVisuals: function(device, command) {
         if (device === 'living-light-1') {
-            var bulb = document.getElementById('cmd-light-visual');
             var status = document.getElementById('cmd-light-status');
-            if (command === 'ON') { this.lightOn = true; bulb.style.filter = 'brightness(1.5) saturate(1.5)'; status.textContent = 'ON'; }
-            if (command === 'OFF') { this.lightOn = false; bulb.style.filter = 'brightness(0.5)'; status.textContent = 'OFF'; }
-            if (command === 'DIM') { bulb.style.filter = 'brightness(0.8)'; status.textContent = 'DIM 50%'; }
+            var header = status.parentElement;
+            if (command === 'ON') {
+                this.lightOn = true;
+                status.textContent = 'ON';
+                status.style.background = 'var(--success)';
+                status.style.color = '#000';
+                status.style.opacity = '1';
+                header.style.textShadow = '0 0 15px var(--warning)';
+            }
+            if (command === 'OFF') {
+                this.lightOn = false;
+                status.textContent = 'OFF';
+                status.style.background = 'var(--glass-bg)';
+                status.style.color = 'var(--text)';
+                status.style.opacity = '0.7';
+                header.style.textShadow = 'none';
+            }
+            if (command === 'DIM') {
+                status.textContent = 'DIM 50%';
+                status.style.background = 'var(--warning)';
+                header.style.textShadow = '0 0 5px var(--warning)';
+            }
         }
         if (device === 'thermostat') {
             var temp = document.getElementById('cmd-temp-visual');
@@ -192,8 +207,9 @@ var Command = {
     },
     reverseVisuals: function(device, command) {
         if (device === 'living-light-1') {
-            if (command === 'ON') this.updateVisuals(device, 'OFF');
-            if (command === 'OFF') this.updateVisuals(device, 'ON');
+            if (command === 'ON') this.updateVisuals(device, 'OFF'); // Undo ON -> Turn OFF
+            if (command === 'OFF') this.updateVisuals(device, 'ON'); // Undo OFF -> Turn ON
+            if (command === 'DIM') this.updateVisuals(device, 'ON'); // Approximating undo dim
         }
         if (device === 'thermostat') {
             if (command === 'TEMP_UP') { this.temp--; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
@@ -203,100 +219,57 @@ var Command = {
     updateHistoryDisplay: function() {
         document.getElementById('history-position').textContent = this.position + 1;
         document.getElementById('history-total').textContent = this.history.length;
+
         var list = document.getElementById('command-history-list');
-        if (this.history.length === 0) {
-            list.innerHTML = '<div class="history-empty">Execute commands to see history...</div>';
-            return;
-        }
-        var self = this;
-        var html = this.history.map(function(cmd, i) {
-            var active = i === self.position ? ' active' : '';
-            var future = i > self.position ? ' future' : '';
-            return '<div class="history-item' + active + future + '">' +
-                '<span class="hi-num">' + (i + 1) + '</span>' +
-                '<span class="hi-cmd">' + cmd.command + '</span>' +
-                '<span class="hi-device">' + cmd.device + '</span>' +
-                '</div>';
-        }).join('');
-        list.innerHTML = html;
+        list.innerHTML = '';
+
+        this.history.forEach((cmd, idx) => {
+            var item = document.createElement('div');
+            item.style.cssText = 'padding: 8px; border-radius: 6px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center; ' +
+                                 (idx === this.position ? 'background: rgba(0, 210, 255, 0.2); border: 1px solid var(--primary);' : 'background: rgba(255,255,255,0.05); opacity: ' + (idx > this.position ? '0.4' : '1'));
+
+            item.innerHTML = '<span>' + (idx+1) + '. ' + cmd.command + '</span><span style="color: var(--text-muted); font-size: 0.8em;">' + cmd.device.split('-')[0] + '</span>' + (idx === this.position ? ' <span style="color: var(--primary);">⬅ CURRENT</span>' : '');
+            list.prepend(item); // Newest first
+        });
     },
     toggleRecording: function() {
         this.recording = !this.recording;
         var btn = document.getElementById('macro-record-btn');
+        var badge = document.getElementById('macro-badge');
         var playBtn = document.getElementById('macro-play-btn');
+
         if (this.recording) {
             this.macro = [];
-            btn.innerHTML = '<span>⏹️</span> Stop Recording';
-            btn.classList.add('recording');
-            document.getElementById('macro-status').textContent = 'Recording... Execute commands to record them.';
+            btn.innerHTML = '⏹️ Stop';
+            btn.style.borderColor = 'var(--danger)';
+            badge.style.display = 'block';
+            playBtn.disabled = true;
+            playBtn.style.opacity = '0.5';
+            PatternDemo.toast('Recording Started', 'info');
         } else {
-            btn.innerHTML = '<span>⏺️</span> Start Recording';
-            btn.classList.remove('recording');
+            btn.innerHTML = '⏺️ Record';
+            btn.style.borderColor = 'var(--glass-border)';
+            badge.style.display = 'none';
             playBtn.disabled = this.macro.length === 0;
-            document.getElementById('macro-status').textContent = 'Recorded ' + this.macro.length + ' commands.';
+            playBtn.style.opacity = this.macro.length > 0 ? '1' : '0.5';
+            playBtn.style.color = this.macro.length > 0 ? 'var(--text)' : 'var(--text-muted)';
+            if(this.macro.length > 0) PatternDemo.toast('Macro Recorded (' + this.macro.length + ' steps)', 'success');
         }
     },
-    updateMacroStatus: function() {
-        document.getElementById('macro-status').textContent = 'Recording... ' + this.macro.length + ' command(s)';
-    },
-    playMacro: function() {
-        if (this.macro.length === 0) return;
-        var self = this;
-        var i = 0;
-        PatternDemo.toast('Playing macro: ' + this.macro.length + ' commands', 'info');
-        function playNext() {
-            if (i >= self.macro.length) {
-                PatternDemo.toast('Macro complete!', 'success');
-                return;
-            }
-            var cmd = self.macro[i];
-            self.execute(cmd.device, cmd.command);
-            i++;
-            setTimeout(playNext, 800);
+    playMacro: async function() {
+        if(this.macro.length === 0) return;
+        this.replaying = true;
+        PatternDemo.toast('Playing Macro...', 'info');
+
+        for (let cmd of this.macro) {
+            await new Promise(r => setTimeout(r, 500)); // Playback delay
+            this.execute(cmd.device, cmd.command);
         }
-        playNext();
+        this.replaying = false;
+        PatternDemo.toast('Macro Finished', 'success');
+    },
+    updateMacroUI: function() {
+        // Optional live macro feedback
     }
 };
 </script>
-<style>
-.command-workspace { display: flex; flex-direction: column; gap: 20px; }
-.control-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.control-device { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; text-align: center; }
-.control-device h5 { color: #fff; margin-bottom: 15px; }
-.device-visual { margin: 15px 0; }
-.light-bulb { font-size: 4em; filter: brightness(0.5); transition: all 0.3s; }
-.light-status { display: block; color: #888; margin-top: 5px; }
-.temp-display { font-size: 2.5em; color: #00d2ff; font-weight: bold; }
-.control-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.ctrl-btn { padding: 10px 16px; border: none; border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s; }
-.ctrl-btn.on { background: linear-gradient(90deg, #00d2ff, #3a7bd5); }
-.ctrl-btn.off { background: rgba(100,100,100,0.5); }
-.ctrl-btn.dim { background: linear-gradient(90deg, #f093fb, #f5576c); }
-.ctrl-btn.up { background: linear-gradient(90deg, #f5af19, #f12711); }
-.ctrl-btn.down { background: linear-gradient(90deg, #3a7bd5, #00d2ff); }
-.ctrl-btn:hover { transform: scale(1.05); }
-.history-controls { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; }
-.history-btn { display: flex; align-items: center; gap: 8px; padding: 12px 24px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s; }
-.history-btn:hover { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
-.hbtn-icon { font-size: 1.3em; }
-.history-indicator { color: #888; font-size: 1.1em; }
-.command-history { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; }
-.command-history h5 { color: #00d2ff; margin-bottom: 12px; }
-.history-empty { color: #666; font-style: italic; }
-.history-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 5px; border-left: 3px solid #666; }
-.history-item.active { background: rgba(0,210,255,0.1); border-left-color: #00d2ff; }
-.history-item.future { opacity: 0.4; }
-.hi-num { background: rgba(0,210,255,0.2); color: #00d2ff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; }
-.hi-cmd { color: #fff; font-weight: 500; }
-.hi-device { color: #888; font-size: 0.85em; margin-left: auto; }
-.macro-section { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; }
-.macro-section h5 { color: #00d2ff; margin-bottom: 5px; }
-.macro-desc { color: #888; font-size: 0.85em; margin-bottom: 12px; }
-.macro-controls { display: flex; gap: 10px; }
-.macro-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.macro-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.macro-btn.recording { background: rgba(255,50,50,0.3); animation: pulse 1s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-.macro-status { color: #888; font-size: 0.85em; margin-top: 10px; }
-@media (max-width: 768px) { .control-panel { grid-template-columns: 1fr; } }
-</style>

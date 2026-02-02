@@ -3,23 +3,24 @@
         <div class="pattern-icon">🏭</div>
         <div class="pattern-info">
             <h3>Device Factory</h3>
-            <span class="pattern-badge badge-creational">Factory Method Pattern</span>
+            <span class="pattern-badge badge-creational">Factory Method</span>
         </div>
     </div>
     <p class="pattern-desc">
-        Create different types of smart devices without knowing their exact implementation classes.
-        The factory decides which device class to instantiate based on the type you request.
+        Create devices without specifying their exact class. The <strong>Factory Method</strong> allows you to request a "Light" or "Thermostat", and the system figures out which concrete class (e.g., <code>SmartLight</code>, <code>NestThermostat</code>) to instantiate.
     </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Create New Smart Device</h4>
+        <h4>🎮 Device Assembly Line</h4>
+
         <div class="device-creator">
             <div class="creator-form">
                 <div class="form-group">
-                    <label>Device Type</label>
+                    <label>Select Device Type</label>
                     <div class="device-type-selector">
                         <button class="type-btn active" data-type="LIGHT" onclick="Factory.selectType(this, 'LIGHT')">
                             <span class="type-icon">💡</span>
-                            <span>Light</span>
+                            <span>Smart Light</span>
                         </button>
                         <button class="type-btn" data-type="THERMOSTAT" onclick="Factory.selectType(this, 'THERMOSTAT')">
                             <span class="type-icon">🌡️</span>
@@ -27,52 +28,53 @@
                         </button>
                         <button class="type-btn" data-type="CAMERA" onclick="Factory.selectType(this, 'CAMERA')">
                             <span class="type-icon">📷</span>
-                            <span>Camera</span>
+                            <span>Security Cam</span>
                         </button>
                         <button class="type-btn" data-type="LOCK" onclick="Factory.selectType(this, 'LOCK')">
                             <span class="type-icon">🔒</span>
-                            <span>Lock</span>
+                            <span>Smart Lock</span>
                         </button>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
+
+                <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group" style="flex: 1;">
                         <label>Device Name</label>
                         <input type="text" id="factory-device-name" class="form-input" placeholder="e.g., Kitchen Light" value="New Device">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="flex: 1;">
                         <label>Location</label>
                         <input type="text" id="factory-device-location" class="form-input" placeholder="e.g., Living Room" value="Living Room">
                     </div>
                 </div>
-                <button class="btn-create" onclick="Factory.createDevice()">
-                    <span class="btn-icon">➕</span>
-                    Create Device
+
+                <button class="btn-primary" onclick="Factory.createDevice()" style="width: 100%;">
+                    <span>🏭 Manufacture Device</span>
                 </button>
             </div>
-            <div class="quick-create">
-                <h5>⚡ Quick Create</h5>
-                <button class="quick-btn" onclick="Factory.quickCreate('LIGHT', 'Kitchen Light', 'Kitchen')">
-                    💡 Kitchen Light
-                </button>
-                <button class="quick-btn" onclick="Factory.quickCreate('THERMOSTAT', 'Living Thermostat', 'Living Room')">
-                    🌡️ Living Thermostat
-                </button>
-                <button class="quick-btn" onclick="Factory.quickCreate('CAMERA', 'Front Door Cam', 'Entrance')">
-                    📷 Front Door Cam
-                </button>
-                <button class="quick-btn" onclick="Factory.quickCreate('LOCK', 'Main Door Lock', 'Entrance')">
-                    🔒 Main Door Lock
-                </button>
+
+            <div class="quick-create" style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+                <h5 style="margin-bottom: 15px; color: var(--text-muted);">⚡ Quick Templates</h5>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button class="action-btn" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;" onclick="Factory.quickCreate('LIGHT', 'Kitchen Light', 'Kitchen')">
+                        💡 Kitchen Light
+                    </button>
+                    <button class="action-btn" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;" onclick="Factory.quickCreate('THERMOSTAT', 'Living Thermostat', 'Living Room')">
+                        🌡️ Living Thermostat
+                    </button>
+                    <button class="action-btn" style="padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;" onclick="Factory.quickCreate('CAMERA', 'Front Door Cam', 'Entrance')">
+                        📷 Front Door Cam
+                    </button>
+                </div>
             </div>
         </div>
+
         <div class="pattern-explanation">
-            <h5>💡 How Factory Method Works Here:</h5>
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li>You request a device by TYPE (LIGHT, THERMOSTAT, etc.)</li>
-                <li>The factory creates the correct concrete class (SmartLight, SmartThermostat, etc.)</li>
-                <li>You don't need to know how each device is constructed</li>
-                <li>Adding new device types only requires adding new factory methods</li>
+                <li><strong>Client:</strong> Requests a device by Interface (Device) and Type (Enum).</li>
+                <li><strong>Factory:</strong> Encapsulates `new SmartLight()` etc. inside `createDevice()`.</li>
+                <li><strong>Result:</strong> Client gets a fully initialized object without coupling to concrete classes.</li>
             </ul>
         </div>
     </div>
@@ -82,9 +84,16 @@
 var Factory = {
     selectedType: 'LIGHT',
     selectType: function(btn, type) {
-        document.querySelectorAll('.type-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('#pattern-factory .type-btn').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         this.selectedType = type;
+
+        // Update default name based on type
+        var nameInput = document.getElementById('factory-device-name');
+        if (nameInput.value === 'New Device' || nameInput.value.includes('Device')) {
+            var icon = btn.querySelector('.type-icon').textContent;
+            nameInput.value = 'New ' + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+        }
     },
     createDevice: function() {
         var name = document.getElementById('factory-device-name').value;
@@ -92,34 +101,23 @@ var Factory = {
         this.quickCreate(this.selectedType, name, location);
     },
     quickCreate: function(type, name, location) {
+        // Show loading state
+        PatternDemo.showResult('factory-result', '🏭 Factory is manufacturing ' + type + '...');
+
         fetch('/api/patterns/factory/create?type=' + type + '&name=' + encodeURIComponent(name) + '&location=' + encodeURIComponent(location), { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('factory-result',
-                    'Created ' + type + ' device!\n\n' +
-                    'Factory created: ' + (data.name || name) + '\n' +
-                    'Location: ' + (data.location || location) + '\n' +
-                    'Device ID: ' + (data.id || 'generated') + '\n\n' +
-                    'The factory automatically instantiated the correct device class.'
-                );
-                PatternDemo.toast('Created: ' + name, 'success');
+                var output = '✅ Device Manufactured Successfully!\n\n' +
+                             '📦 Class: ' + (type.charAt(0) + type.slice(1).toLowerCase()) + 'Device\n' +
+                             '🏷️ Name: ' + (data.name || name) + '\n' +
+                             '📍 Location: ' + (data.location || location) + '\n' +
+                             '🆔 ID: ' + (data.id || 'DEV-' + Math.floor(Math.random()*10000)) + '\n\n' +
+                             'The Factory Method pattern encapsulated the object creation logic,\n' +
+                             'keeping your client code clean and decoupled.';
+
+                PatternDemo.showResult('factory-result', output);
+                PatternDemo.toast('Factory created: ' + name, 'success');
             });
     }
 };
 </script>
-<style>
-.device-type-selector { display: flex; gap: 10px; margin-top: 10px; }
-.type-btn { display: flex; flex-direction: column; align-items: center; padding: 15px 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; transition: all 0.3s; }
-.type-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-.type-btn.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; }
-.type-icon { font-size: 1.5em; margin-bottom: 5px; }
-.form-row { display: flex; gap: 15px; }
-.form-group { flex: 1; margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; color: #888; font-size: 0.9em; }
-.btn-create { width: 100%; padding: 12px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 8px; color: white; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.btn-create:hover { transform: scale(1.02); }
-.quick-create { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-.quick-create h5 { margin-bottom: 10px; color: #888; }
-.quick-btn { padding: 8px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #ccc; cursor: pointer; margin: 3px; transition: all 0.3s; }
-.quick-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
-</style>

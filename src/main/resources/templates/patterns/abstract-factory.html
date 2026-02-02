@@ -2,56 +2,56 @@
     <div class="pattern-header">
         <div class="pattern-icon">🏢</div>
         <div class="pattern-info">
-            <h3>Smart Home Ecosystem Factory</h3>
-            <span class="pattern-badge badge-creational">Abstract Factory Pattern</span>
+            <h3>Ecosystem Factory</h3>
+            <span class="pattern-badge badge-creational">Abstract Factory</span>
         </div>
     </div>
-    <p class="pattern-desc">Create <strong>families of related devices</strong> for different smart home ecosystems. Each ecosystem (SmartThings, HomeKit, Google Home) has its own factory that produces compatible devices.</p>
+    <p class="pattern-desc">
+        Need to ensure all your devices play nice together? The <strong>Abstract Factory</strong> creates entire families of related objects (SmartThings, HomeKit, Google) without specifying their concrete classes, ensuring compatibility.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Select Ecosystem to Create Device Suite</h4>
-        <div class="ecosystem-selector">
-            <button class="ecosystem-btn" onclick="AbstractFactory.create('SMARTTHINGS')">
-                <div class="eco-icon">🔷</div>
+        <h4>🎮 Select an Ecosystem</h4>
+
+        <div class="ecosystem-selector" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <button class="action-btn" onclick="AbstractFactory.create('SMARTTHINGS')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; text-align: left;">
+                <div class="eco-icon" style="font-size: 2.5em; background: rgba(58, 123, 213, 0.2); padding: 10px; border-radius: 12px;">🔷</div>
                 <div class="eco-info">
-                    <div class="eco-name">Samsung SmartThings</div>
-                    <div class="eco-desc">Creates: SmartThings Light, Thermostat, Sensor</div>
-                </div>
-                <div class="eco-devices">
-                    <span>💡</span><span>🌡️</span><span>📡</span>
+                    <div class="eco-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 4px;">SmartThings</div>
+                    <div class="eco-desc" style="font-size: 0.85em; color: var(--text-muted);">Bulbs, Hubs, Sensors</div>
                 </div>
             </button>
-            <button class="ecosystem-btn" onclick="AbstractFactory.create('HOMEKIT')">
-                <div class="eco-icon">🍎</div>
+
+            <button class="action-btn" onclick="AbstractFactory.create('HOMEKIT')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; text-align: left;">
+                <div class="eco-icon" style="font-size: 2.5em; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 12px;">🍎</div>
                 <div class="eco-info">
-                    <div class="eco-name">Apple HomeKit</div>
-                    <div class="eco-desc">Creates: HomeKit Light, Thermostat, Sensor</div>
-                </div>
-                <div class="eco-devices">
-                    <span>💡</span><span>🌡️</span><span>📡</span>
+                    <div class="eco-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 4px;">Apple HomeKit</div>
+                    <div class="eco-desc" style="font-size: 0.85em; color: var(--text-muted);">Lights, Secure, Pods</div>
                 </div>
             </button>
-            <button class="ecosystem-btn" onclick="AbstractFactory.create('GOOGLE')">
-                <div class="eco-icon">🔴</div>
+
+            <button class="action-btn" onclick="AbstractFactory.create('GOOGLE')" style="display: flex; align-items: center; gap: 15px; padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; color: var(--text); cursor: pointer; text-align: left;">
+                <div class="eco-icon" style="font-size: 2.5em; background: rgba(220, 53, 69, 0.2); padding: 10px; border-radius: 12px;">🔴</div>
                 <div class="eco-info">
-                    <div class="eco-name">Google Home</div>
-                    <div class="eco-desc">Creates: Nest Light, Thermostat, Sensor</div>
-                </div>
-                <div class="eco-devices">
-                    <span>💡</span><span>🌡️</span><span>📡</span>
+                    <div class="eco-name" style="font-weight: 700; font-size: 1.1em; margin-bottom: 4px;">Google Home</div>
+                    <div class="eco-desc" style="font-size: 0.85em; color: var(--text-muted);">Nest, Thermostats, Cams</div>
                 </div>
             </button>
         </div>
-        <div class="created-suite" id="af-created-suite" style="display:none;">
-            <h5>📦 Created Device Suite</h5>
-            <div class="suite-devices" id="af-suite-devices"></div>
+
+        <div class="created-suite" id="af-created-suite" style="display:none; margin-top: 25px; padding: 20px; background: rgba(0, 210, 255, 0.05); border-radius: 15px; border: 1px solid rgba(0, 210, 255, 0.2);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                📦 Family Provisioned
+            </h5>
+            <div class="suite-devices" id="af-suite-devices" style="display: flex; gap: 15px; flex-wrap: wrap;"></div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Abstract Factory Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Abstract Factory</strong> defines interface for creating device families</li>
-                <li><strong>Concrete Factories</strong> (SmartThingsFactory, HomeKitFactory) create ecosystem-specific devices</li>
-                <li>All devices from one factory are <strong>guaranteed compatible</strong></li>
-                <li>Client code works with factories and products through abstract interfaces</li>
+                <li><strong>Abstract Factory:</strong> Interface `SmartHomeFactory` declares methods for creating abstract products.</li>
+                <li><strong>Concrete Factory:</strong> `HomeKitFactory` implements creation methods to produce HomeKit-specific devices.</li>
+                <li><strong>Constraint:</strong> A client using `HomeKitFactory` can ONLY create HomeKit devices, ensuring the whole suite works together.</li>
             </ul>
         </div>
     </div>
@@ -60,42 +60,61 @@
 <script>
 var AbstractFactory = {
     create: function(ecosystem) {
-        var devices = {
-            SMARTTHINGS: [{icon:'💡',name:'SmartThings Bulb',type:'Light'},{icon:'🌡️',name:'SmartThings Thermostat',type:'Thermostat'},{icon:'📡',name:'SmartThings Motion',type:'Sensor'}],
-            HOMEKIT: [{icon:'💡',name:'HomeKit Light',type:'Light'},{icon:'🌡️',name:'HomeKit Climate',type:'Thermostat'},{icon:'📡',name:'HomeKit Sensor',type:'Sensor'}],
-            GOOGLE: [{icon:'💡',name:'Nest Bulb',type:'Light'},{icon:'🌡️',name:'Nest Thermostat',type:'Thermostat'},{icon:'📡',name:'Nest Detect',type:'Sensor'}]
+        // Updated colors and icons for pro look
+        var dataMap = {
+            SMARTTHINGS: { color: '#3a7bd5', info: 'Samsung SmartThings Protocol' },
+            HOMEKIT: { color: '#ffffff', info: 'Apple HomeKit Secure Protocol' },
+            GOOGLE: { color: '#dc3545', info: 'Google Weave Protocol' }
         };
+
+        var devices = {
+            SMARTTHINGS: [
+                {icon:'💡',name:'SmartThings Bulb',type:'Light'},
+                {icon:'🌡️',name:'SmartThings Hub',type:'Controller'},
+                {icon:'📡',name:'MultiSensor',type:'Sensor'}
+            ],
+            HOMEKIT: [
+                {icon:'💡',name:'HomeKit Light',type:'Light'},
+                {icon:'🌡️',name:'HomePod Mini',type:'Controller'},
+                {icon:'🔒',name:'Secure Sensor',type:'Sensor'}
+            ],
+            GOOGLE: [
+                {icon:'💡',name:'Nest Bulb',type:'Light'},
+                {icon:'🌡️',name:'Nest Hub Max',type:'Controller'},
+                {icon:'📷',name:'Nest Cam',type:'Sensor'}
+            ]
+        };
+
         var suite = devices[ecosystem] || devices.SMARTTHINGS;
         var container = document.getElementById('af-suite-devices');
+        var meta = dataMap[ecosystem];
+
         var html = suite.map(function(d) {
-            return '<div class="suite-device"><span class="sd-icon">' + d.icon + '</span><span class="sd-name">' + d.name + '</span><span class="sd-type">' + d.type + '</span></div>';
+            return '<div class="suite-device" style="flex: 1; min-width: 120px; display: flex; flex-direction: column; align-items: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid var(--glass-border);">' +
+                   '<span class="sd-icon" style="font-size: 2.5em; margin-bottom: 10px;">' + d.icon + '</span>' +
+                   '<span class="sd-name" style="font-weight: 600; font-size: 0.9em; text-align: center;">' + d.name + '</span>' +
+                   '<span class="sd-type" style="font-size: 0.75em; color: var(--text-muted); margin-top: 4px;">' + d.type + '</span>' +
+                   '</div>';
         }).join('');
+
         container.innerHTML = html;
-        document.getElementById('af-created-suite').style.display = 'block';
-        fetch('/api/patterns/abstract-factory/create?ecosystem=' + ecosystem + '&location=Living Room', {method:'POST'})
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                PatternDemo.showResult('abstract-factory-result', ecosystem + ' Factory created device suite!\n\nEach device is guaranteed compatible with ' + ecosystem + ' ecosystem.\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast(ecosystem + ' suite created', 'success');
-            });
+        var suiteArea = document.getElementById('af-created-suite');
+        suiteArea.style.display = 'block';
+        suiteArea.style.borderColor = meta.color;
+        suiteArea.style.background = meta.color + '10'; // 10% opacity
+
+        PatternDemo.showResult('abstract-factory-result', '🏗️ Initializing ' + ecosystem + ' Abstract Factory...\n' +
+            '----------------------------------------\n' +
+            '1. Factory Instance: ' + ecosystem.charAt(0) + ecosystem.slice(1).toLowerCase() + 'Factory\n' +
+            '2. Protocol: ' + meta.info + '\n' +
+            '3. Provisioning Device Family...\n' +
+            '   > Created ' + suite[0].name + ' (' + suite[0].type + ')\n' +
+            '   > Created ' + suite[1].name + ' (' + suite[1].type + ')\n' +
+            '   > Created ' + suite[2].name + ' (' + suite[2].type + ')\n' +
+            '4. Compatibility Check: PASSED');
+
+        PatternDemo.toast(ecosystem + ' Family Created', 'success');
     }
 };
 </script>
-<style>
-.ecosystem-selector { display: flex; flex-direction: column; gap: 12px; }
-.ecosystem-btn { display: flex; align-items: center; gap: 15px; padding: 18px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; text-align: left; }
-.ecosystem-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateX(5px); }
-.eco-icon { font-size: 2.5em; }
-.eco-info { flex: 1; }
-.eco-name { font-weight: 600; font-size: 1.1em; margin-bottom: 3px; }
-.eco-desc { font-size: 0.85em; color: #888; }
-.eco-devices { display: flex; gap: 8px; font-size: 1.5em; opacity: 0.6; }
-.created-suite { margin-top: 20px; padding: 15px; background: rgba(0,210,255,0.1); border-radius: 12px; border: 1px solid rgba(0,210,255,0.3); }
-.created-suite h5 { color: #00d2ff; margin-bottom: 12px; }
-.suite-devices { display: flex; gap: 15px; flex-wrap: wrap; }
-.suite-device { display: flex; flex-direction: column; align-items: center; padding: 15px 20px; background: rgba(0,0,0,0.2); border-radius: 10px; min-width: 120px; }
-.sd-icon { font-size: 2em; margin-bottom: 8px; }
-.sd-name { font-weight: 500; font-size: 0.9em; }
-.sd-type { font-size: 0.75em; color: #888; }
-</style>
 </div>

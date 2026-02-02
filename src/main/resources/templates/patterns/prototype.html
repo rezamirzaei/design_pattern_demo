@@ -6,64 +6,63 @@
             <span class="pattern-badge badge-creational">Prototype Pattern</span>
         </div>
     </div>
-    <p class="pattern-desc">Create new devices by <strong>cloning existing templates</strong> instead of creating from scratch. Perfect for duplicating complex device configurations.</p>
+    <p class="pattern-desc">
+        Need to quickly spawn multiple devices with complex settings? The <strong>Prototype Pattern</strong> lets you clone an existing, pre-configured "master" object instead of building new ones from scratch.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Clone Device Templates</h4>
-        <div class="template-gallery">
-            <div class="template-card" onclick="Prototype.clone('ambient-light')">
-                <div class="template-icon">💡</div>
-                <div class="template-name">Ambient Light</div>
-                <div class="template-config">
-                    <span class="config-item">Brightness: 70%</span>
-                    <span class="config-item">Color: Warm White</span>
-                    <span class="config-item">Schedule: Sunset-11PM</span>
+        <h4>🎮 Template Gallery</h4>
+
+        <div class="template-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 25px;">
+            <div class="template-card" onclick="Prototype.clone('ambient-light')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(255,193,7,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">💡</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Ambient Light</div>
+                <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Brightness: 70%</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Color: Warm White (2700K)</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Schedule: Sunset-11PM</span>
                 </div>
-                <button class="clone-btn">📋 Clone This</button>
+                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #ffc107, #ff9800); border: none; border-radius: 10px; color: var(--darker); font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
             </div>
-            <div class="template-card" onclick="Prototype.clone('security-camera')">
-                <div class="template-icon">📷</div>
-                <div class="template-name">Security Camera</div>
-                <div class="template-config">
-                    <span class="config-item">Resolution: 1080p</span>
-                    <span class="config-item">Night Vision: ON</span>
-                    <span class="config-item">Motion Alert: ON</span>
+
+            <div class="template-card" onclick="Prototype.clone('security-camera')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(220,53,69,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">📷</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Security Cam</div>
+                <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Resolution: 4K HDR</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Night Vision: Active</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Alerts: Motion + Sound</span>
                 </div>
-                <button class="clone-btn">📋 Clone This</button>
+                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #dc3545, #c82333); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
             </div>
-            <div class="template-card" onclick="Prototype.clone('eco-thermostat')">
-                <div class="template-icon">🌡️</div>
-                <div class="template-name">Eco Thermostat</div>
-                <div class="template-config">
-                    <span class="config-item">Day: 22°C</span>
-                    <span class="config-item">Night: 18°C</span>
-                    <span class="config-item">Away: 16°C</span>
+
+            <div class="template-card" onclick="Prototype.clone('eco-thermostat')" style="padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="template-icon" style="font-size: 3.5em; margin-bottom: 15px; background: rgba(40,167,69,0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px;">🌡️</div>
+                <div class="template-name" style="font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Eco Thermostat</div>
+                <div class="template-config" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Mode: Eco-Saver</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Day/Night: 21°C / 18°C</span>
+                    <span class="config-item" style="font-size: 0.85em; color: var(--text-muted); padding: 5px 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">Sensor: Occupancy</span>
                 </div>
-                <button class="clone-btn">📋 Clone This</button>
-            </div>
-            <div class="template-card" onclick="Prototype.clone('smart-lock')">
-                <div class="template-icon">🔒</div>
-                <div class="template-name">Smart Lock</div>
-                <div class="template-config">
-                    <span class="config-item">Auto-lock: 30s</span>
-                    <span class="config-item">PIN: Enabled</span>
-                    <span class="config-item">Guest Access: ON</span>
-                </div>
-                <button class="clone-btn">📋 Clone This</button>
+                <button class="clone-btn" style="width: 100%; padding: 10px 0; background: linear-gradient(90deg, #28a745, #218838); border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 0.9em; cursor: pointer;">📋 CLONE</button>
             </div>
         </div>
-        <div class="cloned-devices">
-            <h5>📦 Cloned Devices</h5>
-            <div class="cloned-list" id="cloned-devices-list">
-                <div class="no-clones">Click a template above to clone it...</div>
+
+        <div class="cloned-devices" style="padding: 25px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">📦 Clone Inventory</h5>
+            <div class="cloned-list" id="cloned-devices-list" style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="no-clones" style="text-align: center; color: var(--text-muted); padding: 20px; font-style: italic;">
+                    Select a master template above to spawn a clone...
+                </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Prototype Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li>Each template device implements a <strong>clone()</strong> method</li>
-                <li>Cloning creates a <strong>deep copy</strong> with all configurations</li>
-                <li>Faster than creating and configuring from scratch</li>
-                <li>Cloned device can be <strong>modified independently</strong></li>
+                <li><strong>Prototype Interface:</strong> Defines `clone()` method.</li>
+                <li><strong>Concrete Prototype:</strong> Implements `clone()` to perform deep copy of complex config (wifi, schedules, thresholds).</li>
+                <li><strong>Efficiency:</strong> Avoids database/network overhead of constructing new objects from scratch.</li>
             </ul>
         </div>
     </div>
@@ -75,43 +74,48 @@ var Prototype = {
     clone: function(template) {
         this.cloneCount++;
         var templates = {
-            'ambient-light': {icon:'💡',name:'Ambient Light',config:'Warm, 70%, Sunset-11PM'},
-            'security-camera': {icon:'📷',name:'Security Camera',config:'1080p, Night Vision, Alerts'},
-            'eco-thermostat': {icon:'🌡️',name:'Eco Thermostat',config:'22°/18°/16°C'},
-            'smart-lock': {icon:'🔒',name:'Smart Lock',config:'Auto-lock 30s, PIN, Guest'}
+            'ambient-light': {icon:'💡',name:'Ambient Light',config:'Warm, 70%, Sunset-11PM', color: '#ffc107'},
+            'security-camera': {icon:'📷',name:'Security Camera',config:'4K, Night Vision, Alerts', color: '#dc3545'},
+            'eco-thermostat': {icon:'🌡️',name:'Eco Thermostat',config:'Eco Mode, 21°C/18°C', color: '#28a745'}
         };
+
         var t = templates[template];
         var list = document.getElementById('cloned-devices-list');
-        if (this.cloneCount === 1) list.innerHTML = '';
+        var noClones = list.querySelector('.no-clones');
+        if (noClones) noClones.remove();
+
+        // Create new element with animation
+        var cloneId = 'clone-' + this.cloneCount;
         var clone = document.createElement('div');
         clone.className = 'cloned-item';
-        clone.innerHTML = '<span class="ci-icon">' + t.icon + '</span><span class="ci-name">' + t.name + ' (Clone #' + this.cloneCount + ')</span><span class="ci-config">' + t.config + '</span><span class="ci-status">✓ Ready</span>';
-        list.appendChild(clone);
+        clone.id = cloneId;
+        clone.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 4px solid ' + t.color + '; animation: slideIn 0.3s ease-out;';
+
+        clone.innerHTML =
+            '<span class="ci-icon" style="font-size: 1.5em; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">' + t.icon + '</span>' +
+            '<div style="flex: 1;">' +
+                '<span class="ci-name" style="font-weight: 600; display: block; font-size: 1rem;">' + t.name + ' <span style="font-size:0.8em; color:var(--text-muted); font-weight:400;">(Clone #' + this.cloneCount + ')</span></span>' +
+                '<span class="ci-config" style="font-size: 0.85em; color: var(--text-muted);">' + t.config + '</span>' +
+            '</div>' +
+            '<span class="ci-status" style="color: var(--success); font-size: 0.85em; display: flex; align-items: center; gap: 5px;">✅ Ready</span>';
+
+        list.prepend(clone);
+
+        // Simulate API call
         fetch('/api/patterns/prototype/clone?templateId=' + template, {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('prototype-result', 'Cloned "' + t.name + '"!\n\nPrototype pattern created a deep copy with all configurations.\nThe clone is independent and can be modified.\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast('Cloned: ' + t.name, 'success');
+                var output = '🧬 Cloning Process Complete\n' +
+                             '--------------------------------\n' +
+                             'Source: ' + t.name + ' Template\n' +
+                             'Status: Deep Copy Successful\n' +
+                             'New Instance ID: ' + (data.id || 'CLONE-' + Math.floor(Math.random()*10000)) + '\n' +
+                             'Config Migrated: 100%';
+
+                PatternDemo.showResult('prototype-result', output);
+                PatternDemo.toast('Cloned ' + t.name, 'success');
             });
     }
 };
 </script>
-<style>
-.template-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-.template-card { padding: 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s; }
-.template-card:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateY(-3px); }
-.template-icon { font-size: 3em; margin-bottom: 10px; }
-.template-name { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
-.template-config { display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px; }
-.config-item { font-size: 0.8em; color: #888; padding: 4px 8px; background: rgba(0,0,0,0.2); border-radius: 4px; }
-.clone-btn { padding: 8px 16px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 20px; color: white; font-size: 0.85em; cursor: pointer; }
-.cloned-devices { padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
-.cloned-devices h5 { color: #00d2ff; margin-bottom: 12px; }
-.no-clones { color: #666; font-style: italic; }
-.cloned-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: rgba(0,210,255,0.1); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #00d2ff; }
-.ci-icon { font-size: 1.3em; }
-.ci-name { font-weight: 500; flex: 1; }
-.ci-config { font-size: 0.8em; color: #888; }
-.ci-status { color: #7ee787; font-size: 0.85em; }
-</style>
 </div>

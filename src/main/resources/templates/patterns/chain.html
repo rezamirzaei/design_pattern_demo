@@ -2,76 +2,89 @@
     <div class="pattern-header">
         <div class="pattern-icon">⛓️</div>
         <div class="pattern-info">
-            <h3>Security Alert Chain</h3>
+            <h3>Alert Response Chain</h3>
             <span class="pattern-badge badge-behavioral">Chain of Responsibility</span>
         </div>
     </div>
-    <p class="pattern-desc">Pass security alerts through a <strong>chain of handlers</strong>. Each handler decides whether to process the alert or pass it to the next handler in the chain.</p>
+    <p class="pattern-desc">
+        Process requests through a chain of handlers. Each handler decides either to consume the request or pass it to the next link.
+        Highly effective for <strong>Security Alert Systems</strong> where different threat levels require different responses.
+    </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Trigger Security Alerts</h4>
-        <div class="alert-buttons">
-            <button class="alert-btn info" onclick="Chain.alert('INFO','Motion detected in garden')">
+        <h4>🎮 Threat Simulation</h4>
+
+        <div class="alert-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;">
+            <button class="alert-btn info" onclick="Chain.alert('INFO','Motion in garden')" style="background: rgba(0,210,255,0.1); border-color: var(--primary);">
                 <span class="ab-icon">ℹ️</span>
                 <span class="ab-level">INFO</span>
-                <span class="ab-example">Motion detected</span>
+                <span class="ab-example">Motion</span>
             </button>
-            <button class="alert-btn warning" onclick="Chain.alert('WARNING','Unknown person at door')">
+            <button class="alert-btn warning" onclick="Chain.alert('WARNING','Unrecognized face')" style="background: rgba(255,193,7,0.1); border-color: var(--warning);">
                 <span class="ab-icon">⚠️</span>
                 <span class="ab-level">WARNING</span>
-                <span class="ab-example">Unknown visitor</span>
+                <span class="ab-example">Unknown Face</span>
             </button>
-            <button class="alert-btn critical" onclick="Chain.alert('CRITICAL','Window opened while away')">
+            <button class="alert-btn critical" onclick="Chain.alert('CRITICAL','Window breach')" style="background: rgba(220,53,69,0.1); border-color: var(--danger);">
                 <span class="ab-icon">🚨</span>
                 <span class="ab-level">CRITICAL</span>
-                <span class="ab-example">Window opened</span>
+                <span class="ab-example">Breach</span>
             </button>
-            <button class="alert-btn emergency" onclick="Chain.alert('EMERGENCY','Smoke detected!')">
+            <button class="alert-btn emergency" onclick="Chain.alert('EMERGENCY','Smoke Alarm')" style="background: rgba(255,100,0,0.1); border-color: #ff6600;">
                 <span class="ab-icon">🔥</span>
                 <span class="ab-level">EMERGENCY</span>
-                <span class="ab-example">Smoke/Fire</span>
+                <span class="ab-example">Fire</span>
             </button>
         </div>
-        <div class="chain-visualization">
-            <h5>🔗 Handler Chain</h5>
-            <div class="chain-handlers" id="chain-handlers">
-                <div class="handler" id="handler-log">
+
+        <div class="chain-visualization" style="padding: 30px 20px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 20px;">
+            <h5 style="color: var(--text-muted); margin-bottom: 20px; text-align: center; text-transform: uppercase; font-size: 0.8em;">Processing Pipeline</h5>
+            <div class="chain-handlers" id="chain-handlers" style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <!-- Handlers -->
+                <div class="handler" id="handler-log" style="position: relative;">
                     <span class="h-icon">📝</span>
-                    <span class="h-name">Log Handler</span>
-                    <span class="h-handles">ALL levels</span>
+                    <span class="h-name">Logger</span>
+                    <div class="h-indicator"></div>
                 </div>
-                <div class="chain-arrow">→</div>
-                <div class="handler" id="handler-notify">
+                <div class="chain-arrow">➡</div>
+
+                <div class="handler" id="handler-notify" style="position: relative;">
                     <span class="h-icon">📱</span>
-                    <span class="h-name">Notify Handler</span>
-                    <span class="h-handles">WARNING+</span>
+                    <span class="h-name">Notifier</span>
+                    <div class="h-indicator"></div>
                 </div>
-                <div class="chain-arrow">→</div>
-                <div class="handler" id="handler-alarm">
+                <div class="chain-arrow">➡</div>
+
+                <div class="handler" id="handler-alarm" style="position: relative;">
                     <span class="h-icon">🚨</span>
-                    <span class="h-name">Alarm Handler</span>
-                    <span class="h-handles">CRITICAL+</span>
+                    <span class="h-name">Siren</span>
+                    <div class="h-indicator"></div>
                 </div>
-                <div class="chain-arrow">→</div>
-                <div class="handler" id="handler-emergency">
+                <div class="chain-arrow">➡</div>
+
+                <div class="handler" id="handler-emergency" style="position: relative;">
                     <span class="h-icon">🚒</span>
-                    <span class="h-name">Emergency Handler</span>
-                    <span class="h-handles">EMERGENCY</span>
+                    <span class="h-name">911 Ops</span>
+                    <div class="h-indicator"></div>
                 </div>
             </div>
         </div>
-        <div class="alert-log">
-            <h5>📋 Alert Processing Log</h5>
-            <div class="log-entries" id="alert-log-entries">
-                <div class="log-placeholder">Trigger an alert to see how it flows through the chain...</div>
+
+        <div class="alert-log" style="padding: 20px; background: var(--darker); border-radius: 12px; max-height: 250px; overflow-y: auto; border: 1px solid var(--glass-border);">
+            <h5 style="color: var(--primary); margin-bottom: 10px; font-size: 0.9em;">📋 System Audit Log</h5>
+            <div class="log-entries" id="alert-log-entries" style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="log-placeholder" style="text-align: center; color: var(--text-muted); padding: 20px; font-style: italic;">
+                    Waiting for events...
+                </div>
             </div>
         </div>
-        <div class="pattern-explanation">
-            <h5>💡 How Chain of Responsibility Works:</h5>
+
+        <div class="pattern-explanation" style="margin-top: 25px;">
+            <h5>💡 Pattern Logic</h5>
             <ul>
-                <li>Each <strong>Handler</strong> has a reference to the next handler</li>
-                <li>Handler decides to <strong>process</strong> the request or <strong>pass it along</strong></li>
-                <li>Request flows through until a handler processes it (or reaches the end)</li>
-                <li>Decouples sender from receivers - sender doesn't know which handler will process</li>
+                <li><strong>Abstract Handler:</strong> Defines `setNext(Handler)` and `handle(Request)`.</li>
+                <li><strong>Concrete Handlers:</strong> `Logger`, `Notifier`, `Siren`. Each checks if it should act, then calls `next.handle()`.</li>
+                <li><strong>Flow:</strong> INFO triggers only Logger. WARNING triggers Logger->Notifier. CRITICAL triggers all.</li>
             </ul>
         </div>
     </div>
@@ -89,71 +102,57 @@ var Chain = {
             EMERGENCY: ['log', 'notify', 'alarm', 'emergency']
         };
         var activeHandlers = handlers[level] || [];
-        // Reset all handlers
-        document.querySelectorAll('.handler').forEach(function(h) { h.classList.remove('active'); });
+
+        // Reset all handlers visualization
+        document.querySelectorAll('.handler').forEach(function(h) {
+            h.style.borderColor = 'var(--glass-border)';
+            h.style.background = 'var(--glass-bg)';
+            h.style.transform = 'scale(1)';
+            h.querySelector('.h-indicator').style.opacity = '0';
+        });
+
         // Animate chain flow
         var delay = 0;
         activeHandlers.forEach(function(h) {
             setTimeout(function() {
-                document.getElementById('handler-' + h).classList.add('active');
+                var el = document.getElementById('handler-' + h);
+                el.style.borderColor = 'var(--primary)';
+                el.style.background = 'rgba(0, 210, 255, 0.15)';
+                el.style.transform = 'scale(1.1)';
+                el.querySelector('.h-indicator').style.opacity = '1';
+                setTimeout(() => el.style.transform = 'scale(1)', 200);
             }, delay);
-            delay += 300;
+            delay += 400; // sequential delay
         });
+
         // Add to log
         var logEl = document.getElementById('alert-log-entries');
-        if (this.alertCount === 1) logEl.innerHTML = '';
+        if (logEl.querySelector('.log-placeholder')) logEl.innerHTML = '';
+
+        var colors = {INFO: 'var(--primary)', WARNING: 'var(--warning)', CRITICAL: 'var(--danger)', EMERGENCY: '#ff6600'};
         var entry = document.createElement('div');
-        entry.className = 'log-entry ' + level.toLowerCase();
-        entry.innerHTML = '<span class="le-time">' + new Date().toLocaleTimeString() + '</span>' +
-            '<span class="le-level">' + level + '</span>' +
-            '<span class="le-message">' + message + '</span>' +
-            '<span class="le-handlers">' + activeHandlers.map(function(h) { return h.charAt(0).toUpperCase() + h.slice(1); }).join(' → ') + '</span>';
-        logEl.insertBefore(entry, logEl.firstChild);
+        entry.style.cssText = 'padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid ' + colors[level] + '; font-family: monospace; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease-out;';
+
+        entry.innerHTML = '<span style="color: var(--text-muted); font-size: 0.8em;">' + new Date().toLocaleTimeString() + '</span>' +
+            '<span style="font-weight: 700; color: ' + colors[level] + ';">[' + level + ']</span>' +
+            '<span style="flex: 1;">' + message + '</span>';
+
+        logEl.prepend(entry);
+
+        // API Call
         fetch('/api/patterns/chain/alert?deviceId=sensor&level=' + level + '&message=' + encodeURIComponent(message), {method:'POST'})
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                PatternDemo.showResult('chain-result', level + ' Alert: ' + message + '\n\nChain processing:\n' + activeHandlers.map(function(h, i) { return (i+1) + '. ' + h.toUpperCase() + ' handler processed'; }).join('\n') + '\n\n' + JSON.stringify(data, null, 2));
-                PatternDemo.toast(level + ' alert processed', level === 'INFO' ? 'info' : 'error');
+                var output = '⛓️ Chain Execution Trace:\n' +
+                             '----------------------\n' +
+                             'Event: ' + level + ' - ' + message + '\n' +
+                             'Path: ' + activeHandlers.map(h => h.toUpperCase()).join(' -> ') + '\n' +
+                             'Result: Handled successfully';
+
+                PatternDemo.showResult('chain-result', output);
+                PatternDemo.toast('Alert Processed: ' + level, level === 'INFO' ? 'info' : 'error');
             });
     }
 };
 </script>
-<style>
-.alert-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
-.alert-btn { display: flex; flex-direction: column; align-items: center; padding: 18px 15px; border: 2px solid; border-radius: 15px; cursor: pointer; transition: all 0.3s; background: transparent; color: white; }
-.alert-btn:hover { transform: translateY(-3px); }
-.alert-btn.info { border-color: rgba(0,210,255,0.5); }
-.alert-btn.info:hover { background: rgba(0,210,255,0.1); }
-.alert-btn.warning { border-color: rgba(255,193,7,0.5); }
-.alert-btn.warning:hover { background: rgba(255,193,7,0.1); }
-.alert-btn.critical { border-color: rgba(220,53,69,0.5); }
-.alert-btn.critical:hover { background: rgba(220,53,69,0.1); }
-.alert-btn.emergency { border-color: rgba(255,100,0,0.5); }
-.alert-btn.emergency:hover { background: rgba(255,100,0,0.1); }
-.ab-icon { font-size: 2em; margin-bottom: 8px; }
-.ab-level { font-weight: 600; margin-bottom: 3px; }
-.ab-example { font-size: 0.75em; color: #888; }
-.chain-visualization { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 20px; }
-.chain-visualization h5 { color: #00d2ff; margin-bottom: 15px; }
-.chain-handlers { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.handler { display: flex; flex-direction: column; align-items: center; padding: 15px 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; transition: all 0.3s; min-width: 120px; }
-.handler.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; box-shadow: 0 0 15px rgba(0,210,255,0.3); }
-.h-icon { font-size: 1.5em; margin-bottom: 5px; }
-.h-name { font-weight: 500; font-size: 0.9em; }
-.h-handles { font-size: 0.7em; color: #888; }
-.chain-arrow { color: #666; font-size: 1.3em; }
-.alert-log { padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; max-height: 200px; overflow-y: auto; }
-.alert-log h5 { color: #888; margin-bottom: 10px; font-size: 0.9em; }
-.log-placeholder { color: #666; font-style: italic; }
-.log-entry { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; }
-.log-entry.info { border-left-color: #00d2ff; }
-.log-entry.warning { border-left-color: #ffc107; }
-.log-entry.critical { border-left-color: #dc3545; }
-.log-entry.emergency { border-left-color: #ff6400; }
-.le-time { font-size: 0.75em; color: #888; }
-.le-level { font-weight: 600; font-size: 0.8em; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 4px; }
-.le-message { flex: 1; font-size: 0.9em; }
-.le-handlers { font-size: 0.75em; color: #00d2ff; }
-@media (max-width: 768px) { .alert-buttons { grid-template-columns: repeat(2, 1fr); } }
-</style>
 </div>

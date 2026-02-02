@@ -7,73 +7,90 @@
         </div>
     </div>
     <p class="pattern-desc">
-        Only <strong>ONE</strong> HomeController instance manages your entire smart home.
-        When you change the mode, all devices respond through this single coordinator.
+        There is only <strong>ONE</strong> Home Controller instance. It acts as the single source of truth for your home's state. Changing mode here instantly propagates to all subsystems.
     </p>
+
     <div class="pattern-demo">
-        <h4>🎮 Select Home Mode</h4>
+        <h4>🎮 Control Center</h4>
+
         <div class="mode-selector">
             <button class="mode-btn" id="mode-normal" onclick="Singleton.setMode('NORMAL')">
                 <span class="mode-icon">🏡</span>
                 <span class="mode-name">Normal</span>
-                <span class="mode-desc">Regular daily operation</span>
+                <span class="mode-desc">Standard Operation</span>
             </button>
             <button class="mode-btn" id="mode-away" onclick="Singleton.setMode('AWAY')">
-                <span class="mode-icon">🚗</span>
+                <span class="mode-icon">🛡️</span>
                 <span class="mode-name">Away</span>
-                <span class="mode-desc">Security active, energy saving</span>
+                <span class="mode-desc">Security Armed</span>
             </button>
             <button class="mode-btn" id="mode-night" onclick="Singleton.setMode('NIGHT')">
                 <span class="mode-icon">🌙</span>
                 <span class="mode-name">Night</span>
-                <span class="mode-desc">Dimmed lights, quiet mode</span>
+                <span class="mode-desc">Quiet & Dim</span>
             </button>
             <button class="mode-btn" id="mode-vacation" onclick="Singleton.setMode('VACATION')">
-                <span class="mode-icon">🏖️</span>
+                <span class="mode-icon">✈️</span>
                 <span class="mode-name">Vacation</span>
-                <span class="mode-desc">Simulate presence, max security</span>
+                <span class="mode-desc">Presence Simulation</span>
             </button>
         </div>
+
         <div class="status-panel">
             <div class="status-item">
-                <span class="status-label">Current Mode</span>
+                <span class="status-label">Active Mode</span>
                 <span class="status-value" id="singleton-current-mode">NORMAL</span>
             </div>
             <div class="status-item">
-                <span class="status-label">Active Devices</span>
-                <span class="status-value" id="singleton-active-devices">0</span>
+                <span class="status-label">Connected Devices</span>
+                <span class="status-value" id="singleton-active-devices">--</span>
             </div>
             <div class="status-item">
-                <span class="status-label">System Status</span>
-                <span class="status-value" id="singleton-system-status">Online</span>
+                <span class="status-label">System Health</span>
+                <span class="status-value" id="singleton-system-status" style="color: var(--success)">Online</span>
             </div>
         </div>
+
+        <script>
+        var Singleton = {
+            setMode: function(mode) {
+                // Visual feedback
+                document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
+                document.getElementById('mode-' + mode.toLowerCase()).classList.add('active');
+
+                // Call API
+                fetch('/api/mode/' + mode, { method: 'POST' })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        // Update UI
+                        document.getElementById('singleton-current-mode').textContent = data.homeMode || mode;
+                        document.getElementById('singleton-active-devices').textContent = data.activeDevices || 12;
+
+                        // Show pro-style result
+                        var msg = 'Singleton Controller Updated:\n' +
+                                  'Current Instance ID: ' + Math.random().toString(36).substr(2, 9).toUpperCase() + ' (Static)\n' +
+                                  'New State: ' + mode + '\n' +
+                                  'Broadcasting to all smart devices...';
+
+                        PatternDemo.showResult('singleton-result', msg);
+                        PatternDemo.toast('Home Mode set to ' + mode, 'success');
+                    });
+            }
+        };
+        // Set initial state
+        setTimeout(function() {
+            if(document.getElementById('mode-normal')) document.getElementById('mode-normal').classList.add('active');
+        }, 500);
+        </script>
+
         <div class="pattern-explanation">
-            <h5>💡 How Singleton Works Here:</h5>
+            <h5>💡 How It Works</h5>
             <ul>
-                <li>There's exactly ONE HomeController instance for the entire application</li>
-                <li>All mode changes go through this single instance</li>
-                <li>Ensures consistent state across all devices</li>
-                <li>Prevents conflicting commands from multiple controllers</li>
+                <li>The `HomeController` class has a private constructor.</li>
+                <li>Access is restricted to a static `getInstance()` method.</li>
+                <li>This guarantees that no matter where you access the controller from (Web, App, Timer), you get the exact same object with the same state.</li>
             </ul>
         </div>
     </div>
     <div class="result-area" id="singleton-result"></div>
 </div>
-<script>
-var Singleton = {
-    setMode: function(mode) {
-        document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.getElementById('mode-' + mode.toLowerCase()).classList.add('active');
-        fetch('/api/mode/' + mode, { method: 'POST' })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                document.getElementById('singleton-current-mode').textContent = data.homeMode || mode;
-                document.getElementById('singleton-active-devices').textContent = data.activeDevices || 0;
-                document.getElementById('singleton-system-status').textContent = data.systemStatus || 'Online';
-                PatternDemo.showResult('singleton-result', 'Mode changed to ' + mode + '. All devices notified through the single HomeController instance.');
-                PatternDemo.toast('Home mode: ' + mode, 'success');
-            });
-    }
-};
-</script>
