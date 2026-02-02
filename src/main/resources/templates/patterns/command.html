@@ -89,12 +89,13 @@
                 <button class="macro-btn" id="macro-play-btn" onclick="Command.playMacro()" disabled style="padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--success); color: var(--text-muted); border-radius: 20px; cursor: not-allowed; opacity: 0.5;">
                     ▶️ Play
                 </button>
-            </div>
-        </div>
+	            </div>
+	        </div>
+	        </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
-            <h5>💡 Pattern Logic</h5>
-            <ul>
+	        <div class="pattern-explanation" style="margin-top: 25px;">
+	            <h5>💡 Pattern Logic</h5>
+	            <ul>
                 <li><strong>Invoker:</strong> Stores the command history stack.</li>
                 <li><strong>Command:</strong> `TurnOnCommand` encapsulates `light.turnOn()`.</li>
                 <li><strong>Undo:</strong> `TurnOnCommand.undo()` executes `light.turnOff()`.</li>
@@ -104,7 +105,6 @@
         <style>@keyframes blink { 50% { opacity: 0; } }</style>
     </div>
     <div class="result-area" id="command-result"></div>
-</div>
 <script>
 var Command = {
     history: [],

@@ -118,7 +118,6 @@
         </div>
     </div>
     <div class="result-area" id="builder-result"></div>
-</div>
 <script>
 var Builder = {
     selectedTrigger: 'time:07:00',
@@ -237,10 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
         el.addEventListener('change', function() { Builder.updatePreview(); });
         el.addEventListener('input', function() { Builder.updatePreview(); });
     });
-    // Init preview
-    if(window.getComputedStyle(document.getElementById('pattern-builder')).display !== 'none') {
-        Builder.updatePreview();
-    }
+    // Init preview (safe even when card is hidden)
+    Builder.updatePreview();
 });
 </script>
 </div>

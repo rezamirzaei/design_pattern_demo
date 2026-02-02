@@ -50,7 +50,7 @@ class SmartHomeApplicationTests {
 
         mockMvc.perform(get("/ui/patterns"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Patterns Lab")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Design Patterns")));
 
         mockMvc.perform(get("/ui/rooms"))
                 .andExpect(status().isOk())
