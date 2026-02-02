@@ -1,160 +1,134 @@
-# Smart Home Design Patterns Demo
+# 🏠 Smart Home Design Patterns Demo
 
-A comprehensive Smart Home Automation System that demonstrates **all 23 Gang of Four (GoF) Design Patterns** in a real-world application.
+> **A comprehensive Smart Home Automation System demonstrating all 23 Gang of Four (GoF) Design Patterns in a real-world, interactive Spring Boot application.**
 
-## 🏠 Project Overview
+[![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green)](https://spring.io/projects/spring-boot)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
-This project implements a Smart Home control system with:
-- **REST API** for device control
-- **Web UI** dashboard
-- **PostgreSQL** database
-- **Docker** containerization
+## 📖 Project Overview
+
+This project isn't just a code repository; it's an **interactive learning platform**. It implements a fully functional Smart Home control system where every major feature is powered by a specific Design Pattern.
+
+You can interact with the system via a **modern, glassmorphism-styled Web Dashboard** or a robust **REST API**.
+
+### ✨ Key Features
+- **Interactive UI Dashboard**: Manage devices, rooms, scenes, and rules with a beautiful dark-mode interface.
+- **Pattern Playground**: A dedicated section in the UI to visualize and trigger each design pattern (e.g., drag-and-drop Command pattern, visual Observer network).
+- **Automation Engine**: Create complex logic rules (Interpreter + Builder patterns).
+- **Persistent Storage**: Data persistence using PostgreSQL (Production) or H2 (Dev).
+- **Containerized**: Full Docker Compose setup for easy deployment.
+
+---
 
 ## 📐 Design Patterns Implemented
 
-### Creational Patterns (5)
-| Pattern | Implementation | Description |
-|---------|---------------|-------------|
-| **Singleton** | `HomeController` | Central home controller - single instance managing all devices |
-| **Factory Method** | `DeviceFactory` | Creates different device types (Light, Thermostat, Camera, Lock) |
-| **Abstract Factory** | `SmartDeviceAbstractFactory` | Creates device families for different ecosystems (SmartThings, HomeKit) |
-| **Builder** | `AutomationRule.Builder` | Builds complex automation rules with fluent API |
-| **Prototype** | `DeviceConfiguration` | Clones device configuration templates |
+The core architecture maps real-world smart home concepts to GoF patterns:
 
-### Structural Patterns (7)
-| Pattern | Implementation | Description |
-|---------|---------------|-------------|
-| **Adapter** | `LegacyThermostatAdapter` | Adapts legacy devices to modern interface |
-| **Bridge** | `RemoteControl` | Separates remote control abstraction from device implementation |
-| **Composite** | `DeviceGroup` | Groups devices into rooms/zones for uniform control |
-| **Decorator** | `DeviceDecorator` | Adds logging, security, caching to devices |
-| **Facade** | `SmartHomeFacade` | Simplified interface for complex scene operations |
-| **Flyweight** | `DeviceType` | Shares common device metadata across instances |
-| **Proxy** | `DeviceProxy` | Controls access to remote devices with lazy init and caching |
+### 🔨 Creational Patterns (5)
+| Pattern | Real-World Concept | Implementation Class |
+|---------|-------------------|----------------------|
+| **Singleton** | Central Home Controller | `HomeController` (One brain managing the house) |
+| **Factory Method** | Device Assembly | `DeviceFactory` (Creating Lights, Cameras, Locks dynamically) |
+| **Abstract Factory** | Ecosystem Support | `SmartDeviceAbstractFactory` (Supporting HomeKit vs SmartThings) |
+| **Builder** | Complex Rule Creation | `AutomationRule.Builder` (Fluent API for "If X then Y") |
+| **Prototype** | Cloning Configs | `DeviceConfiguration` (Quickly duplicate device settings) |
 
-### Behavioral Patterns (11)
-| Pattern | Implementation | Description |
-|---------|---------------|-------------|
-| **Chain of Responsibility** | `AlertHandler` | Processes alerts through handler chain |
-| **Command** | `Command` | Encapsulates device operations with undo/redo |
-| **Interpreter** | `RuleInterpreter` | Parses automation rule language |
-| **Iterator** | `DeviceIterator` | Traverses devices by room, type, or status |
-| **Mediator** | `SmartHomeMediator` | Coordinates device communication |
-| **Memento** | `DeviceStateMemento` | Saves/restores device states as scenes |
-| **Observer** | `DeviceObserver` | Notifies subscribers of device events |
-| **State** | `DeviceState` | Manages device state machine (ON, OFF, STANDBY, ERROR) |
-| **Strategy** | `EnergyStrategy` | Pluggable energy optimization algorithms |
-| **Template Method** | `DeviceInitializer` | Common device initialization with customizable steps |
-| **Visitor** | `DeviceVisitor` | Performs audits (maintenance, energy, security) on devices |
+### 🏗️ Structural Patterns (7)
+| Pattern | Real-World Concept | Implementation Class |
+|---------|-------------------|----------------------|
+| **Adapter** | Legacy Device Support | `LegacyThermostatAdapter` (Making old tech speak new APIs) |
+| **Bridge** | Universal Remotes | `RemoteControl` (Decoupling remote hardware from logic) |
+| **Composite** | Room/Group Control | `DeviceGroup` (Treating a whole room like one device) |
+| **Decorator** | Feature Add-ons | `DeviceDecorator` (Wrapping logging/security around devices) |
+| **Facade** | One-Click Scenes | `SmartHomeFacade` (Simplifying "Movie Mode" complexity) |
+| **Flyweight** | Metadata Optimization | `DeviceType` (Sharing icons/descriptions across thousands of devices) |
+| **Proxy** | Access Control | `DeviceProxy` (Lazy loading & security checks for cameras) |
+
+### 🎭 Behavioral Patterns (11)
+| Pattern | Real-World Concept | Implementation Class |
+|---------|-------------------|----------------------|
+| **Chain of Responsibility** | Alert System | `AlertHandler` (Smoke -> Phone -> Email -> 911) |
+| **Command** | Remote Buttons | `Command` (Undo/Redo capabilities for switches) |
+| **Interpreter** | Rule Engine | `RuleInterpreter` (Parsing "motion AND dark" logic) |
+| **Iterator** | Device Browser | `DeviceIterator` (Looping through custom lists) |
+| **Mediator** | Central Hub | `SmartHomeMediator` (Devices talk to Hub, not each other) |
+| **Memento** | Scene Snapshots | `DeviceStateMemento` (Save state -> Restore later) |
+| **Observer** | Event Subscribers | `DeviceObserver` (Mobile app updates on sensor trigger) |
+| **State** | Device Modes | `DeviceState` (Handling On, Off, Error, FirmwareUpdate states) |
+| **Strategy** | Energy Saving | `EnergyStrategy` (Switching algorithms: Eco vs Performance) |
+| **Template Method** | Boot Sequence | `DeviceInitializer` (Standard startup with custom steps) |
+| **Visitor** | System Diagnostics | `DeviceVisitor` (Running maintenance/security audits) |
+
+---
 
 ## 🚀 Quick Start
 
-### Using Docker (Recommended)
+### Option 1: Docker (Recommended)
+The easiest way to run the full stack including the database.
 
 ```bash
-# Clone the repository
-cd untitled3
+# 1. Start services
+docker-compose up --build -d
 
-# Start with Docker Compose
-docker-compose up -d
-
-# Access the application
-open http://localhost:8080
+# 2. Access variables
+# Web UI: http://localhost:8080
+# DB Console: http://localhost:8080/h2-console
 ```
 
-### Using Maven (Development)
+### Option 2: Local Development (Maven)
+Requires JDK 17+ installed. Uses H2 in-memory database by default.
 
 ```bash
-# Run with H2 in-memory database
+# Run the application
 ./mvnw spring-boot:run
 
-# Access the application
-open http://localhost:8080
+# The application will start on port 8080.
 ```
 
-## 🌐 API Endpoints
+---
 
-### System Status
-- `GET /api/status` - Get system status
-- `POST /api/mode/{mode}` - Set home mode (NORMAL, AWAY, NIGHT, VACATION)
+## 🖥️ User Interface Guide
 
-### Device Control
-- `GET /api/devices` - List all devices
-- `GET /api/devices/{id}` - Get device details
-- `POST /api/devices/{id}/control?action=on|off` - Control device
+The application features a comprehensive web interface:
 
-### Pattern Demonstrations
-- `GET /api/patterns` - List all patterns with endpoints
-- `POST /api/patterns/factory/create` - Factory Method demo
-- `POST /api/patterns/abstract-factory/create` - Abstract Factory demo
-- `POST /api/patterns/builder/rule` - Builder demo
-- `GET /api/patterns/prototype/templates` - Prototype demo
-- `POST /api/patterns/adapter/legacy` - Adapter demo
-- `GET /api/patterns/bridge/demo` - Bridge demo
-- `GET /api/patterns/composite/rooms` - Composite demo
-- `POST /api/patterns/decorator/wrap` - Decorator demo
-- `POST /api/patterns/facade/scene/{name}` - Facade demo
-- `POST /api/patterns/proxy/remote` - Proxy demo
-- `POST /api/patterns/chain/alert` - Chain of Responsibility demo
-- `POST /api/patterns/command/execute` - Command demo
-- `POST /api/patterns/observer/register` - Observer demo
-- `POST /api/patterns/strategy/apply` - Strategy demo
-- `GET /api/patterns/state/demo` - State demo
-- `POST /api/patterns/memento/save` - Memento demo
-- `GET /api/patterns/visitor/audit` - Visitor demo
+1.  **🏠 Dashboard**: Overview of system status, active home mode (Singleton), and quick scenes (Facade).
+2.  **📱 Devices**: List of all connected devices with control toggles. Use the **Factory** tool here to spawn new devices.
+3.  **🏢 Rooms**: Organize devices into rooms. Utilizes the **Composite** pattern to control entire rooms at once.
+4.  **🎬 Scenes**: Save current device states as presets (**Memento**) and restore them later.
+5.  **🧠 Rules**: Define automation logic (e.g., "IF motion THEN lights") using the **Interpreter** & **Builder** patterns.
+6.  **📐 Pattern Lab**: A dedicated educational area where you can visualized specific patterns like the **Chain of Responsibility** alert flows or the **Mediator** network.
 
-## 📁 Project Structure
+---
 
-```
-src/main/java/com/smarthome/
-├── SmartHomeApplication.java          # Main application
-├── config/                            # Spring configuration
-├── controller/                        # REST controllers
-│   ├── SmartHomeController.java       # API endpoints
-│   └── WebController.java             # Web UI controller
-├── domain/                            # JPA entities
-├── repository/                        # Spring Data repositories
-├── service/                           # Business logic
-│   └── SmartHomeService.java          # Main service
-└── pattern/
-    ├── creational/
-    │   ├── singleton/                 # HomeController
-    │   ├── factory/                   # Device factories
-    │   ├── abstractfactory/           # Ecosystem factories
-    │   ├── builder/                   # AutomationRule builder
-    │   └── prototype/                 # Configuration prototypes
-    ├── structural/
-    │   ├── adapter/                   # Legacy device adapter
-    │   ├── bridge/                    # Remote control bridge
-    │   ├── composite/                 # Device groups
-    │   ├── decorator/                 # Device decorators
-    │   ├── facade/                    # Smart home facade
-    │   ├── flyweight/                 # Device type flyweights
-    │   └── proxy/                     # Device proxy
-    └── behavioral/
-        ├── chain/                     # Alert handler chain
-        ├── command/                   # Device commands
-        ├── interpreter/               # Rule interpreter
-        ├── iterator/                  # Device iterators
-        ├── mediator/                  # Device mediator
-        ├── memento/                   # Scene mementos
-        ├── observer/                  # Event observers
-        ├── state/                     # Device states
-        ├── strategy/                  # Energy strategies
-        ├── templatemethod/            # Device initializers
-        └── visitor/                   # Device visitors
-```
+## 🌐 API Reference
+
+You can also interact programmatically via REST endpoints:
+
+### Core Controls
+*   `GET /api/status` - System & Home Mode status
+*   `GET /api/devices` - List all smart devices
+*   `POST /api/devices/{id}/control?action=on` - Toggle a device
+
+### Pattern Demos
+*   `POST /api/patterns/factory/create` - Create dynamic devices
+*   `POST /api/patterns/adapter/legacy` - Integrate "old" hardware
+*   `POST /api/patterns/command/execute` - Execute reversible commands
+*   `POST /api/patterns/chain/alert` - Trigger emergency alerts through the handler chain
+
+_(See `SmartHomeController.java` for the full Swagger/OpenAPI definitions)_
+
+---
 
 ## 🛠️ Technology Stack
 
-- **Java 17**
-- **Spring Boot 3.2**
-- **Spring Data JPA**
-- **PostgreSQL** (production) / **H2** (development)
-- **Thymeleaf** (templates)
-- **Docker & Docker Compose**
-- **Lombok**
+*   **Backend**: Java 17, Spring Boot 3.2, Spring Data JPA
+*   **Frontend**: Thymeleaf, HTML5, CSS3 (Glassmorphism UI), Vanilla JS
+*   **Database**: PostgreSQL (Docker), H2 (Local fallback)
+*   **Build Tool**: Maven
+*   **Containerization**: Docker, Docker Compose
 
 ## 📝 License
 
-This project is for educational purposes, demonstrating design patterns in a practical application.
+This project is open-source and intended for educational purposes. Feel free to fork and learn!
