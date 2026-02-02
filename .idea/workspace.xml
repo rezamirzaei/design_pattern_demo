@@ -4,35 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="new patterns ui added">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/patterns-pro.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+    <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="ui improved">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/smarthome/repository/DeviceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smarthome/repository/DeviceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/abstract-factory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/abstract-factory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/adapter.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/adapter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/bridge.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/bridge.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/chain.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/chain.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/composite.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/composite.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/flyweight.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/flyweight.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/interpreter.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/interpreter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/iterator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/iterator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/mediator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/mediator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/memento.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/memento.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/prototype.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/state.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/state.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/strategy.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/strategy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/visitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/visitor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/l" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/patterns-pro.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/patterns-pro.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/devices.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/devices.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/rooms.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/rooms.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/rules.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/rules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/scenes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/scenes.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +101,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769953703081</updated>
-      <workItem from="1769953704161" duration="32379000" />
+      <workItem from="1769953704161" duration="34295000" />
     </task>
     <task id="LOCAL-00001" summary="bug fixed">
       <option name="closed" value="true" />
@@ -163,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770003510028</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="ui improved">
+      <option name="closed" value="true" />
+      <created>1770047230708</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1770047230708</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +160,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bug fixed" />
     <MESSAGE value="new patterns ui added" />
-    <option name="LAST_COMMIT_MESSAGE" value="new patterns ui added" />
+    <MESSAGE value="ui improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui improved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

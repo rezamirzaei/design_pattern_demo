@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home - Scenes</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
 </head>
 <body>
-<div class="container">
     <nav class="top-nav">
-        <div class="brand">Smart Home</div>
-        <div class="links">
-            <a class="nav-link" th:href="@{/}">🏠 Dashboard</a>
-            <a class="nav-link" th:href="@{/ui/devices}">📱 Devices</a>
-            <a class="nav-link" th:href="@{/ui/rooms}">🏢 Rooms</a>
-            <a class="nav-link" th:href="@{/ui/scenes}">🎬 Scenes</a>
-            <a class="nav-link" th:href="@{/ui/rules}">🧠 Rules</a>
-            <a class="nav-link" th:href="@{/ui/patterns}">📐 Patterns Lab</a>
+        <div class="nav-brand">🏠 SmartHome OS</div>
+        <div class="main-links">
+            <a href="/ui/devices" class="nav-link">Devices</a>
+            <a href="/ui/rooms" class="nav-link">Rooms</a>
+            <a href="/ui/scenes" class="nav-link active">Scenes</a>
+            <a href="/ui/rules" class="nav-link">Rules</a>
+            <a href="/?tab=patterns" class="nav-link">Patterns</a>
         </div>
     </nav>
 
+<div class="container">
     <header>
         <h1>🎬 Scenes</h1>
         <p class="subtitle">Save and apply persisted scenes (SceneEntity)</p>
