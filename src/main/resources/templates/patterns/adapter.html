@@ -1,0 +1,135 @@
+<div class="pattern-card" id="pattern-adapter" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">🔌</div>
+        <div class="pattern-info">
+            <h3>Legacy Device Adapter</h3>
+            <span class="pattern-badge badge-structural">Adapter Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Connect <strong>incompatible legacy devices</strong> to your modern smart home system. The adapter wraps old devices and translates their interface to work with your system.</p>
+    <div class="pattern-demo">
+        <h4>🎮 Integrate Legacy Devices</h4>
+        <div class="legacy-devices">
+            <div class="legacy-device" onclick="Adapter.adapt('old-thermostat')">
+                <div class="ld-icon">🌡️</div>
+                <div class="ld-info">
+                    <div class="ld-name">Old Analog Thermostat</div>
+                    <div class="ld-protocol">Protocol: Proprietary Serial</div>
+                </div>
+                <div class="ld-status incompatible">❌ Incompatible</div>
+                <button class="adapt-btn">🔌 Adapt</button>
+            </div>
+            <div class="legacy-device" onclick="Adapter.adapt('vintage-lamp')">
+                <div class="ld-icon">💡</div>
+                <div class="ld-info">
+                    <div class="ld-name">Vintage X10 Lamp</div>
+                    <div class="ld-protocol">Protocol: X10 Powerline</div>
+                </div>
+                <div class="ld-status incompatible">❌ Incompatible</div>
+                <button class="adapt-btn">🔌 Adapt</button>
+            </div>
+            <div class="legacy-device" onclick="Adapter.adapt('old-alarm')">
+                <div class="ld-icon">🚨</div>
+                <div class="ld-info">
+                    <div class="ld-name">90s Security Alarm</div>
+                    <div class="ld-protocol">Protocol: Wired Contact</div>
+                </div>
+                <div class="ld-status incompatible">❌ Incompatible</div>
+                <button class="adapt-btn">🔌 Adapt</button>
+            </div>
+            <div class="legacy-device" onclick="Adapter.adapt('ir-remote')">
+                <div class="ld-icon">📺</div>
+                <div class="ld-info">
+                    <div class="ld-name">IR Remote TV</div>
+                    <div class="ld-protocol">Protocol: Infrared</div>
+                </div>
+                <div class="ld-status incompatible">❌ Incompatible</div>
+                <button class="adapt-btn">🔌 Adapt</button>
+            </div>
+        </div>
+        <div class="adapter-visual">
+            <div class="av-legacy">
+                <div class="av-title">Legacy Device</div>
+                <div class="av-box">🌡️ Old Interface</div>
+            </div>
+            <div class="av-arrow">
+                <div class="av-adapter">🔌 Adapter</div>
+                →
+            </div>
+            <div class="av-modern">
+                <div class="av-title">Smart Home System</div>
+                <div class="av-box">📱 Modern Interface</div>
+            </div>
+        </div>
+        <div class="adapted-devices">
+            <h5>✅ Adapted Devices</h5>
+            <div class="adapted-list" id="adapted-devices-list">
+                <div class="no-adapted">No devices adapted yet...</div>
+            </div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How Adapter Works:</h5>
+            <ul>
+                <li><strong>Target Interface</strong>: What your smart home system expects</li>
+                <li><strong>Adaptee</strong>: The legacy device with incompatible interface</li>
+                <li><strong>Adapter</strong>: Wraps adaptee and implements target interface</li>
+                <li>Translates calls between old and new interfaces</li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="adapter-result"></div>
+</div>
+<script>
+var Adapter = {
+    adaptedCount: 0,
+    adapt: function(deviceId) {
+        this.adaptedCount++;
+        var devices = {
+            'old-thermostat': {icon:'🌡️',name:'Analog Thermostat',from:'Serial',to:'MQTT'},
+            'vintage-lamp': {icon:'💡',name:'X10 Lamp',from:'X10',to:'Zigbee'},
+            'old-alarm': {icon:'🚨',name:'Security Alarm',from:'Wired',to:'WiFi'},
+            'ir-remote': {icon:'📺',name:'IR Remote TV',from:'IR',to:'WiFi'}
+        };
+        var d = devices[deviceId];
+        var list = document.getElementById('adapted-devices-list');
+        if (this.adaptedCount === 1) list.innerHTML = '';
+        var item = document.createElement('div');
+        item.className = 'adapted-item';
+        item.innerHTML = '<span class="ai-icon">' + d.icon + '</span><span class="ai-name">' + d.name + '</span><span class="ai-conversion">' + d.from + ' → ' + d.to + '</span><span class="ai-status">✓ Compatible</span>';
+        list.appendChild(item);
+        fetch('/api/patterns/adapter/legacy?name=' + encodeURIComponent(d.name) + '&location=Home', {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('adapter-result', 'Adapted "' + d.name + '"!\n\nAdapter translated:\n  ' + d.from + ' protocol → ' + d.to + ' protocol\n\nThe legacy device is now compatible with your smart home.\n\n' + JSON.stringify(data, null, 2));
+                PatternDemo.toast('Adapted: ' + d.name, 'success');
+            });
+    }
+};
+</script>
+<style>
+.legacy-devices { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.legacy-device { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+.legacy-device:hover { background: rgba(0,210,255,0.05); border-color: rgba(0,210,255,0.3); }
+.ld-icon { font-size: 2em; }
+.ld-info { flex: 1; }
+.ld-name { font-weight: 500; margin-bottom: 3px; }
+.ld-protocol { font-size: 0.8em; color: #888; }
+.ld-status { font-size: 0.85em; padding: 4px 10px; border-radius: 15px; }
+.ld-status.incompatible { background: rgba(220,53,69,0.2); color: #dc3545; }
+.adapt-btn { padding: 8px 16px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 20px; color: white; cursor: pointer; }
+.adapter-visual { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 25px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 20px; }
+.av-legacy, .av-modern { text-align: center; }
+.av-title { font-size: 0.8em; color: #888; margin-bottom: 8px; }
+.av-box { padding: 15px 25px; background: rgba(255,255,255,0.05); border-radius: 10px; }
+.av-arrow { display: flex; flex-direction: column; align-items: center; color: #00d2ff; font-size: 1.5em; }
+.av-adapter { font-size: 0.7em; background: rgba(0,210,255,0.2); padding: 5px 12px; border-radius: 15px; margin-bottom: 5px; }
+.adapted-devices { padding: 15px; background: rgba(0,210,255,0.05); border-radius: 12px; border: 1px solid rgba(0,210,255,0.2); }
+.adapted-devices h5 { color: #00d2ff; margin-bottom: 12px; }
+.no-adapted { color: #666; font-style: italic; }
+.adapted-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 8px; }
+.ai-icon { font-size: 1.3em; }
+.ai-name { font-weight: 500; flex: 1; }
+.ai-conversion { font-size: 0.8em; color: #00d2ff; padding: 3px 10px; background: rgba(0,210,255,0.1); border-radius: 10px; }
+.ai-status { color: #7ee787; }
+</style>
+</div>

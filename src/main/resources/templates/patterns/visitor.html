@@ -1,0 +1,166 @@
+<div class="pattern-card" id="pattern-visitor" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">🔍</div>
+        <div class="pattern-info">
+            <h3>Home Audit Visitor</h3>
+            <span class="pattern-badge badge-behavioral">Visitor Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Add new <strong>audit operations</strong> to your devices without modifying their classes. Energy audit, security audit, maintenance audit - all implemented as visitors!</p>
+    <div class="pattern-demo">
+        <h4>🎮 Run Home Audits</h4>
+        <div class="audit-selector">
+            <button class="audit-btn" onclick="Visitor.audit('ENERGY')">
+                <span class="ab-icon">⚡</span>
+                <span class="ab-name">Energy Audit</span>
+                <span class="ab-desc">Check power consumption, find energy wasters</span>
+            </button>
+            <button class="audit-btn" onclick="Visitor.audit('SECURITY')">
+                <span class="ab-icon">🔐</span>
+                <span class="ab-name">Security Audit</span>
+                <span class="ab-desc">Check locks, cameras, alarm status</span>
+            </button>
+            <button class="audit-btn" onclick="Visitor.audit('MAINTENANCE')">
+                <span class="ab-icon">🔧</span>
+                <span class="ab-name">Maintenance Audit</span>
+                <span class="ab-desc">Check device health, firmware updates</span>
+            </button>
+        </div>
+        <div class="audit-progress" id="audit-progress" style="display:none;">
+            <h5>🔄 Visiting Devices...</h5>
+            <div class="visiting-devices" id="visiting-devices"></div>
+        </div>
+        <div class="audit-results" id="audit-results" style="display:none;">
+            <h5>📊 Audit Report</h5>
+            <div class="report-summary" id="report-summary"></div>
+            <div class="report-details" id="report-details"></div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How Visitor Works:</h5>
+            <ul>
+                <li><strong>Visitor Interface</strong>: visitLight(), visitThermostat(), visitCamera()...</li>
+                <li><strong>Concrete Visitors</strong>: EnergyAuditor, SecurityAuditor, MaintenanceAuditor</li>
+                <li><strong>Element Interface</strong>: accept(visitor) method on each device</li>
+                <li>Double dispatch: device.accept(visitor) → visitor.visit(device)</li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="visitor-result"></div>
+</div>
+<script>
+var Visitor = {
+    audit: function(type) {
+        var devices = [
+            {icon:'💡', name:'Living Light', type:'Light'},
+            {icon:'💡', name:'Bedroom Light', type:'Light'},
+            {icon:'🌡️', name:'Main Thermostat', type:'Thermostat'},
+            {icon:'📷', name:'Entry Camera', type:'Camera'},
+            {icon:'🔒', name:'Front Lock', type:'Lock'}
+        ];
+        // Show progress
+        document.getElementById('audit-progress').style.display = 'block';
+        document.getElementById('audit-results').style.display = 'none';
+        var visitingEl = document.getElementById('visiting-devices');
+        visitingEl.innerHTML = '';
+        var delay = 0;
+        devices.forEach(function(d, i) {
+            setTimeout(function() {
+                var div = document.createElement('div');
+                div.className = 'visiting-item';
+                div.innerHTML = '<span class="vi-icon">' + d.icon + '</span><span class="vi-name">' + d.name + '</span><span class="vi-action">Visiting...</span>';
+                visitingEl.appendChild(div);
+                setTimeout(function() {
+                    div.classList.add('done');
+                    div.querySelector('.vi-action').textContent = '✅ Done';
+                }, 300);
+            }, delay);
+            delay += 400;
+        });
+        // Show results after visiting
+        setTimeout(function() {
+            Visitor.showResults(type, devices);
+        }, delay + 500);
+        fetch('/api/patterns/visitor/audit?type=' + type)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('visitor-result', type + ' Audit Complete!\n\nVisitor pattern allowed adding audit functionality\nwithout modifying device classes.\n\nEach device accepted the visitor:\n' + devices.map(function(d) { return '• ' + d.name + '.accept(' + type.toLowerCase() + 'Auditor)'; }).join('\n') + '\n\n' + JSON.stringify(data, null, 2));
+            });
+    },
+    showResults: function(type, devices) {
+        document.getElementById('audit-progress').style.display = 'none';
+        document.getElementById('audit-results').style.display = 'block';
+        var results = {
+            ENERGY: {
+                summary: {score: 78, icon: '⚡', title: 'Energy Score', status: 'Good'},
+                details: [
+                    {device: 'Living Light', finding: '💡 Using 60W - Consider LED (10W)', severity: 'warning'},
+                    {device: 'Bedroom Light', finding: '✅ LED, efficient', severity: 'ok'},
+                    {device: 'Main Thermostat', finding: '⚠️ Running 24/7 - Add schedule', severity: 'warning'},
+                    {device: 'Entry Camera', finding: '✅ Low power mode active', severity: 'ok'}
+                ]
+            },
+            SECURITY: {
+                summary: {score: 92, icon: '🔐', title: 'Security Score', status: 'Excellent'},
+                details: [
+                    {device: 'Front Lock', finding: '✅ Locked, PIN enabled', severity: 'ok'},
+                    {device: 'Entry Camera', finding: '✅ Recording, motion detect on', severity: 'ok'},
+                    {device: 'Living Light', finding: 'ℹ️ Away mode could simulate presence', severity: 'info'}
+                ]
+            },
+            MAINTENANCE: {
+                summary: {score: 65, icon: '🔧', title: 'Health Score', status: 'Needs Attention'},
+                details: [
+                    {device: 'Main Thermostat', finding: '⚠️ Firmware update available', severity: 'warning'},
+                    {device: 'Entry Camera', finding: '🔴 Battery at 15%', severity: 'critical'},
+                    {device: 'Living Light', finding: '✅ All good', severity: 'ok'},
+                    {device: 'Front Lock', finding: '✅ Battery 80%', severity: 'ok'}
+                ]
+            }
+        };
+        var r = results[type];
+        document.getElementById('report-summary').innerHTML =
+            '<div class="summary-score"><span class="score-icon">' + r.summary.icon + '</span><span class="score-value">' + r.summary.score + '</span><span class="score-label">' + r.summary.title + '</span></div>' +
+            '<div class="summary-status ' + r.summary.status.toLowerCase().replace(' ', '-') + '">' + r.summary.status + '</div>';
+        document.getElementById('report-details').innerHTML = r.details.map(function(d) {
+            return '<div class="detail-item ' + d.severity + '"><span class="di-device">' + d.device + '</span><span class="di-finding">' + d.finding + '</span></div>';
+        }).join('');
+        PatternDemo.toast(type + ' Audit: ' + r.summary.score + '%', 'success');
+    }
+};
+</script>
+<style>
+.audit-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+.audit-btn { display: flex; flex-direction: column; align-items: center; padding: 25px 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; text-align: center; }
+.audit-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateY(-3px); }
+.ab-icon { font-size: 2.5em; margin-bottom: 10px; }
+.ab-name { font-size: 1.1em; font-weight: 600; margin-bottom: 5px; }
+.ab-desc { font-size: 0.8em; color: #888; }
+.audit-progress, .audit-results { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 15px; }
+.audit-progress h5, .audit-results h5 { color: #00d2ff; margin-bottom: 15px; }
+.visiting-devices { display: flex; flex-direction: column; gap: 8px; }
+.visiting-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: rgba(255,255,255,0.03); border-radius: 8px; transition: all 0.3s; }
+.visiting-item.done { background: rgba(40,167,69,0.1); }
+.vi-icon { font-size: 1.3em; }
+.vi-name { flex: 1; }
+.vi-action { font-size: 0.85em; color: #888; }
+.visiting-item.done .vi-action { color: #28a745; }
+.report-summary { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(0,210,255,0.1); border-radius: 12px; margin-bottom: 15px; }
+.summary-score { display: flex; align-items: center; gap: 15px; }
+.score-icon { font-size: 2em; }
+.score-value { font-size: 2.5em; font-weight: bold; color: #00d2ff; }
+.score-label { font-size: 0.9em; color: #888; }
+.summary-status { padding: 8px 18px; border-radius: 20px; font-weight: 500; }
+.summary-status.excellent { background: rgba(40,167,69,0.2); color: #28a745; }
+.summary-status.good { background: rgba(0,210,255,0.2); color: #00d2ff; }
+.summary-status.needs-attention { background: rgba(255,193,7,0.2); color: #ffc107; }
+.report-details { display: flex; flex-direction: column; gap: 8px; }
+.detail-item { display: flex; justify-content: space-between; padding: 12px 15px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid; }
+.detail-item.ok { border-left-color: #28a745; }
+.detail-item.warning { border-left-color: #ffc107; }
+.detail-item.critical { border-left-color: #dc3545; }
+.detail-item.info { border-left-color: #00d2ff; }
+.di-device { font-weight: 500; }
+.di-finding { font-size: 0.9em; color: #888; }
+@media (max-width: 768px) { .audit-selector { grid-template-columns: 1fr; } }
+</style>
+</div>

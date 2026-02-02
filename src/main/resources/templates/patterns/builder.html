@@ -1,0 +1,173 @@
+<div class="pattern-card" id="pattern-builder" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">🔧</div>
+        <div class="pattern-info">
+            <h3>Automation Rule Builder</h3>
+            <span class="pattern-badge badge-creational">Builder Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Construct complex <strong>automation rules</strong> step by step. The Builder pattern lets you create different rule configurations using the same construction process.</p>
+    <div class="pattern-demo">
+        <h4>🎮 Build Your Automation Rule</h4>
+        <div class="builder-steps">
+            <div class="builder-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <label>Rule Name</label>
+                    <input type="text" id="builder-name" class="form-input" value="My Automation" placeholder="Enter rule name">
+                </div>
+            </div>
+            <div class="builder-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <label>Trigger (When)</label>
+                    <div class="trigger-options">
+                        <button class="trigger-btn active" data-trigger="time:07:00" onclick="Builder.selectTrigger(this)">⏰ 7:00 AM</button>
+                        <button class="trigger-btn" data-trigger="time:22:00" onclick="Builder.selectTrigger(this)">🌙 10:00 PM</button>
+                        <button class="trigger-btn" data-trigger="motion" onclick="Builder.selectTrigger(this)">🚶 Motion</button>
+                        <button class="trigger-btn" data-trigger="door:open" onclick="Builder.selectTrigger(this)">🚪 Door Opens</button>
+                        <button class="trigger-btn" data-trigger="sunset" onclick="Builder.selectTrigger(this)">🌅 Sunset</button>
+                        <button class="trigger-btn" data-trigger="sunrise" onclick="Builder.selectTrigger(this)">🌄 Sunrise</button>
+                    </div>
+                </div>
+            </div>
+            <div class="builder-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <label>Condition (If)</label>
+                    <div class="condition-options">
+                        <label class="condition-check"><input type="checkbox" id="cond-home" checked> 🏠 Someone is home</label>
+                        <label class="condition-check"><input type="checkbox" id="cond-dark"> 🌑 It's dark outside</label>
+                        <label class="condition-check"><input type="checkbox" id="cond-weekday"> 📅 Weekday only</label>
+                    </div>
+                </div>
+            </div>
+            <div class="builder-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <label>Actions (Then)</label>
+                    <div class="action-options">
+                        <label class="action-check"><input type="checkbox" id="act-lights" checked> 💡 Turn on lights</label>
+                        <label class="action-check"><input type="checkbox" id="act-thermo"> 🌡️ Set thermostat to 22°C</label>
+                        <label class="action-check"><input type="checkbox" id="act-lock"> 🔒 Lock doors</label>
+                        <label class="action-check"><input type="checkbox" id="act-notify"> 📱 Send notification</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="builder-preview">
+            <h5>📋 Rule Preview</h5>
+            <div class="preview-content" id="builder-preview">
+                <strong>My Automation</strong>: When ⏰ 7:00 AM, if 🏠 Someone home → 💡 Turn on lights
+            </div>
+        </div>
+        <div class="builder-actions">
+            <button class="btn-build" onclick="Builder.build()">🔨 Build Rule</button>
+        </div>
+        <div class="preset-rules">
+            <h5>⚡ Quick Presets</h5>
+            <div class="preset-buttons">
+                <button class="preset-btn" onclick="Builder.preset('morning')">🌅 Morning Routine</button>
+                <button class="preset-btn" onclick="Builder.preset('night')">🌙 Goodnight</button>
+                <button class="preset-btn" onclick="Builder.preset('away')">🚗 Away Mode</button>
+                <button class="preset-btn" onclick="Builder.preset('welcome')">🏠 Welcome Home</button>
+            </div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How Builder Works:</h5>
+            <ul>
+                <li><strong>Builder</strong> interface defines steps: setTrigger(), addCondition(), addAction()</li>
+                <li><strong>Concrete Builder</strong> implements the construction steps</li>
+                <li><strong>Director</strong> (optional) defines order of construction</li>
+                <li>Same construction process can create different rule configurations</li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="builder-result"></div>
+</div>
+<script>
+var Builder = {
+    selectedTrigger: 'time:07:00',
+    selectTrigger: function(btn) {
+        document.querySelectorAll('.trigger-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        this.selectedTrigger = btn.dataset.trigger;
+        this.updatePreview();
+    },
+    updatePreview: function() {
+        var name = document.getElementById('builder-name').value || 'My Rule';
+        var trigger = this.selectedTrigger;
+        var triggerText = {'time:07:00':'⏰ 7:00 AM','time:22:00':'🌙 10:00 PM','motion':'🚶 Motion','door:open':'🚪 Door Opens','sunset':'🌅 Sunset','sunrise':'🌄 Sunrise'}[trigger] || trigger;
+        var conditions = [];
+        if (document.getElementById('cond-home').checked) conditions.push('🏠 Someone home');
+        if (document.getElementById('cond-dark').checked) conditions.push('🌑 Dark outside');
+        if (document.getElementById('cond-weekday').checked) conditions.push('📅 Weekday');
+        var actions = [];
+        if (document.getElementById('act-lights').checked) actions.push('💡 Lights on');
+        if (document.getElementById('act-thermo').checked) actions.push('🌡️ Set temp');
+        if (document.getElementById('act-lock').checked) actions.push('🔒 Lock doors');
+        if (document.getElementById('act-notify').checked) actions.push('📱 Notify');
+        var preview = '<strong>' + name + '</strong>: When ' + triggerText;
+        if (conditions.length > 0) preview += ', if ' + conditions.join(' & ');
+        if (actions.length > 0) preview += ' → ' + actions.join(', ');
+        document.getElementById('builder-preview').innerHTML = preview;
+    },
+    build: function() {
+        var name = document.getElementById('builder-name').value;
+        fetch('/api/patterns/builder/rule?name=' + encodeURIComponent(name) + '&trigger=' + this.selectedTrigger + '&action=lights:on', {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('builder-result', 'Rule "' + name + '" built successfully!\n\nBuilder constructed the rule step by step:\n1. Set name\n2. Set trigger\n3. Add conditions\n4. Add actions\n5. Build final rule\n\n' + JSON.stringify(data, null, 2));
+                PatternDemo.toast('Rule built: ' + name, 'success');
+            });
+    },
+    preset: function(type) {
+        var presets = {
+            morning: {name:'Morning Routine',trigger:'time:07:00',lights:true,thermo:true},
+            night: {name:'Goodnight',trigger:'time:22:00',lights:false,lock:true},
+            away: {name:'Away Mode',trigger:'door:open',lock:true,notify:true},
+            welcome: {name:'Welcome Home',trigger:'motion',lights:true,thermo:true}
+        };
+        var p = presets[type];
+        document.getElementById('builder-name').value = p.name;
+        document.querySelectorAll('.trigger-btn').forEach(function(b) { b.classList.remove('active'); if(b.dataset.trigger===p.trigger)b.classList.add('active'); });
+        this.selectedTrigger = p.trigger;
+        document.getElementById('act-lights').checked = p.lights || false;
+        document.getElementById('act-thermo').checked = p.thermo || false;
+        document.getElementById('act-lock').checked = p.lock || false;
+        document.getElementById('act-notify').checked = p.notify || false;
+        this.updatePreview();
+        PatternDemo.toast('Preset loaded: ' + p.name, 'info');
+    }
+};
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('#pattern-builder input').forEach(function(el) {
+        el.addEventListener('change', function() { Builder.updatePreview(); });
+        el.addEventListener('input', function() { Builder.updatePreview(); });
+    });
+});
+</script>
+<style>
+.builder-steps { display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
+.builder-step { display: flex; gap: 15px; align-items: flex-start; }
+.step-number { width: 32px; height: 32px; background: linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+.step-content { flex: 1; }
+.step-content label { display: block; color: #00d2ff; font-weight: 500; margin-bottom: 8px; }
+.trigger-options, .condition-options, .action-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.trigger-btn { padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #ccc; cursor: pointer; transition: all 0.3s; }
+.trigger-btn:hover { border-color: rgba(0,210,255,0.4); }
+.trigger-btn.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; color: #fff; }
+.condition-check, .action-check { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; cursor: pointer; }
+.condition-check input, .action-check input { accent-color: #00d2ff; }
+.builder-preview { padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; border-left: 3px solid #00d2ff; margin-bottom: 15px; }
+.builder-preview h5 { color: #888; margin-bottom: 8px; font-size: 0.85em; }
+.preview-content { color: #fff; line-height: 1.6; }
+.btn-build { width: 100%; padding: 14px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 10px; color: white; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+.btn-build:hover { transform: scale(1.02); }
+.preset-rules { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+.preset-rules h5 { color: #888; margin-bottom: 10px; }
+.preset-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.preset-btn { padding: 10px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ccc; cursor: pointer; }
+.preset-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
+</style>
+</div>

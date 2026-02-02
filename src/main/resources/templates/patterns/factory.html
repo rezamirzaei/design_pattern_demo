@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="factory-pattern">
+<div class="pattern-card" id="pattern-factory" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">🏭</div>
         <div class="pattern-info">
             <h3>Device Factory</h3>
-            <span class="pattern-badge creational">Factory Method Pattern</span>
+            <span class="pattern-badge badge-creational">Factory Method Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Create different types of smart devices without knowing their exact implementation classes.
         The factory decides which device class to instantiate based on the type you request.
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Create New Smart Device</h4>
-
         <div class="device-creator">
             <div class="creator-form">
                 <div class="form-group">
@@ -40,7 +35,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label>Device Name</label>
@@ -51,13 +45,11 @@
                         <input type="text" id="factory-device-location" class="form-input" placeholder="e.g., Living Room" value="Living Room">
                     </div>
                 </div>
-
                 <button class="btn-create" onclick="Factory.createDevice()">
                     <span class="btn-icon">➕</span>
                     Create Device
                 </button>
             </div>
-
             <div class="quick-create">
                 <h5>⚡ Quick Create</h5>
                 <button class="quick-btn" onclick="Factory.quickCreate('LIGHT', 'Kitchen Light', 'Kitchen')">
@@ -74,7 +66,6 @@
                 </button>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Factory Method Works Here:</h5>
             <ul>
@@ -85,26 +76,21 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="factory-result"></div>
 </div>
-
 <script>
 var Factory = {
     selectedType: 'LIGHT',
-
     selectType: function(btn, type) {
         document.querySelectorAll('.type-btn').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         this.selectedType = type;
     },
-
     createDevice: function() {
         var name = document.getElementById('factory-device-name').value;
         var location = document.getElementById('factory-device-location').value;
         this.quickCreate(this.selectedType, name, location);
     },
-
     quickCreate: function(type, name, location) {
         fetch('/api/patterns/factory/create?type=' + type + '&name=' + encodeURIComponent(name) + '&location=' + encodeURIComponent(location), { method: 'POST' })
             .then(function(r) { return r.json(); })
@@ -121,7 +107,6 @@ var Factory = {
     }
 };
 </script>
-
 <style>
 .device-type-selector { display: flex; gap: 10px; margin-top: 10px; }
 .type-btn { display: flex; flex-direction: column; align-items: center; padding: 15px 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; transition: all 0.3s; }
@@ -138,4 +123,3 @@ var Factory = {
 .quick-btn { padding: 8px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #ccc; cursor: pointer; margin: 3px; transition: all 0.3s; }
 .quick-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.3); }
 </style>
-</html>

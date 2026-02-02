@@ -1,0 +1,117 @@
+<div class="pattern-card" id="pattern-prototype" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">📋</div>
+        <div class="pattern-info">
+            <h3>Device Configuration Clone</h3>
+            <span class="pattern-badge badge-creational">Prototype Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Create new devices by <strong>cloning existing templates</strong> instead of creating from scratch. Perfect for duplicating complex device configurations.</p>
+    <div class="pattern-demo">
+        <h4>🎮 Clone Device Templates</h4>
+        <div class="template-gallery">
+            <div class="template-card" onclick="Prototype.clone('ambient-light')">
+                <div class="template-icon">💡</div>
+                <div class="template-name">Ambient Light</div>
+                <div class="template-config">
+                    <span class="config-item">Brightness: 70%</span>
+                    <span class="config-item">Color: Warm White</span>
+                    <span class="config-item">Schedule: Sunset-11PM</span>
+                </div>
+                <button class="clone-btn">📋 Clone This</button>
+            </div>
+            <div class="template-card" onclick="Prototype.clone('security-camera')">
+                <div class="template-icon">📷</div>
+                <div class="template-name">Security Camera</div>
+                <div class="template-config">
+                    <span class="config-item">Resolution: 1080p</span>
+                    <span class="config-item">Night Vision: ON</span>
+                    <span class="config-item">Motion Alert: ON</span>
+                </div>
+                <button class="clone-btn">📋 Clone This</button>
+            </div>
+            <div class="template-card" onclick="Prototype.clone('eco-thermostat')">
+                <div class="template-icon">🌡️</div>
+                <div class="template-name">Eco Thermostat</div>
+                <div class="template-config">
+                    <span class="config-item">Day: 22°C</span>
+                    <span class="config-item">Night: 18°C</span>
+                    <span class="config-item">Away: 16°C</span>
+                </div>
+                <button class="clone-btn">📋 Clone This</button>
+            </div>
+            <div class="template-card" onclick="Prototype.clone('smart-lock')">
+                <div class="template-icon">🔒</div>
+                <div class="template-name">Smart Lock</div>
+                <div class="template-config">
+                    <span class="config-item">Auto-lock: 30s</span>
+                    <span class="config-item">PIN: Enabled</span>
+                    <span class="config-item">Guest Access: ON</span>
+                </div>
+                <button class="clone-btn">📋 Clone This</button>
+            </div>
+        </div>
+        <div class="cloned-devices">
+            <h5>📦 Cloned Devices</h5>
+            <div class="cloned-list" id="cloned-devices-list">
+                <div class="no-clones">Click a template above to clone it...</div>
+            </div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How Prototype Works:</h5>
+            <ul>
+                <li>Each template device implements a <strong>clone()</strong> method</li>
+                <li>Cloning creates a <strong>deep copy</strong> with all configurations</li>
+                <li>Faster than creating and configuring from scratch</li>
+                <li>Cloned device can be <strong>modified independently</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="prototype-result"></div>
+</div>
+<script>
+var Prototype = {
+    cloneCount: 0,
+    clone: function(template) {
+        this.cloneCount++;
+        var templates = {
+            'ambient-light': {icon:'💡',name:'Ambient Light',config:'Warm, 70%, Sunset-11PM'},
+            'security-camera': {icon:'📷',name:'Security Camera',config:'1080p, Night Vision, Alerts'},
+            'eco-thermostat': {icon:'🌡️',name:'Eco Thermostat',config:'22°/18°/16°C'},
+            'smart-lock': {icon:'🔒',name:'Smart Lock',config:'Auto-lock 30s, PIN, Guest'}
+        };
+        var t = templates[template];
+        var list = document.getElementById('cloned-devices-list');
+        if (this.cloneCount === 1) list.innerHTML = '';
+        var clone = document.createElement('div');
+        clone.className = 'cloned-item';
+        clone.innerHTML = '<span class="ci-icon">' + t.icon + '</span><span class="ci-name">' + t.name + ' (Clone #' + this.cloneCount + ')</span><span class="ci-config">' + t.config + '</span><span class="ci-status">✓ Ready</span>';
+        list.appendChild(clone);
+        fetch('/api/patterns/prototype/clone?templateId=' + template, {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('prototype-result', 'Cloned "' + t.name + '"!\n\nPrototype pattern created a deep copy with all configurations.\nThe clone is independent and can be modified.\n\n' + JSON.stringify(data, null, 2));
+                PatternDemo.toast('Cloned: ' + t.name, 'success');
+            });
+    }
+};
+</script>
+<style>
+.template-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+.template-card { padding: 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s; }
+.template-card:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateY(-3px); }
+.template-icon { font-size: 3em; margin-bottom: 10px; }
+.template-name { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+.template-config { display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px; }
+.config-item { font-size: 0.8em; color: #888; padding: 4px 8px; background: rgba(0,0,0,0.2); border-radius: 4px; }
+.clone-btn { padding: 8px 16px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 20px; color: white; font-size: 0.85em; cursor: pointer; }
+.cloned-devices { padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
+.cloned-devices h5 { color: #00d2ff; margin-bottom: 12px; }
+.no-clones { color: #666; font-style: italic; }
+.cloned-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; background: rgba(0,210,255,0.1); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #00d2ff; }
+.ci-icon { font-size: 1.3em; }
+.ci-name { font-weight: 500; flex: 1; }
+.ci-config { font-size: 0.8em; color: #888; }
+.ci-status { color: #7ee787; font-size: 0.85em; }
+</style>
+</div>

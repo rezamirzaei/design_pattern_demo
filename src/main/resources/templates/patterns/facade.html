@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="facade-pattern">
+<div class="pattern-card" id="pattern-facade" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">🎬</div>
         <div class="pattern-info">
             <h3>Smart Home Scenes</h3>
-            <span class="pattern-badge structural">Facade Pattern</span>
+            <span class="pattern-badge badge-structural">Facade Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         One-click <strong>scenes</strong> that orchestrate multiple devices. The Facade hides the complexity
         of coordinating lights, thermostat, blinds, and more behind a simple interface.
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Activate a Scene</h4>
-
         <div class="scenes-grid">
             <button class="scene-card" onclick="Facade.activate('morning')">
                 <div class="scene-icon">🌅</div>
@@ -28,7 +23,6 @@
                     <span>💡</span><span>🌡️</span><span>🪟</span><span>☕</span>
                 </div>
             </button>
-
             <button class="scene-card" onclick="Facade.activate('night')">
                 <div class="scene-icon">🌙</div>
                 <div class="scene-info">
@@ -39,7 +33,6 @@
                     <span>💡</span><span>🔒</span><span>🌡️</span><span>📷</span>
                 </div>
             </button>
-
             <button class="scene-card" onclick="Facade.activate('movie')">
                 <div class="scene-icon">🎬</div>
                 <div class="scene-info">
@@ -50,7 +43,6 @@
                     <span>💡</span><span>📺</span><span>🪟</span><span>🔊</span>
                 </div>
             </button>
-
             <button class="scene-card" onclick="Facade.activate('party')">
                 <div class="scene-icon">🎉</div>
                 <div class="scene-info">
@@ -61,7 +53,6 @@
                     <span>🌈</span><span>🎵</span><span>🌡️</span><span>✨</span>
                 </div>
             </button>
-
             <button class="scene-card" onclick="Facade.activate('leave')">
                 <div class="scene-icon">🚪</div>
                 <div class="scene-info">
@@ -72,7 +63,6 @@
                     <span>💡</span><span>🔒</span><span>🚨</span><span>🌡️</span>
                 </div>
             </button>
-
             <button class="scene-card" onclick="Facade.activate('arrive')">
                 <div class="scene-icon">🏠</div>
                 <div class="scene-info">
@@ -84,14 +74,12 @@
                 </div>
             </button>
         </div>
-
         <div class="behind-scenes">
             <h5>👁️ What Happens Behind the Scenes</h5>
             <div class="operations-list" id="facade-operations">
                 <p class="placeholder">Click a scene to see all the operations the Facade coordinates...</p>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Facade Works Here:</h5>
             <ul>
@@ -102,10 +90,8 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="facade-result"></div>
 </div>
-
 <script>
 var Facade = {
     sceneOperations: {
@@ -157,7 +143,6 @@ var Facade = {
             { device: '🚨 Security System', action: 'Disarm' }
         ]
     },
-
     activate: function(scene) {
         // Show operations
         var ops = this.sceneOperations[scene] || [];
@@ -171,7 +156,6 @@ var Facade = {
             html += '</div>';
         });
         document.getElementById('facade-operations').innerHTML = html;
-
         // Make API call
         fetch('/api/patterns/facade/scene/' + scene, { method: 'POST' })
             .then(function(r) { return r.json(); })
@@ -187,7 +171,6 @@ var Facade = {
     }
 };
 </script>
-
 <style>
 .scenes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
 .scene-card { display: flex; flex-direction: column; padding: 20px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; text-align: left; }
@@ -206,8 +189,6 @@ var Facade = {
 .op-device { color: #fff; min-width: 180px; }
 .op-arrow { color: #666; }
 .op-action { color: #7ee787; }
-
 @media (max-width: 900px) { .scenes-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .scenes-grid { grid-template-columns: 1fr; } }
 </style>
-</html>

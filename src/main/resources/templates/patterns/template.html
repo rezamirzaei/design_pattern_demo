@@ -1,0 +1,149 @@
+<div class="pattern-card" id="pattern-template" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">📋</div>
+        <div class="pattern-info">
+            <h3>Device Initialization Template</h3>
+            <span class="pattern-badge badge-behavioral">Template Method Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Define the <strong>skeleton of device initialization</strong> in a base class, letting subclasses override specific steps without changing the overall structure.</p>
+    <div class="pattern-demo">
+        <h4>🎮 Initialize Devices</h4>
+        <div class="device-init-selector">
+            <button class="init-btn" onclick="Template.init('LIGHT')">
+                <span class="ib-icon">💡</span>
+                <span class="ib-name">Light</span>
+            </button>
+            <button class="init-btn" onclick="Template.init('THERMOSTAT')">
+                <span class="ib-icon">🌡️</span>
+                <span class="ib-name">Thermostat</span>
+            </button>
+            <button class="init-btn" onclick="Template.init('CAMERA')">
+                <span class="ib-icon">📷</span>
+                <span class="ib-name">Camera</span>
+            </button>
+            <button class="init-btn" onclick="Template.init('LOCK')">
+                <span class="ib-icon">🔒</span>
+                <span class="ib-name">Lock</span>
+            </button>
+        </div>
+        <div class="init-progress">
+            <h5>📊 Initialization Progress</h5>
+            <div class="progress-steps" id="init-steps">
+                <div class="step" id="step-1">
+                    <div class="step-num">1</div>
+                    <div class="step-info">
+                        <div class="step-name">Connect to Network</div>
+                        <div class="step-desc">Common step for all devices</div>
+                    </div>
+                    <div class="step-status">⏳</div>
+                </div>
+                <div class="step" id="step-2">
+                    <div class="step-num">2</div>
+                    <div class="step-info">
+                        <div class="step-name">Authenticate</div>
+                        <div class="step-desc">Common step for all devices</div>
+                    </div>
+                    <div class="step-status">⏳</div>
+                </div>
+                <div class="step" id="step-3">
+                    <div class="step-num">3</div>
+                    <div class="step-info">
+                        <div class="step-name">Device-Specific Setup</div>
+                        <div class="step-desc" id="step-3-desc">Varies by device type</div>
+                    </div>
+                    <div class="step-status">⏳</div>
+                </div>
+                <div class="step" id="step-4">
+                    <div class="step-num">4</div>
+                    <div class="step-info">
+                        <div class="step-name">Register with Hub</div>
+                        <div class="step-desc">Common step for all devices</div>
+                    </div>
+                    <div class="step-status">⏳</div>
+                </div>
+                <div class="step" id="step-5">
+                    <div class="step-num">5</div>
+                    <div class="step-info">
+                        <div class="step-name">Ready</div>
+                        <div class="step-desc">Device is now operational</div>
+                    </div>
+                    <div class="step-status">⏳</div>
+                </div>
+            </div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How Template Method Works:</h5>
+            <ul>
+                <li><strong>Abstract Class</strong> defines template method: initialize()</li>
+                <li><strong>Template Method</strong> calls steps in order: connect → auth → setup → register</li>
+                <li><strong>Hook Methods</strong>: deviceSpecificSetup() is overridden by subclasses</li>
+                <li>LightDevice, ThermostatDevice each implement their own setup</li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="template-result"></div>
+</div>
+<script>
+var Template = {
+    init: function(deviceType) {
+        var specificSteps = {
+            LIGHT: 'Calibrate brightness, Set color temp',
+            THERMOSTAT: 'Read sensors, Set schedules',
+            CAMERA: 'Initialize video stream, Set resolution',
+            LOCK: 'Verify PIN codes, Test motor'
+        };
+        // Reset steps
+        document.querySelectorAll('.step').forEach(function(s) {
+            s.classList.remove('active', 'done');
+            s.querySelector('.step-status').textContent = '⏳';
+        });
+        document.getElementById('step-3-desc').textContent = specificSteps[deviceType] || 'Device-specific';
+        // Animate steps
+        var steps = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
+        var delay = 0;
+        steps.forEach(function(stepId, index) {
+            setTimeout(function() {
+                var step = document.getElementById(stepId);
+                step.classList.add('active');
+                step.querySelector('.step-status').textContent = '⚙️';
+                setTimeout(function() {
+                    step.classList.remove('active');
+                    step.classList.add('done');
+                    step.querySelector('.step-status').textContent = '✅';
+                }, 400);
+            }, delay);
+            delay += 500;
+        });
+        fetch('/api/patterns/template/init?deviceType=' + deviceType, {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                setTimeout(function() {
+                    PatternDemo.showResult('template-result', deviceType + ' initialized!\n\nTemplate method executed:\n1. connect() - common\n2. authenticate() - common\n3. deviceSpecificSetup() - ' + specificSteps[deviceType] + '\n4. registerWithHub() - common\n5. ready()\n\n' + JSON.stringify(data, null, 2));
+                    PatternDemo.toast(deviceType + ' initialized', 'success');
+                }, 2500);
+            });
+    }
+};
+</script>
+<style>
+.device-init-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+.init-btn { display: flex; flex-direction: column; align-items: center; padding: 20px 30px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; color: white; cursor: pointer; transition: all 0.3s; }
+.init-btn:hover { background: rgba(0,210,255,0.1); border-color: rgba(0,210,255,0.4); transform: translateY(-3px); }
+.ib-icon { font-size: 2.5em; margin-bottom: 8px; }
+.ib-name { font-weight: 500; }
+.init-progress { padding: 20px; background: rgba(0,0,0,0.2); border-radius: 15px; }
+.init-progress h5 { color: #00d2ff; margin-bottom: 15px; }
+.progress-steps { display: flex; flex-direction: column; gap: 12px; }
+.step { display: flex; align-items: center; gap: 15px; padding: 12px 18px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; transition: all 0.3s; }
+.step.active { border-color: #ffc107; background: rgba(255,193,7,0.1); }
+.step.done { border-color: #28a745; background: rgba(40,167,69,0.1); }
+.step-num { width: 30px; height: 30px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.step.done .step-num { background: #28a745; }
+.step.active .step-num { background: #ffc107; color: #000; }
+.step-info { flex: 1; }
+.step-name { font-weight: 500; margin-bottom: 2px; }
+.step-desc { font-size: 0.8em; color: #888; }
+.step-status { font-size: 1.2em; }
+</style>
+</div>

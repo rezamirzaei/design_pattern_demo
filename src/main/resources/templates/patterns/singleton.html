@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="singleton-pattern">
+<div class="pattern-card active" id="pattern-singleton" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">🏠</div>
         <div class="pattern-info">
             <h3>Home Mode Controller</h3>
-            <span class="pattern-badge creational">Singleton Pattern</span>
+            <span class="pattern-badge badge-creational">Singleton Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Only <strong>ONE</strong> HomeController instance manages your entire smart home.
         When you change the mode, all devices respond through this single coordinator.
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Select Home Mode</h4>
         <div class="mode-selector">
@@ -38,7 +34,6 @@
                 <span class="mode-desc">Simulate presence, max security</span>
             </button>
         </div>
-
         <div class="status-panel">
             <div class="status-item">
                 <span class="status-label">Current Mode</span>
@@ -53,7 +48,6 @@
                 <span class="status-value" id="singleton-system-status">Online</span>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Singleton Works Here:</h5>
             <ul>
@@ -64,16 +58,13 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="singleton-result"></div>
 </div>
-
 <script>
 var Singleton = {
     setMode: function(mode) {
         document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
         document.getElementById('mode-' + mode.toLowerCase()).classList.add('active');
-
         fetch('/api/mode/' + mode, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
@@ -86,4 +77,3 @@ var Singleton = {
     }
 };
 </script>
-</html>

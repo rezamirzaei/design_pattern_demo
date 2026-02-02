@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="observer-pattern">
+<div class="pattern-card" id="pattern-observer" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">👀</div>
         <div class="pattern-info">
             <h3>Device Event Notifications</h3>
-            <span class="pattern-badge behavioral">Observer Pattern</span>
+            <span class="pattern-badge badge-behavioral">Observer Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Subscribe to device events and get <strong>notified automatically</strong> when something changes.
         Multiple observers can watch the same device - phone, email, dashboard all get updates!
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Setup Event Subscriptions</h4>
-
         <div class="observer-workspace">
             <!-- Subscription Setup -->
             <div class="subscription-panel">
@@ -45,7 +40,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="observers-column">
                     <h5>🔔 Choose Notification Methods</h5>
                     <div class="observer-list">
@@ -92,7 +86,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="action-buttons">
                 <button class="btn-subscribe" onclick="Observer.subscribe()">
                     <span>🔔</span> Subscribe Selected
@@ -101,7 +94,6 @@
                     <span>⚡</span> Simulate Device Event
                 </button>
             </div>
-
             <!-- Active Subscriptions -->
             <div class="active-subscriptions">
                 <h5>📋 Active Subscriptions</h5>
@@ -109,7 +101,6 @@
                     <div class="no-subs">No subscriptions yet. Subscribe observers to devices above!</div>
                 </div>
             </div>
-
             <!-- Event Log -->
             <div class="event-log">
                 <h5>📨 Event Notifications</h5>
@@ -118,7 +109,6 @@
                 </div>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Observer Works Here:</h5>
             <ul>
@@ -130,22 +120,18 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="observer-result"></div>
 </div>
-
 <script>
 var Observer = {
     selectedDevice: 'motion-sensor',
     subscriptions: [],
     eventCount: 0,
-
     selectDevice: function(btn, device) {
         document.querySelectorAll('.watch-device').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         this.selectedDevice = device;
     },
-
     getSelectedObservers: function() {
         var observers = [];
         document.querySelectorAll('.observer-checkbox input:checked').forEach(function(cb) {
@@ -153,21 +139,18 @@ var Observer = {
         });
         return observers;
     },
-
     subscribe: function() {
         var observers = this.getSelectedObservers();
         if (observers.length === 0) {
             PatternDemo.toast('Select at least one notification method!', 'error');
             return;
         }
-
         var device = this.selectedDevice;
         var self = this;
         var promises = observers.map(function(obs) {
             return fetch('/api/patterns/observer/subscribe?deviceId=' + device + '&observerType=' + obs, { method: 'POST' })
                 .then(function(r) { return r.json(); });
         });
-
         Promise.all(promises).then(function() {
             observers.forEach(function(obs) {
                 self.subscriptions.push({ device: device, observer: obs });
@@ -176,14 +159,12 @@ var Observer = {
             PatternDemo.toast('Subscribed ' + observers.length + ' observer(s) to ' + device, 'success');
         });
     },
-
     updateSubscriptionsList: function() {
         var list = document.getElementById('subscriptions-list');
         if (this.subscriptions.length === 0) {
             list.innerHTML = '<div class="no-subs">No subscriptions yet.</div>';
             return;
         }
-
         var icons = { MOBILE: '📱', EMAIL: '📧', DASHBOARD: '📊', LOG: '📝' };
         var html = '';
         this.subscriptions.forEach(function(sub) {
@@ -195,24 +176,19 @@ var Observer = {
         });
         list.innerHTML = html;
     },
-
     triggerEvent: function() {
         var device = this.selectedDevice;
         var self = this;
-
         fetch('/api/patterns/observer/trigger?deviceId=' + device, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 self.eventCount++;
                 var eventList = document.getElementById('event-list');
-
                 // Find subscriptions for this device
                 var deviceSubs = self.subscriptions.filter(function(s) { return s.device === device; });
                 var icons = { MOBILE: '📱', EMAIL: '📧', DASHBOARD: '📊', LOG: '📝' };
-
                 var html = eventList.innerHTML;
                 if (html.indexOf('no-events') >= 0) html = '';
-
                 html = '<div class="event-item new">' +
                     '<div class="event-header">' +
                     '<span class="event-time">' + new Date().toLocaleTimeString() + '</span>' +
@@ -225,9 +201,7 @@ var Observer = {
                     (deviceSubs.length === 0 ? '<span class="no-notif">No observers subscribed</span>' : '') +
                     '</div>' +
                     '</div>' + html;
-
                 eventList.innerHTML = html;
-
                 PatternDemo.showResult('observer-result',
                     'Event triggered on "' + device + '"!\n\n' +
                     'Observers notified: ' + deviceSubs.length + '\n' +
@@ -239,7 +213,6 @@ var Observer = {
     }
 };
 </script>
-
 <style>
 .observer-workspace { display: flex; flex-direction: column; gap: 20px; }
 .subscription-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -279,7 +252,5 @@ var Observer = {
 .event-notifications { display: flex; flex-wrap: wrap; gap: 8px; }
 .notif-sent { padding: 4px 10px; background: rgba(0,210,255,0.2); border-radius: 15px; font-size: 0.8em; color: #00d2ff; }
 .no-notif { color: #888; font-size: 0.8em; font-style: italic; }
-
 @media (max-width: 768px) { .subscription-panel { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } }
 </style>
-</html>

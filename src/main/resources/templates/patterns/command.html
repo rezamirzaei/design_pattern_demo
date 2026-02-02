@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="command-pattern">
+<div class="pattern-card" id="pattern-command" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">📜</div>
         <div class="pattern-info">
             <h3>Device Control with Undo/Redo</h3>
-            <span class="pattern-badge behavioral">Command Pattern</span>
+            <span class="pattern-badge badge-behavioral">Command Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Every device action is a <strong>Command object</strong> that can be executed, undone, and redone.
         Build up a command history and travel back and forth through your changes!
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Execute Device Commands</h4>
-
         <div class="command-workspace">
             <!-- Device Control Panel -->
             <div class="control-panel">
@@ -38,7 +33,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="control-device">
                     <h5>🌡️ Thermostat</h5>
                     <div class="device-visual">
@@ -54,7 +48,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Undo/Redo Controls -->
             <div class="history-controls">
                 <button class="history-btn undo" onclick="Command.undo()">
@@ -69,7 +62,6 @@
                     <span class="hbtn-icon">↪️</span>
                 </button>
             </div>
-
             <!-- Command History -->
             <div class="command-history">
                 <h5>📋 Command History</h5>
@@ -77,7 +69,6 @@
                     <div class="history-empty">Execute commands to see history...</div>
                 </div>
             </div>
-
             <!-- Macro Recording -->
             <div class="macro-section">
                 <h5>🎬 Record Command Macro</h5>
@@ -93,7 +84,6 @@
                 <div class="macro-status" id="macro-status"></div>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Command Works Here:</h5>
             <ul>
@@ -105,10 +95,8 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="command-result"></div>
 </div>
-
 <script>
 var Command = {
     history: [],
@@ -117,30 +105,24 @@ var Command = {
     macro: [],
     lightOn: false,
     temp: 22,
-
     execute: function(device, command) {
         var self = this;
-
         fetch('/api/patterns/command/execute?deviceId=' + device + '&command=' + command, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 // Truncate redo history
                 self.history = self.history.slice(0, self.position + 1);
-
                 // Add to history
                 self.history.push({ device: device, command: command, timestamp: new Date() });
                 self.position = self.history.length - 1;
-
                 // Record if recording
                 if (self.recording) {
                     self.macro.push({ device: device, command: command });
                     self.updateMacroStatus();
                 }
-
                 // Update visuals
                 self.updateVisuals(device, command);
                 self.updateHistoryDisplay();
-
                 PatternDemo.showResult('command-result',
                     'Command executed!\n\n' +
                     'Command: ' + command + '\n' +
@@ -151,13 +133,11 @@ var Command = {
                 PatternDemo.toast(command + ': ' + device, 'success');
             });
     },
-
     undo: function() {
         if (this.position < 0) {
             PatternDemo.toast('Nothing to undo!', 'error');
             return;
         }
-
         var self = this;
         fetch('/api/patterns/command/undo', { method: 'POST' })
             .then(function(r) { return r.json(); })
@@ -166,7 +146,6 @@ var Command = {
                 self.position--;
                 self.reverseVisuals(cmd.device, cmd.command);
                 self.updateHistoryDisplay();
-
                 PatternDemo.showResult('command-result',
                     'Undo successful!\n\n' +
                     'Reversed: ' + cmd.command + ' on ' + cmd.device + '\n' +
@@ -175,13 +154,11 @@ var Command = {
                 PatternDemo.toast('Undone: ' + cmd.command, 'info');
             });
     },
-
     redo: function() {
         if (this.position >= this.history.length - 1) {
             PatternDemo.toast('Nothing to redo!', 'error');
             return;
         }
-
         var self = this;
         fetch('/api/patterns/command/redo', { method: 'POST' })
             .then(function(r) { return r.json(); })
@@ -190,7 +167,6 @@ var Command = {
                 var cmd = self.history[self.position];
                 self.updateVisuals(cmd.device, cmd.command);
                 self.updateHistoryDisplay();
-
                 PatternDemo.showResult('command-result',
                     'Redo successful!\n\n' +
                     'Re-executed: ' + cmd.command + ' on ' + cmd.device + '\n' +
@@ -199,7 +175,6 @@ var Command = {
                 PatternDemo.toast('Redone: ' + cmd.command, 'info');
             });
     },
-
     updateVisuals: function(device, command) {
         if (device === 'living-light-1') {
             var bulb = document.getElementById('cmd-light-visual');
@@ -215,7 +190,6 @@ var Command = {
             temp.textContent = this.temp + '°C';
         }
     },
-
     reverseVisuals: function(device, command) {
         if (device === 'living-light-1') {
             if (command === 'ON') this.updateVisuals(device, 'OFF');
@@ -226,17 +200,14 @@ var Command = {
             if (command === 'TEMP_DOWN') { this.temp++; document.getElementById('cmd-temp-visual').textContent = this.temp + '°C'; }
         }
     },
-
     updateHistoryDisplay: function() {
         document.getElementById('history-position').textContent = this.position + 1;
         document.getElementById('history-total').textContent = this.history.length;
-
         var list = document.getElementById('command-history-list');
         if (this.history.length === 0) {
             list.innerHTML = '<div class="history-empty">Execute commands to see history...</div>';
             return;
         }
-
         var self = this;
         var html = this.history.map(function(cmd, i) {
             var active = i === self.position ? ' active' : '';
@@ -249,12 +220,10 @@ var Command = {
         }).join('');
         list.innerHTML = html;
     },
-
     toggleRecording: function() {
         this.recording = !this.recording;
         var btn = document.getElementById('macro-record-btn');
         var playBtn = document.getElementById('macro-play-btn');
-
         if (this.recording) {
             this.macro = [];
             btn.innerHTML = '<span>⏹️</span> Stop Recording';
@@ -267,18 +236,14 @@ var Command = {
             document.getElementById('macro-status').textContent = 'Recorded ' + this.macro.length + ' commands.';
         }
     },
-
     updateMacroStatus: function() {
         document.getElementById('macro-status').textContent = 'Recording... ' + this.macro.length + ' command(s)';
     },
-
     playMacro: function() {
         if (this.macro.length === 0) return;
         var self = this;
         var i = 0;
-
         PatternDemo.toast('Playing macro: ' + this.macro.length + ' commands', 'info');
-
         function playNext() {
             if (i >= self.macro.length) {
                 PatternDemo.toast('Macro complete!', 'success');
@@ -293,7 +258,6 @@ var Command = {
     }
 };
 </script>
-
 <style>
 .command-workspace { display: flex; flex-direction: column; gap: 20px; }
 .control-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -334,7 +298,5 @@ var Command = {
 .macro-btn.recording { background: rgba(255,50,50,0.3); animation: pulse 1s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 .macro-status { color: #888; font-size: 0.85em; margin-top: 10px; }
-
 @media (max-width: 768px) { .control-panel { grid-template-columns: 1fr; } }
 </style>
-</html>

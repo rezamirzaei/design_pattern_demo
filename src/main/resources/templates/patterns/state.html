@@ -1,0 +1,168 @@
+<div class="pattern-card" id="pattern-state" th:fragment="content">
+    <div class="pattern-header">
+        <div class="pattern-icon">🔄</div>
+        <div class="pattern-info">
+            <h3>Device State Machine</h3>
+            <span class="pattern-badge badge-behavioral">State Pattern</span>
+        </div>
+    </div>
+    <p class="pattern-desc">Device <strong>behavior changes based on its state</strong>. A media player behaves differently when Playing vs Paused vs Stopped - the State pattern encapsulates this.</p>
+    <div class="pattern-demo">
+        <h4>🎮 Media Player Demo</h4>
+        <div class="player-display">
+            <div class="player-screen" id="player-screen">
+                <div class="screen-icon" id="screen-icon">⏹️</div>
+                <div class="screen-status" id="screen-status">STOPPED</div>
+                <div class="screen-track">🎵 Chill Beats Mix</div>
+            </div>
+            <div class="player-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+                </div>
+                <div class="progress-time">
+                    <span id="time-current">0:00</span>
+                    <span id="time-total">3:45</span>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="ctrl-btn" onclick="State.action('stop')">⏹️</button>
+                <button class="ctrl-btn" onclick="State.action('prev')">⏮️</button>
+                <button class="ctrl-btn main" onclick="State.action('playPause')" id="btn-play">▶️</button>
+                <button class="ctrl-btn" onclick="State.action('next')">⏭️</button>
+                <button class="ctrl-btn" onclick="State.action('mute')">🔊</button>
+            </div>
+        </div>
+        <div class="state-info">
+            <h5>📊 Current State Behavior</h5>
+            <div class="behavior-grid" id="state-behaviors">
+                <div class="behavior-item">
+                    <span class="bi-action">▶️ Play</span>
+                    <span class="bi-result" id="bh-play">→ Start playback</span>
+                </div>
+                <div class="behavior-item">
+                    <span class="bi-action">⏸️ Pause</span>
+                    <span class="bi-result" id="bh-pause">→ No effect (already stopped)</span>
+                </div>
+                <div class="behavior-item">
+                    <span class="bi-action">⏹️ Stop</span>
+                    <span class="bi-result" id="bh-stop">→ No effect (already stopped)</span>
+                </div>
+            </div>
+        </div>
+        <div class="state-diagram">
+            <h5>🔄 State Transitions</h5>
+            <div class="diagram">
+                <div class="state-node" id="sn-stopped">⏹️ Stopped</div>
+                <div class="state-arrow">play →</div>
+                <div class="state-node" id="sn-playing">▶️ Playing</div>
+                <div class="state-arrow">pause →</div>
+                <div class="state-node" id="sn-paused">⏸️ Paused</div>
+            </div>
+        </div>
+        <div class="pattern-explanation">
+            <h5>💡 How State Works:</h5>
+            <ul>
+                <li><strong>Context</strong> (MediaPlayer) maintains current state</li>
+                <li><strong>State Interface</strong> defines actions (play, pause, stop)</li>
+                <li><strong>Concrete States</strong> implement behavior for each state</li>
+                <li>State transitions happen internally, changing behavior</li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-area" id="state-result"></div>
+</div>
+<script>
+var State = {
+    current: 'STOPPED',
+    progress: 0,
+    interval: null,
+    action: function(action) {
+        var oldState = this.current;
+        if (action === 'playPause') {
+            if (this.current === 'PLAYING') {
+                this.current = 'PAUSED';
+                this.stopProgress();
+            } else {
+                this.current = 'PLAYING';
+                this.startProgress();
+            }
+        } else if (action === 'stop') {
+            this.current = 'STOPPED';
+            this.progress = 0;
+            this.stopProgress();
+        }
+        this.updateUI();
+        fetch('/api/patterns/state/transition?action=' + action, {method:'POST'})
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                PatternDemo.showResult('state-result', 'State transition: ' + oldState + ' → ' + State.current + '\n\nAction "' + action + '" caused state change.\nBehavior now follows ' + State.current + ' state rules.\n\n' + JSON.stringify(data, null, 2));
+                PatternDemo.toast('State: ' + State.current, 'success');
+            });
+    },
+    updateUI: function() {
+        var icons = {STOPPED:'⏹️', PLAYING:'▶️', PAUSED:'⏸️'};
+        var playBtn = {STOPPED:'▶️', PLAYING:'⏸️', PAUSED:'▶️'};
+        var behaviors = {
+            STOPPED: {play:'Start playback', pause:'No effect', stop:'No effect'},
+            PLAYING: {play:'No effect', pause:'Pause playback', stop:'Stop & reset'},
+            PAUSED: {play:'Resume playback', pause:'No effect', stop:'Stop & reset'}
+        };
+        document.getElementById('screen-icon').textContent = icons[this.current];
+        document.getElementById('screen-status').textContent = this.current;
+        document.getElementById('btn-play').textContent = playBtn[this.current];
+        document.getElementById('progress-fill').style.width = this.progress + '%';
+        var mins = Math.floor((this.progress * 225) / 100 / 60);
+        var secs = Math.floor((this.progress * 225) / 100) % 60;
+        document.getElementById('time-current').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        var bh = behaviors[this.current];
+        document.getElementById('bh-play').textContent = '→ ' + bh.play;
+        document.getElementById('bh-pause').textContent = '→ ' + bh.pause;
+        document.getElementById('bh-stop').textContent = '→ ' + bh.stop;
+        // Update state diagram
+        document.querySelectorAll('.state-node').forEach(function(n) { n.classList.remove('active'); });
+        document.getElementById('sn-' + this.current.toLowerCase()).classList.add('active');
+    },
+    startProgress: function() {
+        var self = this;
+        this.interval = setInterval(function() {
+            self.progress += 1;
+            if (self.progress >= 100) {
+                self.progress = 0;
+            }
+            self.updateUI();
+        }, 500);
+    },
+    stopProgress: function() {
+        if (this.interval) clearInterval(this.interval);
+    }
+};
+document.addEventListener('DOMContentLoaded', function() { State.updateUI(); });
+</script>
+<style>
+.player-display { padding: 25px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; margin-bottom: 20px; }
+.player-screen { text-align: center; padding: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; margin-bottom: 20px; }
+.screen-icon { font-size: 4em; margin-bottom: 10px; }
+.screen-status { font-size: 1.2em; font-weight: 600; color: #00d2ff; margin-bottom: 5px; }
+.screen-track { color: #888; }
+.player-progress { margin-bottom: 20px; }
+.progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #00d2ff, #3a7bd5); transition: width 0.3s; }
+.progress-time { display: flex; justify-content: space-between; font-size: 0.8em; color: #888; margin-top: 5px; }
+.player-controls { display: flex; justify-content: center; gap: 15px; }
+.ctrl-btn { width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: white; font-size: 1.3em; cursor: pointer; transition: all 0.3s; }
+.ctrl-btn:hover { background: rgba(0,210,255,0.2); border-color: rgba(0,210,255,0.5); }
+.ctrl-btn.main { width: 65px; height: 65px; font-size: 1.8em; background: linear-gradient(135deg, #00d2ff, #3a7bd5); border: none; }
+.state-info { padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 15px; }
+.state-info h5 { color: #888; margin-bottom: 12px; }
+.behavior-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.behavior-item { padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; text-align: center; }
+.bi-action { display: block; font-weight: 500; margin-bottom: 5px; }
+.bi-result { font-size: 0.8em; color: #888; }
+.state-diagram { padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
+.state-diagram h5 { color: #888; margin-bottom: 12px; }
+.diagram { display: flex; align-items: center; justify-content: center; gap: 15px; }
+.state-node { padding: 12px 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; transition: all 0.3s; }
+.state-node.active { background: rgba(0,210,255,0.2); border-color: #00d2ff; box-shadow: 0 0 15px rgba(0,210,255,0.3); }
+.state-arrow { color: #666; font-size: 0.9em; }
+</style>
+</div>

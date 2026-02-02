@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="bug fixed">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/abstract-factory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/adapter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/bridge.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/chain.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/composite.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/flyweight.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/interpreter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/iterator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/mediator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/memento.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/prototype.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/state.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/strategy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/visitor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/smarthome/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/smarthome/controller/WebController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/rezami/IdeaProjects/untitled3" value="394S9RtnBqV6hKHnEVEO7iiTxk1" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="77" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;rezamirzaei&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/rezamirzaei/design_pattern_demo.git&quot;,
+    &quot;accountId&quot;: &quot;13b2e180-7a45-4eb2-8390-d35b8c2f0839&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="394S9RtnBqV6hKHnEVEO7iiTxk1" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/rezami/IdeaProjects/untitled3/src/main/java/org/sportradar/scoreboard/Main.java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="SmartHomeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="untitled3" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.smarthome.SmartHomeApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="" />
+      <created>1769953703081</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769953703081</updated>
+      <workItem from="1769953704161" duration="27496000" />
+    </task>
+    <task id="LOCAL-00001" summary="bug fixed">
+      <option name="closed" value="true" />
+      <created>1769964413640</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1769964413640</updated>
+    </task>
+    <task id="LOCAL-00002" summary="bug fixed">
+      <option name="closed" value="true" />
+      <created>1769987873792</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1769987873792</updated>
+    </task>
+    <task id="LOCAL-00003" summary="bug fixed">
+      <option name="closed" value="true" />
+      <created>1769995170559</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769995170559</updated>
+    </task>
+    <task id="LOCAL-00004" summary="bug fixed">
+      <option name="closed" value="true" />
+      <created>1770000814524</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1770000814524</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fixed" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sportradar/scoreboard/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

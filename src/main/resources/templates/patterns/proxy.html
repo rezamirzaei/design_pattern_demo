@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="proxy-pattern">
+<div class="pattern-card" id="pattern-proxy" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">🛡️</div>
         <div class="pattern-info">
             <h3>Remote Device Access</h3>
-            <span class="pattern-badge structural">Proxy Pattern</span>
+            <span class="pattern-badge badge-structural">Proxy Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Access remote devices through a <strong>proxy</strong> that handles connection details, caching,
         and access control. The proxy acts as a stand-in for the real device.
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Connect to Remote Devices via Proxy</h4>
-
         <div class="proxy-workspace">
             <!-- Remote Device Connection -->
             <div class="connection-panel">
@@ -40,7 +35,6 @@
                     </button>
                 </div>
             </div>
-
             <!-- Quick Connect Presets -->
             <div class="presets-panel">
                 <h5>⚡ Quick Connect to Common Devices</h5>
@@ -79,7 +73,6 @@
                     </button>
                 </div>
             </div>
-
             <!-- Proxy Features Demonstration -->
             <div class="proxy-features">
                 <h5>🛡️ Proxy Features in Action</h5>
@@ -107,7 +100,6 @@
                 </div>
             </div>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Proxy Works Here:</h5>
             <ul>
@@ -119,10 +111,8 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="proxy-result"></div>
 </div>
-
 <script>
 var Proxy = {
     connect: function() {
@@ -131,11 +121,9 @@ var Proxy = {
         var port = document.getElementById('proxy-port').value;
         this.quickConnect(name, ip, port);
     },
-
     quickConnect: function(name, ip, port) {
         var address = ip + ':' + port;
         var url = '/api/patterns/proxy/remote?name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address);
-
         fetch(url, { method: 'POST' })
             .then(function(r) { return r.json(); })
             .then(function(data) {
@@ -149,10 +137,8 @@ var Proxy = {
                 msg += '  ✓ Operation Logging - All calls recorded\n\n';
                 msg += 'The proxy now acts as a local stand-in for the remote device.\n';
                 msg += 'All operations go through the proxy transparently.';
-
                 PatternDemo.showResult('proxy-result', msg);
                 PatternDemo.toast('Proxy connected: ' + name, 'success');
-
                 // Update status indicator if exists
                 var statusId = 'status-' + name.toLowerCase().split(' ')[0];
                 var statusEl = document.getElementById(statusId);
@@ -164,7 +150,6 @@ var Proxy = {
     }
 };
 </script>
-
 <style>
 .proxy-workspace { display: flex; flex-direction: column; gap: 25px; }
 .connection-panel h5, .presets-panel h5, .proxy-features h5 { color: #00d2ff; margin-bottom: 12px; font-size: 0.95em; }
@@ -186,11 +171,9 @@ var Proxy = {
 .feature-demo-icon { font-size: 1.8em; display: block; margin-bottom: 8px; }
 .feature-demo-title { display: block; color: #00d2ff; font-weight: 500; margin-bottom: 5px; }
 .feature-demo-item p { font-size: 0.8em; color: #888; margin: 0; }
-
 @media (max-width: 900px) {
     .connection-form { grid-template-columns: 1fr; }
     .preset-grid { grid-template-columns: 1fr; }
     .feature-demo-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
-</html>

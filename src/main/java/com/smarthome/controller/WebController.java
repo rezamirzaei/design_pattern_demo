@@ -27,6 +27,7 @@ public class WebController {
         model.addAttribute("activeDevices", status.activeDevices());
         model.addAttribute("devices", devices);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("patterns", patternCatalog.all());
         return "index";
     }
 

@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
-<div class="pattern-card" id="decorator-pattern">
+<div class="pattern-card" id="pattern-decorator" th:fragment="content">
     <div class="pattern-header">
         <div class="pattern-icon">🎨</div>
         <div class="pattern-info">
             <h3>Add Features to Devices</h3>
-            <span class="pattern-badge structural">Decorator Pattern</span>
+            <span class="pattern-badge badge-structural">Decorator Pattern</span>
         </div>
     </div>
-
     <p class="pattern-desc">
         Dynamically add <strong>Logging</strong>, <strong>Security</strong>, or <strong>Caching</strong> capabilities
         to any device without modifying its code. Stack multiple decorators to combine features!
     </p>
-
     <div class="pattern-demo">
         <h4>🎮 Wrap Device with Features</h4>
-
         <div class="decorator-workspace">
             <!-- Device Selection -->
             <div class="device-selection">
@@ -40,7 +35,6 @@
                     </button>
                 </div>
             </div>
-
             <!-- Feature Selection -->
             <div class="feature-selection">
                 <h5>2️⃣ Choose Features to Add</h5>
@@ -87,7 +81,6 @@
                     </label>
                 </div>
             </div>
-
             <!-- Decorator Preview -->
             <div class="decorator-preview">
                 <h5>3️⃣ Decorator Chain Preview</h5>
@@ -100,13 +93,11 @@
                     Each decorator wraps the previous, adding its feature while preserving existing behavior.
                 </p>
             </div>
-
             <button class="btn-apply" onclick="Decorator.apply()">
                 <span class="btn-icon">🎁</span>
                 Apply Decorators
             </button>
         </div>
-
         <div class="pattern-explanation">
             <h5>💡 How Decorator Works Here:</h5>
             <ul>
@@ -118,21 +109,17 @@
             </ul>
         </div>
     </div>
-
     <div class="result-area" id="decorator-result"></div>
 </div>
-
 <script>
 var Decorator = {
     selectedDevice: 'living-light-1',
-
     selectDevice: function(btn, deviceId) {
         document.querySelectorAll('.device-item').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         this.selectedDevice = deviceId;
         this.updatePreview();
     },
-
     getSelectedFeatures: function() {
         var features = [];
         if (document.getElementById('feat-logging').checked) features.push('LOGGING');
@@ -141,33 +128,28 @@ var Decorator = {
         if (document.getElementById('feat-notification').checked) features.push('NOTIFICATION');
         return features;
     },
-
     updatePreview: function() {
         var features = this.getSelectedFeatures();
         var chain = document.getElementById('decorator-chain');
         var icons = { LOGGING: '📝', SECURITY: '🔐', CACHING: '⚡', NOTIFICATION: '🔔' };
         var names = { LOGGING: 'Logging', SECURITY: 'Security', CACHING: 'Caching', NOTIFICATION: 'Notification' };
-
         var html = '<div class="chain-item base">📱 ' + this.selectedDevice + '</div>';
         features.forEach(function(f) {
             html += '<div class="chain-arrow">→</div>';
             html += '<div class="chain-item decorator">' + icons[f] + ' ' + names[f] + '</div>';
         });
         chain.innerHTML = html;
-
         var desc = features.length === 0
             ? 'Select features to add to the device.'
             : 'Chain: Device' + features.map(function(f) { return ' → ' + names[f] + 'Decorator'; }).join('');
         document.getElementById('chain-description').textContent = desc;
     },
-
     apply: function() {
         var features = this.getSelectedFeatures();
         if (features.length === 0) {
             PatternDemo.toast('Select at least one feature!', 'error');
             return;
         }
-
         var url = '/api/patterns/decorator/wrap?deviceId=' + this.selectedDevice + '&decorators=' + features.join(',');
         fetch(url, { method: 'POST' })
             .then(function(r) { return r.json(); })
@@ -182,19 +164,16 @@ var Decorator = {
                 if (features.indexOf('SECURITY') >= 0) msg += '  • Access control is enforced\n';
                 if (features.indexOf('CACHING') >= 0) msg += '  • State is cached for speed\n';
                 if (features.indexOf('NOTIFICATION') >= 0) msg += '  • Alerts sent on changes\n';
-
                 PatternDemo.showResult('decorator-result', msg);
                 PatternDemo.toast('Decorators applied!', 'success');
             });
     }
 };
-
 // Initialize preview
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof Decorator !== 'undefined') Decorator.updatePreview();
 });
 </script>
-
 <style>
 .decorator-workspace { display: flex; flex-direction: column; gap: 20px; }
 .device-selection h5, .feature-selection h5, .decorator-preview h5 { color: #00d2ff; margin-bottom: 10px; font-size: 0.95em; }
@@ -222,4 +201,3 @@ document.addEventListener('DOMContentLoaded', function() {
 .btn-apply { width: 100%; padding: 14px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 10px; color: white; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
 .btn-apply:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(0,210,255,0.3); }
 </style>
-</html>
