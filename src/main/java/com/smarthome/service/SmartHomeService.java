@@ -86,9 +86,7 @@ public class SmartHomeService {
     private final SimpMessagingTemplate messagingTemplate;
     private final HomeController homeController = HomeController.INSTANCE;
 
-    private final Map<String, Map<String, Boolean>> savedScenes = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> observersByDevice = new ConcurrentHashMap<>();
-    private final List<AutomationRule> rules = new ArrayList<>();
 
     private static final Pattern ACTION_PATTERN = Pattern.compile("^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*(.*?)\\s*\\)\\s*$");
 
@@ -1116,12 +1114,7 @@ public class SmartHomeService {
         DeviceEntity entity = getDeviceEntityOrThrow(deviceId);
         Device runtime = ensureRuntimeDevice(entity);
 
-        List<String> normalized = List.of(Optional.ofNullable(decorators).orElse("").split(",")).stream()
-                .map(String::trim)
-                .filter(s -> !s.isBlank())
-                .map(s -> s.toUpperCase(Locale.ROOT))
-                .distinct()
-                .toList();
+        List<String> normalized = Optional.ofNullable(decorators).orElse("").split(",") == null ? List.of() : List.of(Optional.ofNullable(decorators).orElse("").split(","));
 
         Device decorated = runtime;
         SecurityDecorator security = null;
