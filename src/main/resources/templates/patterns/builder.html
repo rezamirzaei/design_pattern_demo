@@ -122,8 +122,16 @@
 var Builder = {
     selectedTrigger: 'time:07:00',
     selectTrigger: function(btn) {
-        document.querySelectorAll('.trigger-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('#pattern-builder .trigger-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'rgba(255,255,255,0.05)';
+            b.style.borderColor = 'var(--glass-border)';
+            b.style.color = 'var(--text-muted)';
+        });
         btn.classList.add('active');
+        btn.style.background = 'rgba(0, 210, 255, 0.15)';
+        btn.style.borderColor = 'var(--primary)';
+        btn.style.color = 'white';
         this.selectedTrigger = btn.dataset.trigger;
         this.updatePreview();
     },
@@ -210,13 +218,13 @@ var Builder = {
 
         document.getElementById('builder-name').value = p.name;
 
-        document.querySelectorAll('.trigger-btn').forEach(function(b) {
-            b.classList.remove('active');
-            if(b.dataset.trigger===p.trigger) {
-                b.classList.add('active');
-                Builder.selectedTrigger = p.trigger;
-            }
-        });
+        var triggerBtn = Array.from(document.querySelectorAll('#pattern-builder .trigger-btn'))
+                .find(function(b) { return b.dataset.trigger === p.trigger; });
+        if (triggerBtn) {
+            this.selectTrigger(triggerBtn);
+        } else {
+            this.selectedTrigger = p.trigger;
+        }
 
         document.getElementById('cond-home').checked = p.home || false;
         document.getElementById('cond-dark').checked = p.dark || false;

@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="bug fixed" />
+    <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="ui interactive">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,9 +17,6 @@
     <persistenceIdMap>
       <entry key="_/Users/rezami/IdeaProjects/untitled3" value="394S9RtnBqV6hKHnEVEO7iiTxk1" />
     </persistenceIdMap>
-  </component>
-  <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="77" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,7 +56,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -92,6 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1769953703081</updated>
       <workItem from="1769953704161" duration="35414000" />
+      <workItem from="1770060466658" duration="2639000" />
     </task>
     <task id="LOCAL-00001" summary="bug fixed">
       <option name="closed" value="true" />
@@ -173,7 +174,23 @@
       <option name="project" value="LOCAL" />
       <updated>1770050283554</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="ui improved">
+      <option name="closed" value="true" />
+      <created>1770060504266</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1770060504266</updated>
+    </task>
+    <task id="LOCAL-00012" summary="ui interactive">
+      <option name="closed" value="true" />
+      <created>1770062816834</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1770062816834</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,9 +199,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bug fixed" />
     <MESSAGE value="new patterns ui added" />
-    <MESSAGE value="ui improved" />
     <MESSAGE value="ci/cd file added" />
-    <option name="LAST_COMMIT_MESSAGE" value="ci/cd file added" />
+    <MESSAGE value="ui improved" />
+    <MESSAGE value="ui interactive" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui interactive" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
