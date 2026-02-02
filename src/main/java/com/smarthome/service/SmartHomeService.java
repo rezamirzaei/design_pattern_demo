@@ -74,6 +74,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Service
 public class SmartHomeService {
@@ -82,6 +83,7 @@ public class SmartHomeService {
     private final SceneRepository sceneRepository;
     private final AutomationRuleRepository automationRuleRepository;
     private final ObjectMapper objectMapper;
+    private final SimpMessagingTemplate messagingTemplate;
     private final HomeController homeController = HomeController.INSTANCE;
 
     private final Map<String, Map<String, Boolean>> savedScenes = new ConcurrentHashMap<>();
@@ -95,13 +97,24 @@ public class SmartHomeService {
             RoomRepository roomRepository,
             SceneRepository sceneRepository,
             AutomationRuleRepository automationRuleRepository,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            SimpMessagingTemplate messagingTemplate
     ) {
         this.deviceRepository = deviceRepository;
         this.roomRepository = roomRepository;
         this.sceneRepository = sceneRepository;
         this.automationRuleRepository = automationRuleRepository;
         this.objectMapper = objectMapper;
+        this.messagingTemplate = messagingTemplate;
+    }
+
+    private void broadcastUpdate(String type, Object payload) {
+        try {
+            messagingTemplate.convertAndSend("/topic/" + type, payload);
+        } catch (Exception e) {
+            // Log but don't break transaction if websocket fails
+            System.err.println("Failed to broadcast update: " + e.getMessage());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -130,7 +143,9 @@ public class SmartHomeService {
             runtimeDevice.turnOff();
         }
 
-        return toView(device);
+        DeviceView updatedView = toView(device);
+        broadcastUpdate("device", updatedView);
+        return updatedView;
     }
 
     @Transactional
@@ -146,7 +161,9 @@ public class SmartHomeService {
             }
         }
         deviceRepository.saveAll(devices);
-        return devices.stream().map(this::toView).toList();
+        List<DeviceView> views = devices.stream().map(this::toView).toList();
+        views.forEach(v -> broadcastUpdate("device", v));
+        return views;
     }
 
     @Transactional(readOnly = true)

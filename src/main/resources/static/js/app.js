@@ -1,6 +1,7 @@
 /* global fetch */
 
 const API_BASE = '/api';
+let stompClient = null;
 
 function getOutputEl() {
     return document.getElementById('output');
@@ -98,7 +99,7 @@ async function setHomeMode(mode) {
         }
         log(`Home Mode -> ${mode}`, result);
     } catch (e) {
-        log('Failed to set home mode', { error: e.message });
+        log('Error setting home mode', { error: e.message });
     }
 }
 
@@ -240,7 +241,40 @@ function toParamsFromForm(form) {
     return params;
 }
 
+function connectWebSocket() {
+    if (typeof SockJS === 'undefined' || typeof Stomp === 'undefined') {
+        console.warn('WebSocket libraries not loaded. Skipping connection.');
+        return;
+    }
+
+    const socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.debug = null; // Quiet mode
+
+    stompClient.connect({}, function (frame) {
+        console.log('🔌 WebSocket Connected');
+        stompClient.subscribe('/topic/device', function (message) {
+            try {
+                const device = JSON.parse(message.body);
+                updateDeviceCard(device);
+
+                // If we are on the dashboard or devices page, maybe show a toast?
+                if (typeof PatternDemo !== 'undefined' && PatternDemo.toast) {
+                    PatternDemo.toast(`Device Update: ${device.info} -> ${device.isOn ? 'ON' : 'OFF'}`, 'info');
+                }
+            } catch (e) {
+                console.error('Failed to process websocket message', e);
+            }
+        });
+    }, function(error) {
+        console.error('WebSocket connection error:', error);
+        setTimeout(connectWebSocket, 5000); // Retry after 5s
+    });
+}
+
+// Auto-init
 document.addEventListener('DOMContentLoaded', () => {
+    connectWebSocket();
     refreshDevices();
     if (getOutputEl()) {
         log('UI loaded. Open the Patterns Lab to run all demos.');
