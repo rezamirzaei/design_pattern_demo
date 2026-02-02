@@ -77,28 +77,16 @@ The core architecture maps real-world smart home concepts to GoF patterns:
 
 ---
 
-## 🚀 Quick Start
+## 🧑‍💻 Local Development (Maven)
 
-### Option 1: Docker (Recommended)
-The easiest way to run the full stack including the database.
-
-```bash
-# 1. Start services
-docker-compose up --build -d
-
-# 2. Access variables
-# Web UI: http://localhost:8080
-# DB Console: http://localhost:8080/h2-console
-```
-
-### Option 2: Local Development (Maven)
-Requires JDK 17+ installed. Uses H2 in-memory database by default.
+Requires JDK 17+ and Maven. Uses H2 in-memory database by default.
 
 ```bash
 # Run the application
-./mvnw spring-boot:run
+mvn spring-boot:run
 
-# The application will start on port 8080.
+# Run tests
+mvn test
 ```
 
 ---
@@ -112,7 +100,7 @@ The application features a comprehensive web interface:
 3.  **🏢 Rooms**: Organize devices into rooms. Utilizes the **Composite** pattern to control entire rooms at once.
 4.  **🎬 Scenes**: Save current device states as presets (**Memento**) and restore them later.
 5.  **🧠 Rules**: Define automation logic (e.g., "IF motion THEN lights") using the **Interpreter** & **Builder** patterns.
-6.  **📐 Pattern Lab**: A dedicated educational area where you can visualized specific patterns like the **Chain of Responsibility** alert flows or the **Mediator** network.
+6.  **📐 Patterns** (`/ui/patterns`): An interactive playground where you can trigger each pattern and see the UI update live (e.g., **Command** history, **Observer** network, **Mediator** hub).
 
 ---
 
@@ -131,9 +119,19 @@ You can also interact programmatically via REST endpoints:
 *   `POST /api/patterns/command/execute` - Execute reversible commands
 *   `POST /api/patterns/chain/alert` - Trigger emergency alerts through the handler chain
 
-_(See `SmartHomeController.java` for the full Swagger/OpenAPI definitions)_
+_(See `src/main/java/com/smarthome/controller/SmartHomeController.java` for the full list of endpoints.)_
 
 ---
+
+## 🧩 UI Development Notes (Thymeleaf)
+
+The Patterns page is composed from Thymeleaf fragments:
+
+- `src/main/resources/templates/patterns.html` inserts each pattern with `th:insert="~{patterns/<name> :: content}"`.
+- Each pattern template in `src/main/resources/templates/patterns/` must keep all required markup **and its `<script>`** inside the fragment root:
+  - ✅ inside: `<div class="pattern-card" th:fragment="content"> ... <script>...</script> </div>`
+  - ❌ outside: placing `<script>` after the fragment closing tag will not render into `/ui/patterns`, and buttons will stop working.
+- When adding JS, scope selectors to the pattern card (e.g. `#pattern-builder .trigger-btn`) to avoid collisions with other patterns that reuse class names.
 
 ## 🛠️ Technology Stack
 
