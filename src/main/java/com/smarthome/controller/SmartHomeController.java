@@ -14,15 +14,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Objects;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Smart Home", description = "Smart Home automation API demonstrating all 23 GoF Design Patterns")
 public class SmartHomeController {
     private final SmartHomeService smartHomeService;
 
@@ -30,6 +34,7 @@ public class SmartHomeController {
         this.smartHomeService = smartHomeService;
     }
 
+    @Operation(summary = "System status", description = "Returns system mode, active device count")
     @GetMapping("/status")
     public StatusView status() {
         return smartHomeService.getStatus();
@@ -409,6 +414,12 @@ public class SmartHomeController {
         return smartHomeService.deleteScene(sceneId);
     }
 
+    @Operation(summary = "Delete scene (REST)", description = "RESTful DELETE for scenes")
+    @DeleteMapping("/scenes/{sceneId}")
+    public Map<String, Object> deleteSceneRest(@PathVariable Long sceneId) {
+        return smartHomeService.deleteScene(sceneId);
+    }
+
     @GetMapping("/rules")
     public List<AutomationRuleView> rules() {
         return smartHomeService.getAutomationRules();
@@ -432,6 +443,12 @@ public class SmartHomeController {
 
     @PostMapping("/rules/{ruleId}/delete")
     public Map<String, Object> deleteRule(@PathVariable Long ruleId) {
+        return smartHomeService.deleteAutomationRule(ruleId);
+    }
+
+    @Operation(summary = "Delete rule (REST)", description = "RESTful DELETE for rules")
+    @DeleteMapping("/rules/{ruleId}")
+    public Map<String, Object> deleteRuleRest(@PathVariable Long ruleId) {
         return smartHomeService.deleteAutomationRule(ruleId);
     }
 

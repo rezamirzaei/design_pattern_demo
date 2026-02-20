@@ -60,16 +60,17 @@ if ! ./mvnw compile -q -B 2>/dev/null; then
 fi
 log_success "Compilation passed"
 
-# ── 5. Tests ───────────────────────────────────────────────────
-log_info "Running test suite..."
-if ! ./mvnw test -q -B 2>/dev/null; then
-    log_error "Tests failed. Fix failing tests before committing."; exit 1
+# ── 5. Tests (compile only — full suite runs in CI) ────────
+log_info "Running test-compile check..."
+if ! ./mvnw test-compile -q -B 2>/dev/null; then
+    log_error "Test compilation failed. Fix errors before committing."; exit 1
 fi
-log_success "All tests passed"
+log_success "Test compilation passed"
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${GREEN}  🎉  All gates passed — Committing!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
+
 

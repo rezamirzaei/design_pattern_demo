@@ -132,14 +132,21 @@ git commit --no-verify
 ```
 src/main/java/com/smarthome/
 ├── config/          # DataSeeder, WebSocketConfig
-├── controller/      # REST (SmartHomeController) & Web (WebController)
-├── domain/          # JPA Entities (Device, Room, Scene, Rule)
+├── controller/      # REST (SmartHomeController) & Web (WebController), ApiExceptionHandler
+├── domain/          # JPA Entities (Device, Room, Scene, Rule, HomeMode)
 ├── pattern/         # All 23 GoF pattern implementations
 │   ├── behavioral/  # Chain, Command, Interpreter, Iterator, etc.
 │   ├── creational/  # Singleton, Factory, Builder, Prototype, etc.
 │   └── structural/  # Adapter, Bridge, Composite, Decorator, etc.
 ├── repository/      # Spring Data JPA repositories
-├── service/         # SmartHomeService (core business logic)
+├── service/         # Decomposed services (SRP-compliant)
+│   ├── DeviceService.java        # Device CRUD, runtime state, home mode
+│   ├── RoomService.java          # Room CRUD, device assignment
+│   ├── SceneService.java         # Scene CRUD, snapshots (Memento integration)
+│   ├── RuleService.java          # Rule CRUD, Interpreter, action execution
+│   ├── PatternDemoService.java   # All 23 pattern demonstrations
+│   ├── ServiceUtils.java         # Shared validation/text utilities
+│   └── SmartHomeService.java     # Thin facade for backward compatibility
 └── web/             # View models, pattern catalog
 ```
 
@@ -159,6 +166,10 @@ The application features a comprehensive web interface:
 ---
 
 ## 🌐 API Reference
+
+**📚 Interactive API Docs (Swagger UI):** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+**📄 OpenAPI JSON:** [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 You can also interact programmatically via REST endpoints:
 

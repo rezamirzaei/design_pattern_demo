@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile({"h2", "dev", "default"})
 public class DataSeeder implements CommandLineRunner {
     private final DeviceRepository deviceRepository;
     private final RoomRepository roomRepository;

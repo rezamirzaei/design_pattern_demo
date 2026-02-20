@@ -2,11 +2,14 @@ package com.smarthome.controller;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,6 +35,19 @@ public class ApiExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         String msg = "Invalid value '" + ex.getValue() + "' for parameter '" + ex.getName() + "'";
         return buildResponse(HttpStatus.BAD_REQUEST, "INVALID_PARAMETER", msg);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(e -> e.getField() + ": " + e.getDefaultMessage())
+                .collect(Collectors.toList());
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "VALIDATION_FAILED");
+        body.put("errors", errors);
+        body.put("timestamp", Instant.now().toString());
+        return ResponseEntity.badRequest().body(body);
     }
 
     @ExceptionHandler(IllegalStateException.class)
