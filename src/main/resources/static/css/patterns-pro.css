@@ -1137,3 +1137,98 @@ details.card summary[open]::after { content: ' ▲'; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* =========================================
+   QUICK ACTIONS GRID
+   ========================================= */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+.quick-action-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+/* =========================================
+   SECTION LINK
+   ========================================= */
+.section-link {
+    font-size: 0.5em;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    vertical-align: middle;
+    margin-left: 12px;
+    padding: 4px 12px;
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+.section-link:hover {
+    background: rgba(0, 210, 255, 0.1);
+    border-color: var(--primary);
+}
+
+/* =========================================
+   COLLAPSIBLE TITLES
+   ========================================= */
+.collapsible-title {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.collapsible-title:hover {
+    color: var(--primary);
+}
+
+/* =========================================
+   CHECKBOX LABEL
+   ========================================= */
+.checkbox-label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin-bottom: 0;
+}
+
+/* =========================================
+   FAVORITE STAR
+   ========================================= */
+.favorite-star {
+    font-size: 1.3em;
+    line-height: 1;
+}
+
+/* =========================================
+   MUTED TEXT HELPER
+   ========================================= */
+.muted {
+    color: var(--text-muted);
+    font-size: 0.95em;
+}
+
+/* =========================================
+   NAV BRAND AS LINK
+   ========================================= */
+a.nav-brand {
+    text-decoration: none;
+}
+a.nav-brand:hover {
+    opacity: 0.9;
+}
+
+/* =========================================
+   MOBILE: QUICK ACTIONS
+   ========================================= */
+@media (max-width: 768px) {
+    .quick-actions-grid { grid-template-columns: 1fr; }
+}

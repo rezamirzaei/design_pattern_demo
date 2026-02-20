@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- ═══════════ Reusable <head> fragment ═══════════ -->
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Home Design Patterns Demo — 23 GoF patterns in a real Spring Boot app">
+    <title th:text="${pageTitle}">Smart Home</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
+    <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
+</head>
+
+<!-- ═══════════ Top Navigation Bar ═══════════ -->
+<nav th:fragment="navbar(activePage)" class="top-nav" role="navigation" aria-label="Main navigation">
+    <a th:href="@{/}" class="nav-brand" aria-label="SmartHome OS Home">🏠 SmartHome OS</a>
+    <button class="nav-hamburger"
+            onclick="document.querySelector('.main-links').classList.toggle('open')"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false">☰</button>
+    <div class="main-links" role="menubar">
+        <a th:href="@{/}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'dashboard'} ? ' active'" aria-label="Dashboard">Dashboard</a>
+        <a th:href="@{/ui/devices}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'devices'} ? ' active'" aria-label="Devices">Devices</a>
+        <a th:href="@{/ui/rooms}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'rooms'} ? ' active'" aria-label="Rooms">Rooms</a>
+        <a th:href="@{/ui/scenes}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'scenes'} ? ' active'" aria-label="Scenes">Scenes</a>
+        <a th:href="@{/ui/rules}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'rules'} ? ' active'" aria-label="Rules">Rules</a>
+        <a th:href="@{/ui/patterns}" class="nav-link" role="menuitem"
+           th:classappend="${activePage == 'patterns'} ? ' active'" aria-label="Patterns">Patterns</a>
+    </div>
+</nav>
+
+<!-- ═══════════ Toast container ═══════════ -->
+<div th:fragment="toasts" class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- ═══════════ Page footer ═══════════ -->
+<footer th:fragment="footer" class="app-footer" role="contentinfo">
+    <span>🏠 SmartHome OS</span>
+    <a th:href="@{/swagger-ui.html}" target="_blank" rel="noopener">API Docs</a>
+    <a th:href="@{/h2-console}" target="_blank" rel="noopener">DB Console</a>
+</footer>
+
+<!-- ═══════════ Common scripts ═══════════ -->
+<div th:fragment="scripts">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/app.js}"></script>
+</div>
+
+<!-- ═══════════ Output log ═══════════ -->
+<details th:fragment="outputLog" class="section">
+    <summary class="section-title collapsible-title">📋 Output Log</summary>
+    <div class="output-area">
+        <pre id="output" aria-label="Action log">Actions will appear here…</pre>
+    </div>
+</details>
+
+</html>
+

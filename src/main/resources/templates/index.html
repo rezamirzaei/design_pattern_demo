@@ -1,157 +1,205 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Home - Design Patterns Demo</title>
-    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
-    <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Smart Home — Dashboard')}"></head>
 <body>
-    <nav class="top-nav">
-        <div class="nav-brand">🏠 SmartHome OS</div>
-        <button class="nav-hamburger" onclick="document.querySelector('.main-links').classList.toggle('open')" aria-label="Menu">☰</button>
-        <div class="main-links">
-            <a href="/" class="nav-link active">Dashboard</a>
-            <a href="/ui/devices" class="nav-link">Devices</a>
-            <a href="/ui/rooms" class="nav-link">Rooms</a>
-            <a href="/ui/scenes" class="nav-link">Scenes</a>
-            <a href="/ui/rules" class="nav-link">Rules</a>
-            <a href="/ui/patterns" class="nav-link">Patterns</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: navbar('dashboard')}"></nav>
+    <div th:replace="~{fragments/layout :: toasts}"></div>
 
-    <div class="toast-container" id="toastContainer"></div>
-    <div class="container">
+    <main class="container" role="main">
         <header>
             <h1>🏠 Smart Home Control Center</h1>
             <p class="subtitle">Interactive demonstration of all 23 Gang of Four Design Patterns</p>
         </header>
 
-        <nav class="pattern-nav">
-            <span class="nav-section">🔨 Creational:</span>
-            <button class="nav-tab active" data-pattern="singleton">Singleton</button>
-            <button class="nav-tab" data-pattern="factory">Factory</button>
-            <button class="nav-tab" data-pattern="abstract-factory">Abstract Factory</button>
-            <button class="nav-tab" data-pattern="builder">Builder</button>
-            <button class="nav-tab" data-pattern="prototype">Prototype</button>
-            <span class="nav-section">🏗️ Structural:</span>
-            <button class="nav-tab" data-pattern="adapter">Adapter</button>
-            <button class="nav-tab" data-pattern="bridge">Bridge</button>
-            <button class="nav-tab" data-pattern="composite">Composite</button>
-            <button class="nav-tab" data-pattern="decorator">Decorator</button>
-            <button class="nav-tab" data-pattern="facade">Facade</button>
-            <button class="nav-tab" data-pattern="flyweight">Flyweight</button>
-            <button class="nav-tab" data-pattern="proxy">Proxy</button>
-            <span class="nav-section">🎭 Behavioral:</span>
-            <button class="nav-tab" data-pattern="chain">Chain</button>
-            <button class="nav-tab" data-pattern="command">Command</button>
-            <button class="nav-tab" data-pattern="interpreter">Interpreter</button>
-            <button class="nav-tab" data-pattern="iterator">Iterator</button>
-            <button class="nav-tab" data-pattern="mediator">Mediator</button>
-            <button class="nav-tab" data-pattern="memento">Memento</button>
-            <button class="nav-tab" data-pattern="observer">Observer</button>
-            <button class="nav-tab" data-pattern="state">State</button>
-            <button class="nav-tab" data-pattern="strategy">Strategy</button>
-            <button class="nav-tab" data-pattern="template">Template</button>
-            <button class="nav-tab" data-pattern="visitor">Visitor</button>
-        </nav>
+        <!-- ═══ System Overview ═══ -->
+        <section class="stats-bar" aria-label="System overview">
+            <div class="stat-item">
+                <span class="stat-value" id="systemStatus" th:text="${systemStatus}">ONLINE</span>
+                <span class="stat-label">System</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value stat-primary" id="homeMode" th:text="${homeMode}">NORMAL</span>
+                <span class="stat-label">Home Mode</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value stat-success" id="activeDevices" th:text="${activeDevices}">0</span>
+                <span class="stat-label">Active Devices</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" th:text="${#lists.size(devices)}">0</span>
+                <span class="stat-label">Total Devices</span>
+            </div>
+        </section>
 
-        <div id="pattern-content">
-            <!-- CREATIONAL PATTERNS -->
-            <th:block th:insert="~{patterns/singleton :: content}"></th:block>
-            <th:block th:insert="~{patterns/factory :: content}"></th:block>
-            <th:block th:insert="~{patterns/abstract-factory :: content}"></th:block>
-            <th:block th:insert="~{patterns/builder :: content}"></th:block>
-            <th:block th:insert="~{patterns/prototype :: content}"></th:block>
+        <!-- ═══ Quick Actions ═══ -->
+        <section class="section" aria-label="Quick actions">
+            <h2 class="section-title">⚡ Quick Actions</h2>
+            <div class="quick-actions-grid">
+                <div class="card quick-action-card">
+                    <h3>🏠 Home Mode</h3>
+                    <p class="muted">Switch the system mode (Singleton pattern)</p>
+                    <div class="mode-selector">
+                        <button class="mode-btn" data-mode="NORMAL" type="button" aria-label="Normal mode">🏠<span>Normal</span></button>
+                        <button class="mode-btn" data-mode="AWAY" type="button" aria-label="Away mode">🚗<span>Away</span></button>
+                        <button class="mode-btn" data-mode="NIGHT" type="button" aria-label="Night mode">🌙<span>Night</span></button>
+                        <button class="mode-btn" data-mode="VACATION" type="button" aria-label="Vacation mode">✈️<span>Vacation</span></button>
+                    </div>
+                </div>
+                <div class="card quick-action-card">
+                    <h3>🎬 Quick Scenes</h3>
+                    <p class="muted">One-click presets (Facade pattern)</p>
+                    <div class="mode-selector">
+                        <button class="scene-btn" data-scene="movie" type="button">🎬<span>Movie</span></button>
+                        <button class="scene-btn" data-scene="morning" type="button">🌅<span>Morning</span></button>
+                        <button class="scene-btn" data-scene="sleep" type="button">😴<span>Sleep</span></button>
+                        <button class="scene-btn" data-scene="party" type="button">🎉<span>Party</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- STRUCTURAL PATTERNS -->
-            <th:block th:insert="~{patterns/adapter :: content}"></th:block>
-            <th:block th:insert="~{patterns/bridge :: content}"></th:block>
-            <th:block th:insert="~{patterns/composite :: content}"></th:block>
-            <th:block th:insert="~{patterns/decorator :: content}"></th:block>
-            <th:block th:insert="~{patterns/facade :: content}"></th:block>
-            <th:block th:insert="~{patterns/flyweight :: content}"></th:block>
-            <th:block th:insert="~{patterns/proxy :: content}"></th:block>
+        <!-- ═══ Devices Summary ═══ -->
+        <section class="section" aria-label="Device summary">
+            <h2 class="section-title">📱 Devices
+                <a th:href="@{/ui/devices}" class="section-link">View All →</a>
+            </h2>
+            <div th:if="${#lists.isEmpty(devices)}" class="empty-state">
+                <div class="empty-icon">📱</div>
+                <h3>No devices</h3>
+                <p><a th:href="@{/ui/devices}">Create your first device</a></p>
+            </div>
+            <div class="grid" th:unless="${#lists.isEmpty(devices)}">
+                <div class="card device-card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="device-type-icon" th:text="${device.type.icon}">💡</span>
+                            <div>
+                                <span class="card-title" th:text="${device.info}">Device</span>
+                                <span class="card-subtitle" th:text="${device.location}">Location</span>
+                            </div>
+                        </div>
+                        <span class="device-status"
+                              th:classappend="${device.isOn} ? 'status-on' : 'status-off'"
+                              th:text="${device.isOn} ? '● ON' : '○ OFF'">OFF</span>
+                    </div>
+                    <div class="device-actions">
+                        <button class="btn btn-primary btn-sm device-control-btn" type="button"
+                                data-action="on" th:attr="data-device-id=${device.id}">On</button>
+                        <button class="btn btn-secondary btn-sm device-control-btn" type="button"
+                                data-action="off" th:attr="data-device-id=${device.id}">Off</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- BEHAVIORAL PATTERNS -->
-            <th:block th:insert="~{patterns/chain :: content}"></th:block>
-            <th:block th:insert="~{patterns/command :: content}"></th:block>
-            <th:block th:insert="~{patterns/interpreter :: content}"></th:block>
-            <th:block th:insert="~{patterns/iterator :: content}"></th:block>
-            <th:block th:insert="~{patterns/mediator :: content}"></th:block>
-            <th:block th:insert="~{patterns/memento :: content}"></th:block>
-            <th:block th:insert="~{patterns/observer :: content}"></th:block>
-            <th:block th:insert="~{patterns/state :: content}"></th:block>
-            <th:block th:insert="~{patterns/strategy :: content}"></th:block>
-            <th:block th:insert="~{patterns/template :: content}"></th:block>
-            <th:block th:insert="~{patterns/visitor :: content}"></th:block>
-        </div>
-    </div>
+        <!-- ═══ Rooms Summary ═══ -->
+        <section class="section" aria-label="Rooms summary" th:unless="${#lists.isEmpty(rooms)}">
+            <h2 class="section-title">🏢 Rooms
+                <a th:href="@{/ui/rooms}" class="section-link">Manage →</a>
+            </h2>
+            <div class="grid">
+                <div class="card" th:each="room : ${rooms}">
+                    <div class="card-header">
+                        <span class="card-title" th:text="${room.name}">Room</span>
+                        <span class="badge" th:text="${room.deviceCount + ' devices'}">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Pattern Playground ═══ -->
+        <section class="section" aria-label="Design patterns playground">
+            <h2 class="section-title">📐 Design Patterns Playground
+                <a th:href="@{/ui/patterns}" class="section-link">Full Lab →</a>
+            </h2>
+
+            <nav class="pattern-nav" aria-label="Pattern selector">
+                <span class="nav-section">🔨 Creational:</span>
+                <button class="nav-tab active" data-pattern="singleton">Singleton</button>
+                <button class="nav-tab" data-pattern="factory">Factory</button>
+                <button class="nav-tab" data-pattern="abstract-factory">Abstract Factory</button>
+                <button class="nav-tab" data-pattern="builder">Builder</button>
+                <button class="nav-tab" data-pattern="prototype">Prototype</button>
+                <span class="nav-section">🏗️ Structural:</span>
+                <button class="nav-tab" data-pattern="adapter">Adapter</button>
+                <button class="nav-tab" data-pattern="bridge">Bridge</button>
+                <button class="nav-tab" data-pattern="composite">Composite</button>
+                <button class="nav-tab" data-pattern="decorator">Decorator</button>
+                <button class="nav-tab" data-pattern="facade">Facade</button>
+                <button class="nav-tab" data-pattern="flyweight">Flyweight</button>
+                <button class="nav-tab" data-pattern="proxy">Proxy</button>
+                <span class="nav-section">🎭 Behavioral:</span>
+                <button class="nav-tab" data-pattern="chain">Chain</button>
+                <button class="nav-tab" data-pattern="command">Command</button>
+                <button class="nav-tab" data-pattern="interpreter">Interpreter</button>
+                <button class="nav-tab" data-pattern="iterator">Iterator</button>
+                <button class="nav-tab" data-pattern="mediator">Mediator</button>
+                <button class="nav-tab" data-pattern="memento">Memento</button>
+                <button class="nav-tab" data-pattern="observer">Observer</button>
+                <button class="nav-tab" data-pattern="state">State</button>
+                <button class="nav-tab" data-pattern="strategy">Strategy</button>
+                <button class="nav-tab" data-pattern="template">Template</button>
+                <button class="nav-tab" data-pattern="visitor">Visitor</button>
+            </nav>
+
+            <div id="pattern-content">
+                <th:block th:insert="~{patterns/singleton :: content}"></th:block>
+                <th:block th:insert="~{patterns/factory :: content}"></th:block>
+                <th:block th:insert="~{patterns/abstract-factory :: content}"></th:block>
+                <th:block th:insert="~{patterns/builder :: content}"></th:block>
+                <th:block th:insert="~{patterns/prototype :: content}"></th:block>
+                <th:block th:insert="~{patterns/adapter :: content}"></th:block>
+                <th:block th:insert="~{patterns/bridge :: content}"></th:block>
+                <th:block th:insert="~{patterns/composite :: content}"></th:block>
+                <th:block th:insert="~{patterns/decorator :: content}"></th:block>
+                <th:block th:insert="~{patterns/facade :: content}"></th:block>
+                <th:block th:insert="~{patterns/flyweight :: content}"></th:block>
+                <th:block th:insert="~{patterns/proxy :: content}"></th:block>
+                <th:block th:insert="~{patterns/chain :: content}"></th:block>
+                <th:block th:insert="~{patterns/command :: content}"></th:block>
+                <th:block th:insert="~{patterns/interpreter :: content}"></th:block>
+                <th:block th:insert="~{patterns/iterator :: content}"></th:block>
+                <th:block th:insert="~{patterns/mediator :: content}"></th:block>
+                <th:block th:insert="~{patterns/memento :: content}"></th:block>
+                <th:block th:insert="~{patterns/observer :: content}"></th:block>
+                <th:block th:insert="~{patterns/state :: content}"></th:block>
+                <th:block th:insert="~{patterns/strategy :: content}"></th:block>
+                <th:block th:insert="~{patterns/template :: content}"></th:block>
+                <th:block th:insert="~{patterns/visitor :: content}"></th:block>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // Global utilities
         var PatternDemo = {
             toast: function(msg, type) {
                 type = type || 'info';
                 var c = document.getElementById('toastContainer');
+                if (!c) return;
                 var t = document.createElement('div');
                 t.className = 'toast ' + type;
                 t.textContent = msg;
                 c.appendChild(t);
                 setTimeout(function() { t.remove(); }, 3000);
             },
-
             showResult: function(id, text) {
                 var el = document.getElementById(id);
-                if (el) {
-                    el.textContent = text;
-                    el.classList.add('show');
-                }
+                if (el) { el.textContent = text; el.classList.add('show'); }
             }
         };
-
-        // Tab navigation
         document.querySelectorAll('.nav-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
                 var pattern = this.dataset.pattern;
-                console.log('Switching to pattern:', pattern);
-
-                // Update tabs
-                document.querySelectorAll('.nav-tab').forEach(function(t) {
-                    t.classList.remove('active');
-                });
+                document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
                 this.classList.add('active');
-
-                // Update cards
-                document.querySelectorAll('.pattern-card').forEach(function(c) {
-                    c.classList.remove('active');
-                });
+                document.querySelectorAll('.pattern-card').forEach(function(c) { c.classList.remove('active'); });
                 var target = document.getElementById('pattern-' + pattern);
-                if (target) {
-                    target.classList.add('active');
-                    console.log('Found target:', target.id);
-                } else {
-                    console.error('Target not found for pattern:', pattern);
-                    PatternDemo.toast('Error: Pattern content not found for ' + pattern, 'error');
-                }
+                if (target) target.classList.add('active');
             });
         });
-
-        // Init
-        document.addEventListener('DOMContentLoaded', function() {
-            PatternDemo.toast('Smart Home UI Pro Loaded', 'success');
-        });
     </script>
-<script th:src="@{/js/app.js}"></script>
-<script th:src="@{/js/patterns.js}"></script>
-
-<footer class="app-footer">
-    <span>🏠 SmartHome OS</span>
-    <a href="/swagger-ui.html" target="_blank">API Docs</a>
-    <a href="/h2-console" target="_blank">DB Console</a>
-</footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+    <script th:src="@{/js/patterns.js}"></script>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

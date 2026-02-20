@@ -20,7 +20,7 @@ public class WebController {
     public String index(Model model) {
         var status = smartHomeService.getStatus();
         var devices = smartHomeService.getDevices();
-        var rooms = smartHomeService.getRooms();
+        var rooms = smartHomeService.getRoomViews();
 
         model.addAttribute("systemStatus", status.systemStatus());
         model.addAttribute("homeMode", status.homeMode());

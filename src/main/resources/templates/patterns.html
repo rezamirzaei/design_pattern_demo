@@ -1,36 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Home - Design Patterns Demo</title>
-    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
-    <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
-</head>
+<head th:replace="~{fragments/layout :: head('Smart Home — Design Patterns Lab')}"></head>
 <body>
-    <nav class="top-nav">
-        <div class="nav-brand">🏠 SmartHome OS</div>
-        <button class="nav-hamburger" onclick="document.querySelector('.main-links').classList.toggle('open')" aria-label="Menu">☰</button>
-        <div class="main-links">
-            <a href="/" class="nav-link">Dashboard</a>
-            <a href="/ui/devices" class="nav-link">Devices</a>
-            <a href="/ui/rooms" class="nav-link">Rooms</a>
-            <a href="/ui/scenes" class="nav-link">Scenes</a>
-            <a href="/ui/rules" class="nav-link">Rules</a>
-            <a href="/ui/patterns" class="nav-link active">Patterns</a>
-        </div>
-    </nav>
+    <nav th:replace="~{fragments/layout :: navbar('patterns')}"></nav>
+    <div th:replace="~{fragments/layout :: toasts}"></div>
 
-    <div class="toast-container" id="toastContainer"></div>
-    <div class="container">
+    <main class="container" role="main">
         <header>
-            <h1>🏠 Smart Home Control Center</h1>
+            <h1>📐 Design Patterns Lab</h1>
             <p class="subtitle">Interactive demonstration of all 23 Gang of Four Design Patterns</p>
         </header>
 
-        <nav class="pattern-nav">
+        <nav class="pattern-nav" aria-label="Pattern selector">
             <span class="nav-section">🔨 Creational:</span>
             <button class="nav-tab active" data-pattern="singleton">Singleton</button>
             <button class="nav-tab" data-pattern="factory">Factory</button>
@@ -60,14 +41,11 @@
         </nav>
 
         <div id="pattern-content">
-            <!-- CREATIONAL PATTERNS -->
             <th:block th:insert="~{patterns/singleton :: content}"></th:block>
             <th:block th:insert="~{patterns/factory :: content}"></th:block>
             <th:block th:insert="~{patterns/abstract-factory :: content}"></th:block>
             <th:block th:insert="~{patterns/builder :: content}"></th:block>
             <th:block th:insert="~{patterns/prototype :: content}"></th:block>
-
-            <!-- STRUCTURAL PATTERNS -->
             <th:block th:insert="~{patterns/adapter :: content}"></th:block>
             <th:block th:insert="~{patterns/bridge :: content}"></th:block>
             <th:block th:insert="~{patterns/composite :: content}"></th:block>
@@ -75,8 +53,6 @@
             <th:block th:insert="~{patterns/facade :: content}"></th:block>
             <th:block th:insert="~{patterns/flyweight :: content}"></th:block>
             <th:block th:insert="~{patterns/proxy :: content}"></th:block>
-
-            <!-- BEHAVIORAL PATTERNS -->
             <th:block th:insert="~{patterns/chain :: content}"></th:block>
             <th:block th:insert="~{patterns/command :: content}"></th:block>
             <th:block th:insert="~{patterns/interpreter :: content}"></th:block>
@@ -89,56 +65,38 @@
             <th:block th:insert="~{patterns/template :: content}"></th:block>
             <th:block th:insert="~{patterns/visitor :: content}"></th:block>
         </div>
-    </div>
+    </main>
 
     <script>
-        // Global utilities
         var PatternDemo = {
             toast: function(msg, type) {
                 type = type || 'info';
                 var c = document.getElementById('toastContainer');
+                if (!c) return;
                 var t = document.createElement('div');
                 t.className = 'toast ' + type;
                 t.textContent = msg;
                 c.appendChild(t);
                 setTimeout(function() { t.remove(); }, 3000);
             },
-
             showResult: function(id, text) {
                 var el = document.getElementById(id);
-                if (el) {
-                    el.textContent = text;
-                    el.classList.add('show');
-                }
+                if (el) { el.textContent = text; el.classList.add('show'); }
             }
         };
-
-        // Tab navigation
         document.querySelectorAll('.nav-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
                 var pattern = this.dataset.pattern;
-
-                // Update tabs
-                document.querySelectorAll('.nav-tab').forEach(function(t) {
-                    t.classList.remove('active');
-                });
+                document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
                 this.classList.add('active');
-
-                // Update cards
-                document.querySelectorAll('.pattern-card').forEach(function(c) {
-                    c.classList.remove('active');
-                });
+                document.querySelectorAll('.pattern-card').forEach(function(c) { c.classList.remove('active'); });
                 var target = document.getElementById('pattern-' + pattern);
                 if (target) target.classList.add('active');
             });
         });
-
-        // Init
-        document.addEventListener('DOMContentLoaded', function() {
-            PatternDemo.toast('Smart Home UI Pro Loaded', 'success');
-        });
     </script>
-<script th:src="@{/js/app.js}"></script>
-<script th:src="@{/js/patterns.js}"></script>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+    <script th:src="@{/js/patterns.js}"></script>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
