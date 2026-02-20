@@ -707,8 +707,9 @@ h1 {
     color: var(--text);
 }
 .btn-secondary:hover {
-    background: var(--glass-hover);
-    border-color: var(--text-muted);
+    background: rgba(220, 53, 69, 0.15);
+    border-color: var(--danger);
+    color: var(--danger);
 }
 
 select, input, textarea {
@@ -776,21 +777,37 @@ label {
 .card-title { font-size: 1.2em; font-weight: 700; color: var(--text); }
 
 .power-indicator {
-    display: flex; justify-content: space-between;
-    background: rgba(0,0,0,0.2); padding: 10px 15px;
-    border-radius: 8px; margin-bottom: 15px;
-    font-family: monospace;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    color: var(--text-muted);
+    font-size: 0.95em;
 }
-.power-indicator .value { color: var(--warning); font-weight: bold; }
 
-.output-area {
-    background: #000;
-    padding: 20px;
-    border-radius: 15px;
-    border-left: 4px solid var(--primary);
-    font-family: 'Consolas', monospace;
-    color: #a5d6ff;
-    min-height: 100px;
+.power-indicator .value {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Device status badges */
+.device-status {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.status-on {
+    background: rgba(0, 200, 100, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(0, 200, 100, 0.3);
+}
+.status-off {
+    background: rgba(136, 136, 153, 0.15);
+    color: var(--text-muted);
+    border: 1px solid rgba(136, 136, 153, 0.3);
 }
 
 details.card summary {
@@ -803,3 +820,13 @@ details.card summary {
 details.card summary::-webkit-details-marker { display: none; }
 details.card summary::after { content: ' ▼'; float: right; }
 details.card summary[open]::after { content: ' ▲'; }
+
+/* Inline forms (used in scenes, rooms for Apply/Favorite/Delete buttons */
+.inline-form { display: inline; }
+
+/* Small buttons for compact actions */
+.btn-small {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    border-radius: 8px;
+}

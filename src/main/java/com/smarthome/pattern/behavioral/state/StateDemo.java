@@ -1,6 +1,7 @@
 package com.smarthome.pattern.behavioral.state;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +24,12 @@ public final class StateDemo {
         device.turnOff(); // resets error to OFF
         states.add(device.getStateName());
 
-        return Map.of(
-                "pattern", "State",
-                "device", device.getName(),
-                "states", states,
-                "lastError", device.getLastError()
-        );
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("pattern", "State");
+        result.put("device", device.getName());
+        result.put("states", states);
+        result.put("lastError", device.getLastError()); // may be null after reset
+        return result;
     }
 }
 

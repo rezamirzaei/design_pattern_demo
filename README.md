@@ -2,24 +2,47 @@
 
 > **A comprehensive Smart Home Automation System demonstrating all 23 Gang of Four (GoF) Design Patterns in a real-world, interactive Spring Boot application.**
 
+[![CI/CD Pipeline](https://github.com/yourusername/smarthome-patterns/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/smarthome-patterns/actions/workflows/ci.yml)
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green)](https://spring.io/projects/spring-boot)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
+## 📋 Prerequisites
+
+| Tool    | Version | Required |
+|---------|---------|----------|
+| JDK     | 17+     | ✅ For local development |
+| Maven   | 3.9+    | ✅ (or use included `mvnw` wrapper) |
+| Docker  | 20+     | ✅ For containerized deployment |
+
 ## 🚀 Quick Start
 
-Get the system running in minutes:
+### Option 1: Docker Compose (Recommended)
 
 ```bash
-# 1. Clone the repository
+# Clone the repository
 git clone https://github.com/yourusername/smarthome-patterns.git
+cd smarthome-patterns
 
-# 2. Build and Run with Docker Compose
+# Build and run with Docker Compose
 docker-compose up --build
 ```
 
-Click here to access the dashboard: **[http://localhost:8080](http://localhost:8080)**
+### Option 2: Local Development (H2 In-Memory DB)
+
+```bash
+# Build and run
+./mvnw spring-boot:run
+
+# Or compile + run the JAR
+./mvnw clean package -DskipTests
+java -jar target/smart-home-design-patterns-1.0-SNAPSHOT.jar
+```
+
+Open the dashboard: **[http://localhost:8080](http://localhost:8080)**
+
+> **Tip:** H2 Console available at [http://localhost:8080/h2-console](http://localhost:8080/h2-console) (JDBC URL: `jdbc:h2:mem:smarthome`, user: `sa`, no password)
 
 ## 📖 Project Overview
 
@@ -77,16 +100,47 @@ The core architecture maps real-world smart home concepts to GoF patterns:
 
 ---
 
-## 🧑‍💻 Local Development (Maven)
+## 🧑‍💻 Development
 
-Requires JDK 17+ and Maven. Uses H2 in-memory database by default.
+### Running Tests
 
 ```bash
-# Run the application
-mvn spring-boot:run
+# Run all tests
+./mvnw test
 
-# Run tests
-mvn test
+# Run a specific test class
+./mvnw test -Dtest=SmartHomeControllerTest
+
+# Run with coverage report
+./mvnw test jacoco:report
+```
+
+### Pre-Commit Hook Setup
+
+The project includes a pre-commit hook that compiles and runs tests before every commit:
+
+```bash
+# One-time setup
+./scripts/setup-hooks.sh
+
+# To bypass in emergencies
+git commit --no-verify
+```
+
+### Project Structure
+
+```
+src/main/java/com/smarthome/
+├── config/          # DataSeeder, WebSocketConfig
+├── controller/      # REST (SmartHomeController) & Web (WebController)
+├── domain/          # JPA Entities (Device, Room, Scene, Rule)
+├── pattern/         # All 23 GoF pattern implementations
+│   ├── behavioral/  # Chain, Command, Interpreter, Iterator, etc.
+│   ├── creational/  # Singleton, Factory, Builder, Prototype, etc.
+│   └── structural/  # Adapter, Bridge, Composite, Decorator, etc.
+├── repository/      # Spring Data JPA repositories
+├── service/         # SmartHomeService (core business logic)
+└── web/             # View models, pattern catalog
 ```
 
 ---
@@ -138,8 +192,29 @@ The Patterns page is composed from Thymeleaf fragments:
 *   **Backend**: Java 17, Spring Boot 3.2, Spring Data JPA
 *   **Frontend**: Thymeleaf, HTML5, CSS3 (Glassmorphism UI), Vanilla JS
 *   **Database**: PostgreSQL (Docker), H2 (Local fallback)
-*   **Build Tool**: Maven
+*   **Real-time**: WebSocket (STOMP over SockJS)
+*   **Build Tool**: Maven 3.9+ (with wrapper)
 *   **Containerization**: Docker, Docker Compose
+*   **CI/CD**: GitHub Actions
+
+## 🔄 CI/CD Pipeline
+
+The GitHub Actions pipeline automatically runs on every push/PR:
+
+1. **Code Quality** — Formatting checks
+2. **Build & Test** — Compile, run all tests, package JAR
+3. **Security Scan** — OWASP dependency vulnerability check
+4. **Docker Build** — Build and verify Docker image
+5. **Integration Tests** — Full stack tests with PostgreSQL (on PRs)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Set up pre-commit hooks: `./scripts/setup-hooks.sh`
+3. Create a feature branch: `git checkout -b feature/my-feature`
+4. Make your changes and ensure tests pass: `./mvnw test`
+5. Commit and push: `git push origin feature/my-feature`
+6. Open a Pull Request
 
 ## 📝 License
 

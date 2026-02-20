@@ -3,6 +3,31 @@
 const API_BASE = '/api';
 let stompClient = null;
 
+// Toast notification helper (works on all pages)
+function showToast(msg, type) {
+    type = type || 'info';
+    const c = document.getElementById('toastContainer');
+    if (!c) return;
+    const t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(function() { t.remove(); }, 3500);
+}
+
+// Make PatternDemo.toast available globally if not already defined
+if (typeof PatternDemo === 'undefined') {
+    var PatternDemo = {
+        toast: showToast,
+        showResult: function(id, text) {
+            var el = document.getElementById(id);
+            if (el) { el.textContent = text; el.classList.add('show'); }
+        }
+    };
+} else if (!PatternDemo.toast) {
+    PatternDemo.toast = showToast;
+}
+
 function getOutputEl() {
     return document.getElementById('output');
 }
@@ -201,7 +226,7 @@ async function runPatternDemo(patternId) {
                 result = await apiCall('POST', '/patterns/memento/save', { sceneName: 'Demo Scene' });
                 break;
             case 'observer':
-                result = await apiCall('POST', '/patterns/observer/register', { deviceId: anyDeviceId || 'sensor-1', observerType: 'MOBILE' });
+                result = await apiCall('POST', '/patterns/observer/subscribe', { deviceId: anyDeviceId || 'sensor-1', observerType: 'MOBILE' });
                 break;
             case 'state':
                 result = await apiCall('GET', '/patterns/state/demo');
@@ -328,14 +353,29 @@ document.addEventListener('submit', async (event) => {
     const refresh = String(form.dataset.refresh || '').toLowerCase() === 'true';
     const params = toParamsFromForm(form);
 
+    // Disable submit button during request
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+
     try {
         const result = await apiCall(method, endpoint, params);
         log(`${method} ${endpoint}`, result);
+
+        // Show success toast if PatternDemo is available
+        if (typeof PatternDemo !== 'undefined' && PatternDemo.toast) {
+            PatternDemo.toast(`✅ ${method} ${endpoint} succeeded`, 'success');
+        }
+
         await refreshDevices();
         if (refresh) {
             window.location.reload();
         }
     } catch (e) {
         log(`Request failed: ${method} ${endpoint}`, { error: e.message });
+        if (typeof PatternDemo !== 'undefined' && PatternDemo.toast) {
+            PatternDemo.toast(`❌ ${e.message}`, 'error');
+        }
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
     }
 });

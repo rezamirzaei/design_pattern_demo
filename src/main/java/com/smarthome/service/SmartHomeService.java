@@ -78,6 +78,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Service
 public class SmartHomeService {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SmartHomeService.class);
     private final DeviceRepository deviceRepository;
     private final RoomRepository roomRepository;
     private final SceneRepository sceneRepository;
@@ -112,8 +113,7 @@ public class SmartHomeService {
         try {
             messagingTemplate.convertAndSend("/topic/" + type, payload);
         } catch (Exception e) {
-            // Log but don't break transaction if websocket fails
-            System.err.println("Failed to broadcast update: " + e.getMessage());
+            log.warn("Failed to broadcast WebSocket update for topic '{}': {}", type, e.getMessage());
         }
     }
 

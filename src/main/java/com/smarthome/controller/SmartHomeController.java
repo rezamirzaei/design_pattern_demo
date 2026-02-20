@@ -236,6 +236,44 @@ public class SmartHomeController {
         return smartHomeService.iteratorIterate(type, filter);
     }
 
+    // --- GET demo endpoints used by app.js runPatternDemo() ---
+
+    @GetMapping("/patterns/flyweight/demo")
+    public Map<String, Object> flyweightDemoGet(@RequestParam(required = false) Integer count) {
+        return smartHomeService.flyweightDemo(count);
+    }
+
+    @GetMapping("/patterns/iterator/demo")
+    public Map<String, Object> iteratorDemoGet(
+            @RequestParam(required = false, defaultValue = "ALL") String filterType,
+            @RequestParam(required = false) String filterValue
+    ) {
+        return smartHomeService.iteratorIterate(filterType, filterValue);
+    }
+
+    @GetMapping("/patterns/mediator/demo")
+    public Map<String, Object> mediatorDemoGet() {
+        return smartHomeService.mediatorDemo();
+    }
+
+    @GetMapping("/patterns/state/demo")
+    public Map<String, Object> stateDemoGet() {
+        return smartHomeService.stateDemo();
+    }
+
+    @GetMapping("/patterns/template/demo")
+    public Map<String, Object> templateDemoGet(@RequestParam(required = false, defaultValue = "LIGHT") String deviceType) {
+        return smartHomeService.templateDemo(deviceType);
+    }
+
+    @PostMapping("/patterns/observer/register")
+    public Map<String, Object> observerRegister(
+            @RequestParam String deviceId,
+            @RequestParam(required = false) String observerType
+    ) {
+        return smartHomeService.observerSubscribe(deviceId, observerType);
+    }
+
     @PostMapping("/patterns/flyweight/demo")
     public Map<String, Object> flyweightDemo(@RequestParam(required = false) Integer count) {
         return smartHomeService.flyweightDemo(count);
