@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home - Rules</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
     <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
@@ -11,6 +12,7 @@
 <body>
     <nav class="top-nav">
         <div class="nav-brand">🏠 SmartHome OS</div>
+        <button class="nav-hamburger" onclick="document.querySelector('.main-links').classList.toggle('open')" aria-label="Menu">☰</button>
         <div class="main-links">
             <a href="/" class="nav-link">Dashboard</a>
             <a href="/ui/devices" class="nav-link">Devices</a>
@@ -25,108 +27,129 @@
 <div class="container">
     <header>
         <h1>🧠 Automation Rules</h1>
-        <p class="subtitle">Persisted rules (AutomationRuleEntity) using Interpreter + Builder concepts</p>
+        <p class="subtitle">Create smart automation logic — "If X then Y" rules for your home</p>
     </header>
 
-    <details class="card">
-        <summary>Classes Covered</summary>
-        <ul style="margin-top: 10px; padding-left: 18px;">
-            <li><code>com.smarthome.domain.AutomationRuleEntity</code></li>
-            <li><code>com.smarthome.repository.AutomationRuleRepository</code></li>
-            <li><code>com.smarthome.pattern.behavioral.interpreter.InterpreterDemo</code></li>
-            <li><code>com.smarthome.pattern.creational.builder.AutomationRule</code></li>
-            <li><code>com.smarthome.service.SmartHomeService</code></li>
-            <li><code>com.smarthome.controller.WebController</code></li>
-            <li><code>com.smarthome.controller.SmartHomeController</code></li>
-        </ul>
-    </details>
-
     <div class="section">
-        <h2 class="section-title">➕ Create Rule</h2>
+        <h2 class="section-title">➕ Create Rule <span class="title-badge">Interpreter + Builder Patterns</span></h2>
         <div class="card">
             <form data-api-endpoint="/rules/create" data-api-method="POST" data-refresh="true">
                 <div class="form-row">
                     <div>
                         <label for="ruleName">Name</label>
-                        <input id="ruleName" name="name" placeholder="Motion Lights" required>
+                        <input id="ruleName" name="name" placeholder="e.g. Motion Lights" required>
                     </div>
                     <div>
-                        <label for="rulePriority">Priority</label>
-                        <input id="rulePriority" name="priority" type="number" min="0" max="10" placeholder="5">
+                        <label for="rulePriority">Priority (0–10)</label>
+                        <input id="rulePriority" name="priority" type="number" min="0" max="10" placeholder="5" value="5">
                     </div>
                 </div>
 
                 <label for="ruleDesc">Description</label>
-                <input id="ruleDesc" name="description" placeholder="If motion after 6pm, turn on a light">
+                <input id="ruleDesc" name="description" placeholder="e.g. Turn on lights when motion is detected after 6pm">
 
-                <label for="triggerCondition">Trigger Condition (Interpreter)</label>
-                <input id="triggerCondition" name="triggerCondition" placeholder="motion AND hour >= 18" required>
+                <label for="triggerCondition">IF (Trigger Condition)</label>
+                <input id="triggerCondition" name="triggerCondition" placeholder="e.g. motion AND hour >= 18" required>
 
-                <label for="actionScript">Action Script</label>
+                <label for="actionScript">THEN (Action Script)</label>
                 <textarea id="actionScript" name="actionScript" rows="3"
-                          placeholder="turn_on(living-light-1); room_off(Living Room)" required></textarea>
+                          placeholder="e.g. turn_on(living-light-1); room_off(Living Room)" required></textarea>
 
-                <p class="muted" style="margin-top: 10px;">
-                    Supported actions: <code>turn_on(id)</code>, <code>turn_off(id)</code>, <code>toggle(id)</code>,
-                    <code>room_on(name)</code>, <code>room_off(name)</code>, <code>mode(NORMAL|AWAY|NIGHT|VACATION)</code>,
-                    <code>scene(name)</code>, <code>apply_scene(sceneName)</code>
-                </p>
+                <details style="margin-top:10px">
+                    <summary style="cursor:pointer; color:var(--text-muted); font-size:0.9em">Available Actions Reference</summary>
+                    <div class="help-grid" style="margin-top:10px">
+                        <code>turn_on(deviceId)</code>
+                        <code>turn_off(deviceId)</code>
+                        <code>toggle(deviceId)</code>
+                        <code>room_on(roomName)</code>
+                        <code>room_off(roomName)</code>
+                        <code>mode(NORMAL|AWAY|NIGHT)</code>
+                        <code>scene(sceneName)</code>
+                    </div>
+                </details>
 
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button class="btn btn-primary" type="submit" style="margin-top:12px">
+                    <span class="btn-icon">🧠</span> Create Rule
+                </button>
             </form>
         </div>
     </div>
 
     <div class="section">
         <h2 class="section-title">📋 Rules</h2>
-        <div class="grid">
-            <div class="card" th:each="rule : ${rules}">
+
+        <div th:if="${#lists.isEmpty(rules)}" class="empty-state">
+            <div class="empty-icon">🧠</div>
+            <h3>No automation rules yet</h3>
+            <p>Create your first rule above to automate your home.</p>
+        </div>
+
+        <div class="grid" th:unless="${#lists.isEmpty(rules)}">
+            <div class="card" th:each="rule : ${rules}"
+                 th:classappend="${!rule.isEnabled} ? ' card-disabled' : ''">
                 <div class="card-header">
                     <span class="card-title" th:text="${rule.name}">Rule</span>
-                    <span class="badge" th:text="${rule.isEnabled ? ('Enabled • P' + rule.priority) : ('Disabled • P' + rule.priority)}">Enabled</span>
+                    <span class="badge"
+                          th:classappend="${rule.isEnabled} ? 'badge-success' : 'badge-muted'"
+                          th:text="${rule.isEnabled ? ('✓ Enabled · P' + rule.priority) : ('✗ Disabled · P' + rule.priority)}">Enabled</span>
                 </div>
 
-                <p class="muted" th:text="${rule.description != null ? rule.description : '—'}">—</p>
-                <p class="muted">
-                    IF <code th:text="${rule.triggerCondition}">condition</code>
-                </p>
-                <p class="muted">
-                    THEN <code th:text="${rule.actionScript}">action</code>
-                </p>
+                <p class="muted" th:text="${rule.description != null ? rule.description : 'No description'}">—</p>
 
-                <details>
-                    <summary>Run Rule</summary>
-                    <form data-api-method="POST" th:attr="data-api-endpoint='/rules/' + ${rule.id} + '/run'">
+                <div class="rule-logic">
+                    <div class="rule-condition">
+                        <span class="rule-label">IF</span>
+                        <code th:text="${rule.triggerCondition}">condition</code>
+                    </div>
+                    <div class="rule-action">
+                        <span class="rule-label">THEN</span>
+                        <code th:text="${rule.actionScript}">action</code>
+                    </div>
+                </div>
+
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer; color:var(--primary); font-weight:600">▶ Test Run</summary>
+                    <form data-api-method="POST" th:attr="data-api-endpoint='/rules/' + ${rule.id} + '/run'" style="margin-top:10px">
                         <label th:attr="for=${'vars-' + rule.id}">Variables (key=value per line)</label>
-                        <textarea th:attr="id=${'vars-' + rule.id}" name="vars" rows="4"
+                        <textarea th:attr="id=${'vars-' + rule.id}" name="vars" rows="3"
                                   placeholder="motion=true&#10;hour=20"></textarea>
-                        <label style="display:flex; gap: 10px; align-items: center; margin-top: 10px;">
-                            <input type="checkbox" name="executeActions" value="true">
-                            <span class="muted">Execute actions if matched and enabled</span>
+                        <label style="display:flex; gap: 10px; align-items: center; margin-top: 8px; cursor:pointer">
+                            <input type="checkbox" name="executeActions" value="true" style="width:auto; margin-bottom:0">
+                            <span class="muted">Execute actions if rule matches</span>
                         </label>
-                        <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Run</button>
+                        <button class="btn btn-primary btn-sm" type="submit" style="margin-top: 10px;">▶ Run</button>
                     </form>
                 </details>
 
-                <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;">
+                <div class="rule-actions">
                     <form class="inline-form" data-api-method="POST" data-refresh="true" th:attr="data-api-endpoint='/rules/' + ${rule.id} + '/toggle'">
-                        <button class="btn btn-secondary" type="submit" th:text="${rule.isEnabled ? 'Disable' : 'Enable'}">Toggle</button>
+                        <button class="btn btn-sm" type="submit"
+                                th:classappend="${rule.isEnabled} ? 'btn-secondary' : 'btn-primary'"
+                                th:text="${rule.isEnabled ? '⏸ Disable' : '▶ Enable'}">Toggle</button>
                     </form>
-                    <form class="inline-form" data-api-method="POST" data-refresh="true" th:attr="data-api-endpoint='/rules/' + ${rule.id} + '/delete'">
-                        <button class="btn btn-secondary" type="submit">Delete</button>
+                    <form class="inline-form" data-api-method="POST" data-refresh="true"
+                          th:attr="data-api-endpoint='/rules/' + ${rule.id} + '/delete'"
+                          onsubmit="return confirm('Delete this rule?')">
+                        <button class="btn btn-danger btn-sm" type="submit">🗑 Delete</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="section">
-        <h2 class="section-title">📋 Output Log</h2>
+    <details class="section">
+        <summary class="section-title" style="cursor:pointer">📋 Output Log</summary>
         <div class="output-area">
             <pre id="output">Actions will appear here…</pre>
         </div>
-    </div>
+    </details>
 </div>
+
+<footer class="app-footer">
+    <span>🏠 SmartHome OS</span>
+    <a href="/swagger-ui.html" target="_blank">API Docs</a>
+    <a href="/h2-console" target="_blank">DB Console</a>
+</footer>
 
 <script th:src="@{/js/app.js}"></script>
 </body>

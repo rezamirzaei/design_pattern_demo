@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home - Devices</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
     <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
@@ -11,6 +12,7 @@
 <body>
     <nav class="top-nav">
         <div class="nav-brand">🏠 SmartHome OS</div>
+        <button class="nav-hamburger" onclick="document.querySelector('.main-links').classList.toggle('open')" aria-label="Menu">☰</button>
         <div class="main-links">
             <a href="/" class="nav-link">Dashboard</a>
             <a href="/ui/devices" class="nav-link active">Devices</a>
@@ -25,64 +27,106 @@
 <div class="container">
     <header>
         <h1>📱 Devices</h1>
-        <p class="subtitle">Manage devices and run Factory Method creation from the UI</p>
+        <p class="subtitle">Manage your smart home devices — create, control, and monitor</p>
     </header>
 
+    <!-- Quick Stats -->
+    <div class="stats-bar" th:if="${devices != null}" th:with="total=${#lists.size(devices)}, activeCount=${activeDevices}, totalPower=${totalPower}">
+        <div class="stat-item">
+            <span class="stat-value" th:text="${total}">0</span>
+            <span class="stat-label">Total Devices</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value stat-success" th:text="${activeCount}">0</span>
+            <span class="stat-label">Active</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value stat-muted" th:text="${total - activeCount}">0</span>
+            <span class="stat-label">Inactive</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value stat-primary" th:text="${totalPower + 'W'}">0W</span>
+            <span class="stat-label">Power Draw</span>
+        </div>
+    </div>
+
     <div class="section">
-        <h2 class="section-title">➕ Create Device (Factory Method)</h2>
+        <h2 class="section-title">➕ Create Device <span class="title-badge">Factory Method Pattern</span></h2>
         <div class="card">
             <form data-api-endpoint="/patterns/factory/create" data-api-method="POST" data-refresh="true">
                 <div class="form-row">
                     <div>
                         <label for="type">Type</label>
                         <select id="type" name="type">
-                            <option value="LIGHT">LIGHT</option>
-                            <option value="THERMOSTAT">THERMOSTAT</option>
-                            <option value="CAMERA">CAMERA</option>
-                            <option value="LOCK">LOCK</option>
+                            <option value="LIGHT">💡 Light</option>
+                            <option value="THERMOSTAT">🌡️ Thermostat</option>
+                            <option value="CAMERA">📷 Camera</option>
+                            <option value="LOCK">🔒 Lock</option>
                         </select>
                     </div>
                     <div>
                         <label for="location">Location</label>
-                        <input id="location" name="location" placeholder="Living Room" required>
+                        <input id="location" name="location" placeholder="e.g. Living Room" required>
                     </div>
                 </div>
                 <label for="name">Name</label>
-                <input id="name" name="name" placeholder="My Device" required>
-                <button class="btn btn-primary" type="submit">Create</button>
+                <input id="name" name="name" placeholder="e.g. Desk Lamp" required>
+                <button class="btn btn-primary" type="submit">
+                    <span class="btn-icon">⚡</span> Create Device
+                </button>
             </form>
         </div>
     </div>
 
     <div class="section">
         <h2 class="section-title">📋 Current Devices</h2>
-        <div class="grid">
-            <div class="card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(devices)}" class="empty-state">
+            <div class="empty-icon">📱</div>
+            <h3>No devices yet</h3>
+            <p>Create your first device using the form above.</p>
+        </div>
+
+        <div class="grid" th:unless="${#lists.isEmpty(devices)}">
+            <div class="card device-card" th:each="device : ${devices}" th:attr="data-device-id=${device.id}">
                 <div class="card-header">
-                    <span class="card-title" th:text="${device.info}">Device Name</span>
+                    <div class="card-title-group">
+                        <span class="device-type-icon" th:text="${device.type.icon}">💡</span>
+                        <div>
+                            <span class="card-title" th:text="${device.info}">Device Name</span>
+                            <span class="card-subtitle" th:text="${device.type.category}">Category</span>
+                        </div>
+                    </div>
                     <span class="device-status"
                           th:class="${device.isOn} ? 'device-status status-on' : 'device-status status-off'"
-                          th:text="${device.isOn} ? 'ON' : 'OFF'">OFF</span>
+                          th:text="${device.isOn} ? '● ON' : '○ OFF'">OFF</span>
                 </div>
                 <div class="power-indicator">
                     <span>⚡ Power:</span>
                     <span class="value" th:text="${device.power + 'W'}">0W</span>
                 </div>
-                <div style="margin-top: 12px;">
-                    <button class="btn btn-primary device-control-btn" type="button" data-action="on" th:attr="data-device-id=${device.id}">Turn On</button>
-                    <button class="btn btn-secondary device-control-btn" type="button" data-action="off" th:attr="data-device-id=${device.id}">Turn Off</button>
+                <div class="device-actions">
+                    <button class="btn btn-primary btn-sm device-control-btn" type="button" data-action="on" th:attr="data-device-id=${device.id}">Turn On</button>
+                    <button class="btn btn-secondary btn-sm device-control-btn" type="button" data-action="off" th:attr="data-device-id=${device.id}">Turn Off</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="section">
-        <h2 class="section-title">📋 Output Log</h2>
+    <details class="section">
+        <summary class="section-title" style="cursor:pointer">📋 Output Log</summary>
         <div class="output-area">
             <pre id="output">Actions will appear here…</pre>
         </div>
-    </div>
+    </details>
 </div>
+
+<footer class="app-footer">
+    <span>🏠 SmartHome OS</span>
+    <a href="/swagger-ui.html" target="_blank">API Docs</a>
+    <a href="/h2-console" target="_blank">DB Console</a>
+</footer>
 
 <script th:src="@{/js/app.js}"></script>
 </body>

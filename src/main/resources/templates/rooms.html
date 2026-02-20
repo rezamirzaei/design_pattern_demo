@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home - Rooms</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}">
     <link rel="stylesheet" th:href="@{/css/patterns-pro.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
@@ -11,6 +12,7 @@
 <body>
     <nav class="top-nav">
         <div class="nav-brand">🏠 SmartHome OS</div>
+        <button class="nav-hamburger" onclick="document.querySelector('.main-links').classList.toggle('open')" aria-label="Menu">☰</button>
         <div class="main-links">
             <a href="/" class="nav-link">Dashboard</a>
             <a href="/ui/devices" class="nav-link">Devices</a>
@@ -25,21 +27,8 @@
 <div class="container">
     <header>
         <h1>🏢 Rooms</h1>
-        <p class="subtitle">Manage rooms (RoomEntity) and assign devices</p>
+        <p class="subtitle">Organize devices by room and control them as groups</p>
     </header>
-
-    <details class="card">
-        <summary>Classes Covered</summary>
-        <ul style="margin-top: 10px; padding-left: 18px;">
-            <li><code>com.smarthome.domain.RoomEntity</code></li>
-            <li><code>com.smarthome.repository.RoomRepository</code></li>
-            <li><code>com.smarthome.domain.DeviceEntity</code></li>
-            <li><code>com.smarthome.repository.DeviceRepository</code></li>
-            <li><code>com.smarthome.service.SmartHomeService</code></li>
-            <li><code>com.smarthome.controller.WebController</code></li>
-            <li><code>com.smarthome.controller.SmartHomeController</code></li>
-        </ul>
-    </details>
 
     <div class="section">
         <h2 class="section-title">➕ Create Room</h2>
@@ -48,43 +37,68 @@
                 <div class="form-row">
                     <div>
                         <label for="roomName">Name</label>
-                        <input id="roomName" name="name" placeholder="Living Room" required>
+                        <input id="roomName" name="name" placeholder="e.g. Living Room" required>
                     </div>
                     <div>
                         <label for="roomFloor">Floor</label>
-                        <input id="roomFloor" name="floor" placeholder="1">
+                        <input id="roomFloor" name="floor" placeholder="e.g. 1">
                     </div>
                 </div>
                 <label for="roomType">Room Type</label>
-                <input id="roomType" name="roomType" placeholder="LIVING_ROOM">
-                <button class="btn btn-primary" type="submit">Create</button>
+                <select id="roomType" name="roomType">
+                    <option value="">— Select —</option>
+                    <option value="LIVING_ROOM">Living Room</option>
+                    <option value="BEDROOM">Bedroom</option>
+                    <option value="KITCHEN">Kitchen</option>
+                    <option value="BATHROOM">Bathroom</option>
+                    <option value="GARAGE">Garage</option>
+                    <option value="GARDEN">Garden</option>
+                    <option value="HALLWAY">Hallway</option>
+                    <option value="OFFICE">Office</option>
+                    <option value="OTHER">Other</option>
+                </select>
+                <button class="btn btn-primary" type="submit">
+                    <span class="btn-icon">🏠</span> Create Room
+                </button>
             </form>
         </div>
     </div>
 
     <div class="section">
         <h2 class="section-title">📋 Rooms</h2>
-        <div class="grid">
+
+        <div th:if="${#lists.isEmpty(rooms)}" class="empty-state">
+            <div class="empty-icon">🏢</div>
+            <h3>No rooms yet</h3>
+            <p>Create a room above to start organizing your devices.</p>
+        </div>
+
+        <div class="grid" th:unless="${#lists.isEmpty(rooms)}">
             <div class="card" th:each="room : ${rooms}">
                 <div class="card-header">
                     <span class="card-title" th:text="${room.name}">Room Name</span>
-                    <span class="badge" th:text="${room.deviceCount + ' devices'}">0 devices</span>
+                    <span class="badge" th:classappend="${room.deviceCount > 0} ? 'badge-active' : ''"
+                          th:text="${room.deviceCount + ' device' + (room.deviceCount != 1 ? 's' : '')}">0 devices</span>
                 </div>
 
-                <p class="muted">
-                    <span th:text="${room.roomType != null ? room.roomType : '—'}">—</span>
+                <p class="muted" th:if="${room.roomType != null || room.floor != null}">
+                    <span th:if="${room.roomType != null}" th:text="${room.roomType}">—</span>
                     <span th:if="${room.floor != null}">
                         • Floor <span th:text="${room.floor}">1</span>
                     </span>
                 </p>
 
-                <details>
-                    <summary>Devices</summary>
-                    <ul style="margin-top: 10px; padding-left: 18px;">
-                        <li th:if="${#lists.isEmpty(room.devices)}" class="muted">No devices assigned yet.</li>
+                <details th:if="${room.deviceCount > 0}" style="margin-top:12px">
+                    <summary style="cursor:pointer; color: var(--primary); font-weight: 600">
+                        Show Devices
+                    </summary>
+                    <ul class="room-device-list">
                         <li th:each="dev : ${room.devices}">
-                            <div style="display:flex; justify-content: space-between; gap: 10px; align-items: center;">
-                                <code th:text="${dev.info}">Device</code>
+                            <div class="room-device-item">
+                                <span>
+                                    <span class="device-type-icon-sm" th:text="${dev.type.icon}">💡</span>
+                                    <span th:text="${dev.info}">Device</span>
+                                </span>
                                 <form class="inline-form" data-api-method="POST" data-refresh="true"
                                       th:attr="data-api-endpoint='/rooms/' + ${room.id} + '/unassign'">
                                     <input type="hidden" name="deviceId" th:value="${dev.id}">
@@ -95,6 +109,10 @@
                     </ul>
                 </details>
 
+                <div th:if="${room.deviceCount == 0}" class="muted" style="margin-top:12px; text-align:center; padding:10px">
+                    No devices assigned yet
+                </div>
+
                 <div style="margin-top: 14px;">
                     <form data-api-method="POST" data-refresh="true" th:attr="data-api-endpoint='/rooms/' + ${room.id} + '/assign'">
                         <div class="form-row">
@@ -103,7 +121,7 @@
                                 <select name="deviceId" th:attr="id=${'deviceSelect-' + room.id}">
                                     <option th:each="device : ${devices}"
                                             th:value="${device.id}"
-                                            th:text="${device.info}">Device</option>
+                                            th:text="${device.type.icon + ' ' + device.info}">Device</option>
                                 </select>
                             </div>
                             <div>
@@ -117,13 +135,19 @@
         </div>
     </div>
 
-    <div class="section">
-        <h2 class="section-title">📋 Output Log</h2>
+    <details class="section">
+        <summary class="section-title" style="cursor:pointer">📋 Output Log</summary>
         <div class="output-area">
             <pre id="output">Actions will appear here…</pre>
         </div>
-    </div>
+    </details>
 </div>
+
+<footer class="app-footer">
+    <span>🏠 SmartHome OS</span>
+    <a href="/swagger-ui.html" target="_blank">API Docs</a>
+    <a href="/h2-console" target="_blank">DB Console</a>
+</footer>
 
 <script th:src="@{/js/app.js}"></script>
 </body>

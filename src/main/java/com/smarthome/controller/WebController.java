@@ -41,7 +41,10 @@ public class WebController {
 
     @GetMapping("/ui/devices")
     public String devices(Model model) {
-        model.addAttribute("devices", smartHomeService.getDevices());
+        var devices = smartHomeService.getDevices();
+        model.addAttribute("devices", devices);
+        model.addAttribute("activeDevices", devices.stream().filter(d -> d.isOn()).count());
+        model.addAttribute("totalPower", devices.stream().mapToInt(d -> d.power()).sum());
         return "devices";
     }
 
