@@ -7,78 +7,66 @@
         </div>
     </div>
     <p class="pattern-desc">
-        Separate <strong>Abstraction</strong> (the remote control interface) from <strong>Implementation</strong> (the actual device logic). This allows you to mix any remote with any device without a combinatorial explosion of classes.
+        Separate <strong>Abstraction</strong> (the remote control) from <strong>Implementation</strong> (the device logic). Mix any remote with any device without class explosion.
     </p>
 
     <div class="pattern-demo">
         <h4>🎮 Universal Connection</h4>
 
-        <div class="bridge-workspace" style="display: flex; gap: 40px; align-items: stretch; margin-bottom: 30px; justify-content: center;">
+        <div class="pd-layout pd-layout--center pd-layout--gap-lg" style="margin-bottom:30px">
             <!-- Abstraction Side -->
-            <div class="bridge-column" style="flex: 1; max-width: 350px; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                <h5 style="color: var(--primary); margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">
-                    📱 Abstraction (Remote)
-                </h5>
-                <div class="remote-list" style="display: flex; flex-direction: column; gap: 15px;">
-                    <button class="remote-btn active" onclick="Bridge.selectRemote(this,'basic')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <span class="rb-icon" style="font-size: 2em; background: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📱</span>
-                        <div style="flex: 1;">
-                            <span class="rb-name" style="font-weight: 700; display: block; font-size: 1.1em; margin-bottom: 4px;">Basic Remote</span>
-                            <span class="rb-desc" style="font-size: 0.8em; color: var(--text-muted);">Simple interface, basic commands.</span>
-                        </div>
+            <div class="pd-panel pd-col pd-col--narrow">
+                <h5 class="pd-panel-header pd-panel-header--bordered">📱 Abstraction (Remote)</h5>
+                <div style="display:flex;flex-direction:column;gap:15px">
+                    <button class="pd-list-btn active" onclick="Bridge.selectRemote(this,'basic')">
+                        <span class="pd-list-icon">📱</span>
+                        <div><span class="pd-list-name">Basic Remote</span><span class="pd-list-desc">Simple interface, basic commands.</span></div>
                     </button>
-                    <button class="remote-btn" onclick="Bridge.selectRemote(this,'advanced')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <span class="rb-icon" style="font-size: 2em; background: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📲</span>
-                        <div style="flex: 1;">
-                            <span class="rb-name" style="font-weight: 700; display: block; font-size: 1.1em; margin-bottom: 4px;">Pro Remote</span>
-                            <span class="rb-desc" style="font-size: 0.8em; color: var(--text-muted);">Advanced macro & voice features.</span>
-                        </div>
+                    <button class="pd-list-btn" onclick="Bridge.selectRemote(this,'advanced')">
+                        <span class="pd-list-icon">📲</span>
+                        <div><span class="pd-list-name">Pro Remote</span><span class="pd-list-desc">Advanced macro & voice features.</span></div>
                     </button>
                 </div>
             </div>
 
             <!-- Bridge Connector -->
-            <div class="bridge-connector" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; position: relative;">
-                <div style="height: 4px; width: 100%; background: linear-gradient(90deg, var(--glass-border), var(--primary), var(--glass-border)); position: absolute; top: 50%; transform: translateY(-50%); z-index: 0;"></div>
-                <div class="bridge-icon" style="font-size: 3em; background: var(--darker); padding: 15px; border-radius: 50%; border: 4px solid var(--primary); z-index: 2; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);">🌉</div>
-                <div style="margin-top: 15px; background: var(--darker); padding: 5px 10px; border-radius: 20px; border: 1px solid var(--glass-border); font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); z-index: 2;">Bridge</div>
+            <div class="pd-bridge">
+                <div class="pd-bridge-line"></div>
+                <div class="pd-bridge-icon">🌉</div>
+                <div class="pd-bridge-label">Bridge</div>
             </div>
 
             <!-- Implementation Side -->
-            <div class="bridge-column" style="flex: 1; max-width: 350px; padding: 25px; background: var(--darker); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                <h5 style="color: var(--warning); margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">
-                    🏠 Implementation (Device)
-                </h5>
-                <div class="device-btn-list" style="display: flex; flex-direction: column; gap: 15px;">
-                    <button class="device-btn active" onclick="Bridge.selectDevice(this,'light')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: rgba(255, 193, 7, 0.15); border: 1px solid var(--warning); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <span class="db-icon" style="font-size: 2em;">💡</span>
-                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">Smart Light</span>
+            <div class="pd-panel pd-col pd-col--narrow">
+                <h5 class="pd-panel-header pd-panel-header--warning pd-panel-header--bordered">🏠 Implementation (Device)</h5>
+                <div style="display:flex;flex-direction:column;gap:15px">
+                    <button class="pd-list-btn active" onclick="Bridge.selectDevice(this,'light')">
+                        <span class="pd-sel-icon">💡</span>
+                        <span class="pd-list-name">Smart Light</span>
                     </button>
-                    <button class="device-btn" onclick="Bridge.selectDevice(this,'tv')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <span class="db-icon" style="font-size: 2em;">📺</span>
-                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">Smart TV</span>
+                    <button class="pd-list-btn" onclick="Bridge.selectDevice(this,'tv')">
+                        <span class="pd-sel-icon">📺</span>
+                        <span class="pd-list-name">Smart TV</span>
                     </button>
-                    <button class="device-btn" onclick="Bridge.selectDevice(this,'thermostat')" style="padding: 20px; display: flex; align-items: center; gap: 15px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text); cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <span class="db-icon" style="font-size: 2em;">🌡️</span>
-                        <span class="db-name" style="font-weight: 700; font-size: 1.1em;">HVAC Unit</span>
+                    <button class="pd-list-btn" onclick="Bridge.selectDevice(this,'thermostat')">
+                        <span class="pd-sel-icon">🌡️</span>
+                        <span class="pd-list-name">HVAC Unit</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="bridge-actions" style="padding: 25px; background: var(--glass-bg); border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 25px;">
-             <h5 style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">Available Operations via Bridge</h5>
-            <div class="action-btns" id="bridge-actions" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                <!-- Dynamically filled -->
-            </div>
+        <div class="pd-panel" style="margin-bottom:25px">
+            <h5 class="pd-small-heading">Available Operations via Bridge</h5>
+            <div id="bridge-actions" class="pd-pill-row" style="justify-content:center"></div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
-                <li><strong>Decoupling:</strong> The `Remote` class doesn't inherit from `Device`. It HAS A `Device`.</li>
-                <li><strong>Extensibility:</strong> You can add a new `SmartRemote` without modifying `TV` or `Light`.</li>
-                <li><strong>Result:</strong> `Remote(Abstraction) -> Bridge -> Device(Implementation)`.</li>
+                <li><strong>Decoupling:</strong> The <code>Remote</code> class doesn't inherit from <code>Device</code>. It HAS A <code>Device</code>.</li>
+                <li><strong>Extensibility:</strong> You can add a new <code>SmartRemote</code> without modifying <code>TV</code> or <code>Light</code>.</li>
+                <li><strong>Result:</strong> <code>Remote(Abstraction) → Bridge → Device(Implementation)</code>.</li>
             </ul>
         </div>
     </div>
@@ -88,70 +76,32 @@ var Bridge = {
     selectedRemote: 'basic',
     selectedDevice: 'light',
     selectRemote: function(btn, remote) {
-        document.querySelectorAll('#pattern-bridge .remote-btn').forEach(function(b) {
-            b.classList.remove('active');
-            b.style.borderColor = 'var(--glass-border)';
-            b.style.backgroundColor = 'var(--glass-bg)';
-        });
+        document.querySelectorAll('#pattern-bridge .pd-list-btn').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        btn.style.borderColor = 'var(--primary)';
-        btn.style.backgroundColor = 'rgba(0, 210, 255, 0.15)';
         this.selectedRemote = remote;
         this.updateActions();
     },
     selectDevice: function(btn, device) {
-        document.querySelectorAll('#pattern-bridge .device-btn').forEach(function(b) {
-            b.classList.remove('active');
-            b.style.borderColor = 'var(--glass-border)';
-            b.style.backgroundColor = 'var(--glass-bg)';
-        });
+        document.querySelectorAll('#pattern-bridge .pd-col--narrow:last-child .pd-list-btn').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        btn.style.borderColor = 'var(--warning)';
-        btn.style.backgroundColor = 'rgba(255, 193, 7, 0.15)';
         this.selectedDevice = device;
     },
     updateActions: function() {
-        var btnStyle = 'padding: 10px 20px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.3s;';
-
         var actions = {
-            basic: '<button class="action-btn" style="' + btnStyle + '" onclick="Bridge.execute(\'on\')">⚡ ON</button>' +
-                   '<button class="action-btn" style="' + btnStyle + '" onclick="Bridge.execute(\'off\')">🔌 OFF</button>',
-
-            advanced: '<button class="action-btn" style="' + btnStyle + '" onclick="Bridge.execute(\'on\')">⚡ ON</button>' +
-                      '<button class="action-btn" style="' + btnStyle + '" onclick="Bridge.execute(\'off\')">🔌 OFF</button>' +
-                      '<button class="action-btn" style="' + btnStyle + '; filter: hue-rotate(90deg);" onclick="Bridge.execute(\'dim\')">🔉 VOL -</button>' +
-                      '<button class="action-btn" style="' + btnStyle + '; filter: hue-rotate(90deg);" onclick="Bridge.execute(\'bright\')">🔊 VOL +</button>'
+            basic: '<button class="pd-pill pd-pill--primary" onclick="Bridge.execute(\'on\')">⚡ ON</button><button class="pd-pill pd-pill--primary" onclick="Bridge.execute(\'off\')">🔌 OFF</button>',
+            advanced: '<button class="pd-pill pd-pill--primary" onclick="Bridge.execute(\'on\')">⚡ ON</button><button class="pd-pill pd-pill--primary" onclick="Bridge.execute(\'off\')">🔌 OFF</button><button class="pd-pill pd-pill--warning" onclick="Bridge.execute(\'dim\')">🔉 VOL -</button><button class="pd-pill pd-pill--warning" onclick="Bridge.execute(\'bright\')">🔊 VOL +</button>'
         };
-
-        // Customize text based on device if needed (e.g., Vol vs Dim)
         var html = actions[this.selectedRemote] || actions.basic;
-        if (this.selectedDevice === 'light') {
-            html = html.replace('VOL -', 'DIM').replace('VOL +', 'BRIGHT');
-        } else if (this.selectedDevice === 'thermostat') {
-            html = html.replace('VOL -', 'COOL').replace('VOL +', 'HEAT').replace('⚡ ON', '🔥 ON').replace('🔌 OFF', '❄️ OFF');
-        }
-
+        if (this.selectedDevice === 'light') html = html.replace('VOL -','DIM').replace('VOL +','BRIGHT');
+        else if (this.selectedDevice === 'thermostat') html = html.replace('VOL -','COOL').replace('VOL +','HEAT');
         document.getElementById('bridge-actions').innerHTML = html;
     },
     execute: function(action) {
-        var remoteNames = {basic:'Basic Remote',advanced:'Pro Remote'};
-        var deviceNames = {light:'Smart Light',tv:'Smart TV',thermostat:'HVAC Unit'};
-
-        PatternDemo.showResult('bridge-result', '🌉 Bridge Signal Trace:\n' +
-            '----------------------\n' +
-            '1. User Input -> ' + remoteNames[this.selectedRemote] + ' (Abstraction)\n' +
-            '2. ' + remoteNames[this.selectedRemote] + ' delegates to Device Interface\n' +
-            '3. Bridge -> ' + deviceNames[this.selectedDevice] + ' (Implementation)\n' +
-            '4. Executing: ' + action.toUpperCase() + ' command');
-
-        PatternDemo.toast('Command Sent: ' + action.toUpperCase(), 'success');
-
-        // API call simulation
+        PatternDemo.showResult('bridge-result', '🌉 Bridge Signal:\n1. User → ' + this.selectedRemote + ' (Abstraction)\n2. Delegates to Device Interface\n3. Bridge → ' + this.selectedDevice + ' (Implementation)\n4. Execute: ' + action.toUpperCase());
+        PatternDemo.toast('Command: ' + action.toUpperCase(), 'success');
         fetch('/api/patterns/bridge/control?remote=' + this.selectedRemote + '&device=' + this.selectedDevice + '&action=' + action, {method:'POST'});
     }
 };
-// Init
-Bridge.selectRemote(document.querySelector('#pattern-bridge .remote-btn'), 'basic');
-Bridge.selectDevice(document.querySelector('#pattern-bridge .device-btn'), 'light');
+Bridge.updateActions();
 </script>
 </div>

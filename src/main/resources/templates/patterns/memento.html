@@ -56,7 +56,7 @@
             <button class="btn-primary" onclick="Memento.save()" style="padding: 0 30px; font-weight: 600; border-radius: 10px;">📸 Capture State</button>
         </div>
 
-        <div class="snapshots-list" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border);">
+        <div class="snapshots-list pd-panel">
             <h5 style="color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">💾 Saved Checkpoints (Caretaker)</h5>
             <div class="snapshots" id="snapshots-list" style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Default Presets -->
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Originator (SmartHome):</strong> Creates a Memento containing a snapshot of its internal state.</li>

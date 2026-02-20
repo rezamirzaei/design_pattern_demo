@@ -36,7 +36,7 @@
         <div class="init-progress" style="padding: 30px; background: var(--darker); border-radius: 20px; border: 1px solid var(--glass-border); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;">
             <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--primary), var(--secondary));"></div>
             <div style="position: absolute; top: 20px; right: 25px; font-family: 'Consolas', monospace; color: var(--text-muted); font-size: 0.85em; opacity: 0.5;">boot_sequence.sh</div>
-            <h5 style="color: var(--primary); margin-bottom: 25px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">📊 Initialization Pipeline</h5>
+            <h5 class="pd-panel-header">📊 Initialization Pipeline</h5>
 
             <div class="progress-steps" id="init-steps" style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Step 1: Base -->
@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Abstract Class:</strong> Defines `final void initialize()` skeleton calling steps 1-5.</li>

@@ -15,7 +15,7 @@
 
         <div class="decorator-workspace" style="display: flex; gap: 20px; flex-wrap: wrap;">
             <!-- Device Selection -->
-            <div class="device-selection" style="flex: 1; min-width: 250px; background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <div class="device-selection pd-panel">
                 <h5 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">1️⃣ Select Base Device</h5>
                 <div class="device-list" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
                     <button class="device-item active" data-device="living-light-1" onclick="Decorator.selectDevice(this, 'living-light-1')" style="padding: 15px; display: flex; align-items: center; gap: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 10px; cursor: pointer; color: white;">
@@ -38,7 +38,7 @@
             </div>
 
             <!-- Feature Selection -->
-            <div class="feature-selection" style="flex: 1; min-width: 250px; background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <div class="feature-selection pd-panel">
                 <h5 style="color: var(--secondary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;">2️⃣ Stack Features</h5>
                 <div class="feature-list" style="display: flex; flex-direction: column; gap: 10px;">
                     <label class="feature-checkbox" style="cursor: pointer; display: block;">
@@ -106,7 +106,7 @@
             </button>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Component:</strong> `SmartDevice` interface.</li>

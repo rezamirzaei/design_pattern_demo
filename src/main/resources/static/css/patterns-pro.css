@@ -1232,3 +1232,529 @@ a.nav-brand:hover {
 @media (max-width: 768px) {
     .quick-actions-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PATTERN DEMO COMPONENT SYSTEM
+   Reusable CSS classes for all 23 pattern fragment files.
+   ═══════════════════════════════════════════════════════════ */
+
+/* --- Workspace Panel (dark card container) --- */
+.pd-panel {
+    background: var(--darker);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.pd-panel-header {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+.pd-panel-header--warning { color: var(--warning); }
+.pd-panel-header--success { color: var(--success); }
+.pd-panel-header--danger  { color: var(--danger); }
+.pd-panel-header--bordered {
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+}
+
+/* --- Layout: side-by-side workspace --- */
+.pd-layout {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+.pd-layout--center { align-items: stretch; justify-content: center; }
+.pd-layout--gap-lg { gap: 40px; }
+.pd-col {
+    flex: 1;
+    min-width: 300px;
+}
+.pd-col--narrow { max-width: 350px; }
+
+/* --- Selector Grid (icon+label toggle buttons) --- */
+.pd-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--pd-selector-min, 130px), 1fr));
+    gap: 15px;
+}
+.pd-selector--sm { --pd-selector-min: 100px; }
+.pd-selector--lg { --pd-selector-min: 180px; }
+.pd-selector--xl { --pd-selector-min: 220px; }
+
+/* --- Selector Button --- */
+.pd-sel-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    font-family: inherit;
+    font-size: inherit;
+}
+.pd-sel-btn:hover {
+    border-color: rgba(0, 210, 255, 0.4);
+    background: rgba(0, 210, 255, 0.06);
+    transform: translateY(-2px);
+}
+.pd-sel-btn.active {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: var(--primary);
+    color: var(--text);
+    box-shadow: 0 5px 20px rgba(0, 210, 255, 0.15);
+}
+.pd-sel-btn .pd-sel-icon {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+.pd-sel-btn .pd-sel-label {
+    font-weight: 700;
+    font-size: 0.95em;
+}
+.pd-sel-btn .pd-sel-desc {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* Selector button color variants */
+.pd-sel-btn.active--warning  { background: rgba(255,193,7,0.12); border-color: var(--warning); }
+.pd-sel-btn.active--success  { background: rgba(0,200,100,0.12); border-color: var(--success); }
+.pd-sel-btn.active--danger   { background: rgba(220,53,69,0.12); border-color: var(--danger); }
+
+/* --- List Selector Button (horizontal row variant) --- */
+.pd-list-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s ease;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+}
+.pd-list-btn:hover { border-color: rgba(0,210,255,0.3); }
+.pd-list-btn.active {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: var(--primary);
+}
+.pd-list-btn .pd-list-icon {
+    font-size: 2em;
+    background: rgba(0,0,0,0.2);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.pd-list-btn .pd-list-name {
+    font-weight: 700;
+    font-size: 1.05em;
+    display: block;
+    margin-bottom: 3px;
+}
+.pd-list-btn .pd-list-desc {
+    font-size: 0.8em;
+    color: var(--text-muted);
+}
+
+/* --- Status Panel (label+value row) --- */
+.pd-status {
+    display: flex;
+    gap: 20px;
+    background: var(--darker);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.pd-status-item { text-align: center; }
+.pd-status-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.pd-status-value {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--text);
+}
+.pd-status-value--primary { color: var(--primary); }
+.pd-status-value--success { color: var(--success); }
+.pd-status-value--warning { color: var(--warning); }
+.pd-divider {
+    width: 1px;
+    background: var(--glass-border);
+    align-self: stretch;
+}
+
+/* --- Form Elements --- */
+.pd-form-group { margin-bottom: 22px; }
+.pd-form-label {
+    color: var(--primary);
+    margin-bottom: 12px;
+    display: block;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.82em;
+    letter-spacing: 1px;
+}
+.pd-form-label--muted { color: var(--text-muted); text-transform: none; font-weight: 500; letter-spacing: 0; }
+.pd-form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.pd-form-row > * { flex: 1; min-width: 180px; }
+.pd-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95em;
+    transition: border-color 0.2s;
+}
+.pd-input:focus { border-color: var(--primary); outline: none; }
+
+/* --- Pill Buttons (quick-template / action chips) --- */
+.pd-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.pd-pill {
+    padding: 10px 18px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 0.9em;
+    transition: all 0.25s ease;
+}
+.pd-pill:hover {
+    background: rgba(0,210,255,0.08);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+.pd-pill .pd-pill-icon { font-size: 1.2em; }
+.pd-pill--primary { border-color: rgba(0,210,255,0.3); color: var(--primary); }
+.pd-pill--warning { border-color: rgba(255,193,7,0.3); color: var(--warning); }
+.pd-pill--danger  { border-color: rgba(220,53,69,0.3); color: var(--danger); }
+
+/* --- Full-width Action Button --- */
+.pd-btn-action {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.05em;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.25);
+    transition: transform 0.2s, box-shadow 0.3s;
+    font-family: inherit;
+}
+.pd-btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 30px rgba(0, 210, 255, 0.4);
+}
+.pd-btn-action:active { transform: translateY(0); }
+
+/* --- Toggle Box (checkbox with label) --- */
+.pd-toggle {
+    padding: 12px 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+    color: var(--text);
+    font-size: 0.92em;
+}
+.pd-toggle:hover { border-color: rgba(0,210,255,0.3); background: rgba(255,255,255,0.05); }
+.pd-toggle input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* --- Icon Badge (circular icon) --- */
+.pd-icon-circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    background: rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+.pd-icon-circle--sm { width: 45px; height: 45px; font-size: 1.4em; }
+.pd-icon-circle--lg { width: 80px; height: 80px; font-size: 2.5em; }
+.pd-icon-circle--primary { background: rgba(0,210,255,0.15); border: 2px solid var(--primary); }
+.pd-icon-circle--warning { background: rgba(255,193,7,0.15); border: 2px solid var(--warning); }
+
+/* --- Event Log / Result Box --- */
+.pd-log {
+    background: rgba(0,0,0,0.3);
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    max-height: 220px;
+    overflow-y: auto;
+    font-family: 'Consolas','Monaco',monospace;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.pd-log:empty::before {
+    content: 'Waiting for events…';
+    opacity: 0.5;
+}
+
+/* --- Bridge Connector --- */
+.pd-bridge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    position: relative;
+}
+.pd-bridge-line {
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--glass-border), var(--primary), var(--glass-border));
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.pd-bridge-icon {
+    font-size: 3em;
+    background: var(--darker);
+    padding: 15px;
+    border-radius: 50%;
+    border: 4px solid var(--primary);
+    z-index: 2;
+    box-shadow: 0 0 25px rgba(0,210,255,0.35);
+    line-height: 1;
+}
+.pd-bridge-label {
+    margin-top: 12px;
+    background: var(--darker);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    z-index: 2;
+}
+
+/* --- Quick Section Divider --- */
+.pd-divider-h {
+    border: none;
+    border-top: 1px dashed var(--glass-border);
+    margin: 25px 0;
+}
+
+/* --- Small Heading --- */
+.pd-small-heading {
+    margin-bottom: 15px;
+    color: var(--text-muted);
+    font-size: 0.88em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* --- Chip / Tag --- */
+.pd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82em;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+}
+.pd-chip--primary { border-color: rgba(0,210,255,0.3); color: var(--primary); }
+
+/* --- Inline button group --- */
+.pd-btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* --- Active state for generic selection items used in JS --- */
+.pd-active-primary {
+    background: rgba(0, 210, 255, 0.15) !important;
+    border-color: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+/* --- Builder Steps --- */
+.pd-builder-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+.pd-builder-step {
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+}
+.pd-step-num {
+    background: var(--primary);
+    color: #000;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1em;
+    flex-shrink: 0;
+}
+.pd-step-body { flex: 1; }
+
+/* --- Blueprint Preview --- */
+.pd-blueprint {
+    padding: 22px;
+    background: rgba(0, 210, 255, 0.05);
+    border: 1px dashed var(--primary);
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+.pd-blueprint-content {
+    font-family: 'Consolas','Monaco',monospace;
+    font-size: 1.15em;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* --- Abstract Factory Eco Card --- */
+.pd-eco-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    background: var(--darker);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+}
+.pd-eco-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.pd-eco-icon {
+    font-size: 2.5em;
+    padding: 15px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.pd-eco-name {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 6px;
+    display: block;
+}
+.pd-eco-desc {
+    font-size: 0.88em;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+.pd-suite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 18px;
+}
+.pd-suite-device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    text-align: center;
+}
+.pd-suite-device .pd-sel-icon { margin-bottom: 10px; }
+
+/* --- Prototype Card --- */
+.pd-proto-card {
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.pd-proto-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+.pd-proto-config {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* ═══ PATTERN DEMO RESPONSIVE ═══ */
+@media (max-width: 768px) {
+    .pd-layout { flex-direction: column; gap: 20px; }
+    .pd-col { min-width: 0; max-width: none; }
+    .pd-bridge { display: none; }
+    .pd-selector { grid-template-columns: repeat(2, 1fr); }
+    .pd-selector--sm { grid-template-columns: repeat(3, 1fr); }
+    .pd-status { flex-direction: column; gap: 15px; }
+    .pd-divider { width: 100%; height: 1px; }
+    .pd-form-row { flex-direction: column; }
+    .pd-builder-step { flex-direction: column; gap: 12px; }
+}

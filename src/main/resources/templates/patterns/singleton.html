@@ -13,92 +13,73 @@
     <div class="pattern-demo">
         <h4>🎮 Control Center</h4>
 
-        <div class="mode-selector" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px;">
-            <button class="mode-btn" id="mode-normal" onclick="Singleton.setMode('NORMAL')" style="padding: 20px; background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); border-radius: 16px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center;">
-                <span class="mode-icon" style="font-size: 2.5em; margin-bottom: 10px;">🏡</span>
-                <span class="mode-name" style="font-weight: 700; color: var(--text);">Normal</span>
-                <span class="mode-desc" style="font-size: 0.8em; color: var(--text-muted);">Standard</span>
+        <div class="pd-selector pd-selector--lg" style="margin-bottom: 30px;">
+            <button class="pd-sel-btn active" id="mode-normal" onclick="Singleton.setMode('NORMAL')">
+                <span class="pd-sel-icon">🏡</span>
+                <span class="pd-sel-label">Normal</span>
+                <span class="pd-sel-desc">Standard</span>
             </button>
-            <button class="mode-btn" id="mode-away" onclick="Singleton.setMode('AWAY')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center;">
-                <span class="mode-icon" style="font-size: 2.5em; margin-bottom: 10px;">🛡️</span>
-                <span class="mode-name" style="font-weight: 700; color: var(--text);">Away</span>
-                <span class="mode-desc" style="font-size: 0.8em; color: var(--text-muted);">Armed</span>
+            <button class="pd-sel-btn" id="mode-away" onclick="Singleton.setMode('AWAY')">
+                <span class="pd-sel-icon">🛡️</span>
+                <span class="pd-sel-label">Away</span>
+                <span class="pd-sel-desc">Armed</span>
             </button>
-            <button class="mode-btn" id="mode-night" onclick="Singleton.setMode('NIGHT')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center;">
-                <span class="mode-icon" style="font-size: 2.5em; margin-bottom: 10px;">🌙</span>
-                <span class="mode-name" style="font-weight: 700; color: var(--text);">Night</span>
-                <span class="mode-desc" style="font-size: 0.8em; color: var(--text-muted);">Quiet</span>
+            <button class="pd-sel-btn" id="mode-night" onclick="Singleton.setMode('NIGHT')">
+                <span class="pd-sel-icon">🌙</span>
+                <span class="pd-sel-label">Night</span>
+                <span class="pd-sel-desc">Quiet</span>
             </button>
-            <button class="mode-btn" id="mode-vacation" onclick="Singleton.setMode('VACATION')" style="padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center;">
-                <span class="mode-icon" style="font-size: 2.5em; margin-bottom: 10px;">✈️</span>
-                <span class="mode-name" style="font-weight: 700; color: var(--text);">Vacation</span>
-                <span class="mode-desc" style="font-size: 0.8em; color: var(--text-muted);">Simulated</span>
+            <button class="pd-sel-btn" id="mode-vacation" onclick="Singleton.setMode('VACATION')">
+                <span class="pd-sel-icon">✈️</span>
+                <span class="pd-sel-label">Vacation</span>
+                <span class="pd-sel-desc">Simulated</span>
             </button>
         </div>
 
-        <div class="status-panel" style="display: flex; gap: 20px; background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); justify-content: space-around;">
-            <div class="status-item" style="text-align: center;">
-                <span class="status-label" style="display: block; color: var(--text-muted); font-size: 0.9em; margin-bottom: 5px;">Active Mode</span>
-                <span class="status-value" id="singleton-current-mode" style="font-size: 1.4em; font-weight: 700; color: var(--primary);">NORMAL</span>
+        <div class="pd-status">
+            <div class="pd-status-item">
+                <span class="pd-status-label">Active Mode</span>
+                <span class="pd-status-value pd-status-value--primary" id="singleton-current-mode">NORMAL</span>
             </div>
-            <div style="width: 1px; background: var(--glass-border);"></div>
-            <div class="status-item" style="text-align: center;">
-                <span class="status-label" style="display: block; color: var(--text-muted); font-size: 0.9em; margin-bottom: 5px;">Active Devices</span>
-                <span class="status-value" id="singleton-active-devices" style="font-size: 1.4em; font-weight: 700; color: var(--text);">--</span>
+            <div class="pd-divider"></div>
+            <div class="pd-status-item">
+                <span class="pd-status-label">Active Devices</span>
+                <span class="pd-status-value" id="singleton-active-devices">--</span>
             </div>
-            <div style="width: 1px; background: var(--glass-border);"></div>
-            <div class="status-item" style="text-align: center;">
-                <span class="status-label" style="display: block; color: var(--text-muted); font-size: 0.9em; margin-bottom: 5px;">System Health</span>
-                <span class="status-value" id="singleton-system-status" style="font-size: 1.4em; font-weight: 700; color: var(--success);">Online</span>
+            <div class="pd-divider"></div>
+            <div class="pd-status-item">
+                <span class="pd-status-label">System Health</span>
+                <span class="pd-status-value pd-status-value--success" id="singleton-system-status">Online</span>
             </div>
         </div>
 
         <script>
         var Singleton = {
             setMode: function(mode) {
-                // Visual feedback
-                document.querySelectorAll('.mode-btn').forEach(function(b) {
+                document.querySelectorAll('#pattern-singleton .pd-sel-btn').forEach(function(b) {
                     b.classList.remove('active');
-                    b.style.background = 'var(--glass-bg)';
-                    b.style.borderColor = 'var(--glass-border)';
                 });
                 var btn = document.getElementById('mode-' + mode.toLowerCase());
-                if(btn) {
-                    btn.classList.add('active');
-                    btn.style.background = 'rgba(0, 210, 255, 0.15)';
-                    btn.style.borderColor = 'var(--primary)';
-                }
+                if(btn) btn.classList.add('active');
 
-                // Call API
                 fetch('/api/mode/' + mode, { method: 'POST' })
                     .then(function(r) { return r.json(); })
                     .then(function(data) {
-                        // Update UI
                         document.getElementById('singleton-current-mode').textContent = data.homeMode || mode;
                         document.getElementById('singleton-active-devices').textContent = data.activeDevices || 12;
-
-                        // Show pro-style result
-                        var msg = 'Singleton Controller Updated:\n' +
-                                  'Current Instance ID: ' + Math.random().toString(36).substr(2, 9).toUpperCase() + ' (Static)\n' +
-                                  'New State: ' + mode + '\n' +
-                                  'Broadcasting to all smart devices...';
-
-                        PatternDemo.showResult('singleton-result', msg);
+                        PatternDemo.showResult('singleton-result',
+                            'Singleton Controller Updated:\nCurrent Instance ID: ' + Math.random().toString(36).substr(2, 9).toUpperCase() + ' (Static)\nNew State: ' + mode + '\nBroadcasting to all smart devices...');
                         PatternDemo.toast('Home Mode set to ' + mode, 'success');
                     });
             }
         };
-        // Set initial state
-        setTimeout(function() {
-            if(document.getElementById('mode-normal')) document.getElementById('mode-normal').classList.add('active');
-        }, 500);
         </script>
 
         <div class="pattern-explanation">
             <h5>💡 How It Works</h5>
             <ul>
-                <li>The `HomeController` class has a private constructor.</li>
-                <li>Access is restricted to a static `getInstance()` method.</li>
+                <li>The <code>HomeController</code> class has a private constructor.</li>
+                <li>Access is restricted to a static <code>getInstance()</code> method.</li>
                 <li>This guarantees that no matter where you access the controller from (Web, App, Timer), you get the exact same object with the same state.</li>
             </ul>
         </div>

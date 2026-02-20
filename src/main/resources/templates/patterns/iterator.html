@@ -14,7 +14,7 @@
     <div class="pattern-demo">
         <h4>🎮 Device Browser</h4>
 
-        <div class="iterator-controls" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px; align-items: center; background: var(--darker); padding: 15px; border-radius: 16px; border: 1px solid var(--glass-border);">
+        <div class="iterator-controls pd-panel">
             <div class="iter-type-selector" style="display: flex; gap: 10px;">
                 <button class="action-btn active" onclick="Iterator.setType(this,'ALL')" style="padding: 10px 20px; border-radius: 20px; font-size: 0.9em; font-weight: 600; transition: all 0.2s;">📱 All Devices</button>
                 <button class="action-btn" onclick="Iterator.setType(this,'ROOM')" style="padding: 10px 20px; border-radius: 20px; font-size: 0.9em; font-weight: 600; transition: all 0.2s;">🏠 By Room</button>
@@ -62,7 +62,7 @@
             <div class="all-items" id="iter-all-items" style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 20px; border-top: 1px solid var(--glass-border);"></div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Iterator Interface:</strong> `hasNext()`, `next()`.</li>

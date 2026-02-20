@@ -16,8 +16,8 @@
         <div class="observer-workspace" style="display: flex; gap: 25px; flex-wrap: wrap; margin-bottom: 30px;">
             <!-- Setup Panel -->
             <div class="setup-panel" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 20px;">
-                <div class="subject-selection" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <h5 style="color: var(--primary); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">1. Select Subject (Publisher)</h5>
+                <div class="subject-selection pd-panel">
+                    <h5 class="pd-panel-header">1. Select Subject (Publisher)</h5>
                     <div class="watch-device-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px;">
                         <button class="watch-device active" data-device="motion-sensor" onclick="Observer.selectDevice(this, 'motion-sensor')" style="padding: 15px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--primary); border-radius: 12px; cursor: pointer; text-align: center; color: white; transition: all 0.2s;">
                             <span style="font-size: 2em; display: block; margin-bottom: 5px;">🚶</span>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="observer-selection" style="background: var(--darker); padding: 25px; border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="observer-selection pd-panel">
                     <h5 style="color: var(--warning); margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">2. Attach Observers (Subscribers)</h5>
                     <div class="observer-list" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                         <label class="feature-box" style="padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s;">
@@ -85,14 +85,14 @@
             </div>
         </div>
 
-        <div class="event-log" style="background: var(--darker); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border); max-height: 200px; overflow-y: auto;">
+        <div class="event-log pd-panel">
             <h5 style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.9em;">📨 Notification Log</h5>
             <div class="event-list" id="event-list" style="display: flex; flex-direction: column-reverse; gap: 8px;">
                 <div style="text-align: center; color: var(--text-muted); font-style: italic;">Waiting for events...</div>
             </div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Subject:</strong> Maintains a list of `Observer` interface implementations.</li>

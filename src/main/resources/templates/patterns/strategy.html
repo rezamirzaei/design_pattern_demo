@@ -47,7 +47,7 @@
         </div>
 
         <div class="strategy-dashboard" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;">
-            <div class="dash-stat" style="flex: 1; background: var(--darker); padding: 30px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; gap: 25px; box-shadow: inset 0 0 30px rgba(0,0,0,0.3);">
+            <div class="dash-stat pd-panel">
                 <div class="stat-circle" id="power-circle" style="width: 100px; height: 100px; border-radius: 50%; border: 6px solid var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5em; color: var(--text); box-shadow: 0 0 30px rgba(0,210,255,0.3); transition: all 0.5s; background: rgba(0,0,0,0.2);">
                     <span id="power-value">100</span>%
                 </div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="dash-stat" style="flex: 1; background: var(--darker); padding: 30px; border-radius: 16px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; gap: 25px; box-shadow: inset 0 0 30px rgba(0,0,0,0.3);">
+            <div class="dash-stat pd-panel">
                 <div class="stat-circle" id="cost-circle" style="width: 100px; height: 100px; border-radius: 50%; border: 6px solid var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4em; color: var(--text); box-shadow: 0 0 30px rgba(0,210,255,0.3); transition: all 0.5s; background: rgba(0,0,0,0.2);">
                     <span id="cost-value">$2.50</span>
                 </div>
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class="pattern-explanation" style="margin-top: 25px;">
+        <div class="pattern-explanation">
             <h5>💡 Pattern Logic</h5>
             <ul>
                 <li><strong>Context:</strong> `HomeEnergyManager` class uses a Strategy object.</li>
