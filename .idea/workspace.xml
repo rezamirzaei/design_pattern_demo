@@ -6,30 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3833489e-5c7a-46c6-b19a-f697a5d91596" name="Changes" comment="bug fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/patterns-pro.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/patterns-pro.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/abstract-factory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/abstract-factory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/adapter.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/adapter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/bridge.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/bridge.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/builder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/chain.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/chain.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/command.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/composite.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/composite.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/decorator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/facade.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/factory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/flyweight.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/flyweight.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/interpreter.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/interpreter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/iterator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/iterator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/mediator.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/mediator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/memento.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/memento.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/observer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/prototype.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/prototype.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/proxy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/singleton.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/state.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/state.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/strategy.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/strategy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/patterns/visitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/patterns/visitor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/smarthome/SmartHomeApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/smarthome/SmartHomeApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +99,8 @@
       <updated>1769953703081</updated>
       <workItem from="1769953704161" duration="35414000" />
       <workItem from="1770060466658" duration="3939000" />
-      <workItem from="1771550047677" duration="7596000" />
+      <workItem from="1771550047677" duration="8000000" />
+      <workItem from="1771558761153" duration="2181000" />
     </task>
     <task id="LOCAL-00001" summary="bug fixed">
       <option name="closed" value="true" />

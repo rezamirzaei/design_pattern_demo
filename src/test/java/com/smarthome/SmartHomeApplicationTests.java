@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,14 +81,17 @@ class SmartHomeApplicationTests {
 
     @Test
     void ruleRunAcceptsVarsText() throws Exception {
-        String rulesJson = mockMvc.perform(get("/api/rules"))
+        // Create a dedicated rule so the test is independent of seed data / test ordering
+        String createJson = mockMvc.perform(post("/api/rules/create")
+                        .param("name", "VarsTextTestRule")
+                        .param("triggerCondition", "motion AND hour >= 18")
+                        .param("actionScript", "turn_on(living-light-1)"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        JsonNode rules = objectMapper.readTree(rulesJson);
-        long ruleId = rules.get(0).get("id").asLong();
+        long ruleId = objectMapper.readTree(createJson).get("id").asLong();
 
         mockMvc.perform(post("/api/rules/{id}/run", ruleId)
                         .param("vars", "motion=true\nhour=20"))
